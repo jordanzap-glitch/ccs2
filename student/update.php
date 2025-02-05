@@ -1,5 +1,6 @@
 <?php
 // update.php
+ob_start();
 include '../db2.php'; // Include the database connection file
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -34,4 +35,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Error: " . $e->getMessage();
     }
 }
+ob_end_flush();
 ?>
