@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Employee Access Form</title>
+    <link rel="stylesheet" href="static/register.css">
     <script>
         function validateForm() {
             const empId = document.getElementById('empId').value; // Changed from studentId to empId
@@ -42,8 +43,11 @@
     </script>
 </head>
 <body>
-    <h1>Employee Access</h1>
     <form onsubmit="return validateForm();">
+        <center>
+            <img src="../pic/srclogo.png" alt="School Logo" class="logo">
+        </center>
+        <h2>Employee Access</h2>
         <label for="empId">Employee ID:</label> <!-- Changed from Student ID to Employee ID -->
         <input type="text" id="empId" name="empId" required  oninput="saveInput1()"> <!-- Changed from studentId to empId -->
         <br>

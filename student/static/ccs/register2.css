@@ -1,0 +1,96 @@
+/* BODY DESIGN */
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(to bottom, #87CEEB, #FFD700);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    animation: gradientAnimation 10s ease infinite alternate;
+}
+
+/* Background Animation */
+@keyframes gradientAnimation {
+    0% {
+        background: linear-gradient(to bottom, #87CEEB, #FFD700);
+    }
+    100% {
+        background: linear-gradient(to bottom, #FFD700, #87CEEB);
+    }
+}
+
+
+/* FORM CONTAINER */
+form {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+    width: 500px;
+    text-align: center;
+}
+
+/* SCHOOL LOGO */
+.logo {
+    width: 90px;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+/* FORM HEADER */
+h2 {
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+/* TWO-COLUMN LAYOUT */
+.form-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    text-align: left;
+    padding: 10px;
+}
+
+/* INPUT FIELDS */
+input[type="text"],
+input[type="email"] {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+/* SUBMIT BUTTON */
+input[type="submit"] {
+    width: 85%;
+    padding: 10px;
+    background-color: #008000; /* Green */
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+input[type="submit"]:hover {
+    background-color: #006400; /* Darker Green */
+}
+
+/* RESPONSIVE DESIGN */
+@media screen and (max-width: 600px) {
+    .form-container {
+        grid-template-columns: 1fr;
+    }
+
+    form {
+        width: 90%;
+    }
+}

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> Information</title>
+    <link rel="stylesheet" href="static/ccs/register2.css">
     <script>
         function fetchAdminInfo() {
             const empId = document.getElementById('emp_id').value;
@@ -40,33 +41,46 @@
 </script>
 </head>
 <body onload="loadInput1()">
-    <h1>Information</h1>
     <form action="update.php" method="POST">
-        <label for="emp_id">Employee ID:</label>
-        <input type="text" id="emp_id" name="emp_id" readonly onblur="fetchadminInfo()">
+        <center>
+            <img src="../pic/srclogo.png" alt="Company Logo" class="logo">
+        </center>
+        <h2>Update Employee Information</h2>
+        
+        <div class="form-container">
+            <div class="column">
+                <label for="emp_id">Employee ID:</label>
+                <input type="text" id="emp_id" name="emp_id" readonly onblur="fetchadminInfo()">
+    
+                <label for="firstname">First Name:</label>
+                <input type="text" id="firstname" name="firstname" required>
+    
+                <label for="middlename">Middle Name:</label>
+                <input type="text" id="middlename" name="middlename" required>
+    
+                <label for="lastname">Last Name:</label>
+                <input type="text" id="lastname" name="lastname" required>
+            </div>
+    
+            <div class="column">
+                <label for="dept">Department:</label>
+                <input type="text" id="dept" name="dept" required>
+    
+                <label for="contactnumber">Contact Number:</label>
+                <input type="text" id="contactnumber" name="contactnumber" required>
+    
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+    
+                <label for="password">Password:</label>
+                <input type="text" id="password" name="password" required>
+            </div>
+        </div>
+    
+        <center><input type="submit" value="Update"></center>
         <br>
-        <label for="firstname">firstname:</label>
-        <input type="text"  id="firstname" name="firstname" required>
-        <br>
-        <label for="middlename">middlename:</label>
-        <input type="text" id="middlename" name="middlename" required>
-        <br>
-        <label for="lastname">lastname:</label>
-        <input type="text" id="lastname" name="lastname" required>
-        <br>
-        <label for="dept">department:</label>
-        <input type="text" id="dept" name="dept" required>
-        <br>
-        <label for="contactnumber">contactnumber:</label>
-        <input type="text" id="contactnumber" name="contactnumber" required>
-        <br>
-        <label for="email">email:</label>
-        <input type="email" id="email" name="email" required>
-        <br>
-        <label for="password">password:</label>
-        <input type="text" id="password" name="password" required>
-        <br>
-        <input type="submit" value="Update">
+        <a href="../index.php" class="btn btn-link">Back to Home Page</a>	
     </form>
+    
 </body>
 </html>
