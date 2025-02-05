@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Access Form</title>
+    <script>
+        function validateForm() {
+            const empId = document.getElementById('empId').value; // Changed from studentId to empId
+            const accessCode = document.getElementById('accessCode').value;
+
+            if (empId === '' || accessCode === '') {
+                alert('Please fill in both fields.');
+                return false;
+            }
+
+            // Submit the form via AJAX
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', 'validate.php', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    const response = JSON.parse(xhr.responseText);
+                    if (response.success) {
+                        // Redirect to the form page or show the form
+                        window.location.href = 'register.html'; // Change to your form page
+                    } else {
+                        alert(response.message);
+                    }
+                }
+            };
+            xhr.send(`empId=${encodeURIComponent(empId)}&accessCode=${encodeURIComponent(accessCode)}`); // Changed studentId to empId
+            return false; // Prevent default form submission
+        }
+    </script>
+
+    <script>
+        function saveInput1() {
+            const input1 = document.getElementById('empId').value; // Changed from studentId to empId
+            localStorage.setItem('mirroredInput', input1);
+        }
+    </script>
+</head>
+<body>
+    <h1>Employee Access</h1>
+    <form onsubmit="return validateForm();">
+        <label for="empId">Employee ID:</label> <!-- Changed from Student ID to Employee ID -->
+        <input type="text" id="empId" name="empId" required  oninput="saveInput1()"> <!-- Changed from studentId to empId -->
+        <br>
+        <label for="accessCode">Access Code:</label>
+        <input type="text" id="accessCode" name="accessCode" required>
+        <br>
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>

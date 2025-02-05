@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Access Form</title>
+    <script>
+        function validateForm() {
+            const studentId = document.getElementById('studentId').value;
+            const accessCode = document.getElementById('accessCode').value;
+
+            if (studentId === '' || accessCode === '') {
+                alert('Please fill in both fields.');
+                return false;
+            }
+
+            // Submit the form via AJAX
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', 'validate.php', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    const response = JSON.parse(xhr.responseText);
+                    if (response.success) {
+                        // Redirect to the form page or show the form
+                        window.location.href = 'register.html'; // Change to your form page
+                    } else {
+                        alert(response.message);
+                    }
+                }
+            };
+            xhr.send(`studentId=${encodeURIComponent(studentId)}&accessCode=${encodeURIComponent(accessCode)}`);
+            return false; // Prevent default form submission
+        }
+    </script>
+
+<script>
+    function saveInput() {
+        const input1 = document.getElementById('studentId').value;
+        localStorage.setItem('mirroredInput', input1);
+    }
+</script>
+
+</head>
+<body>
+    <h1>Student Access</h1>
+    <form onsubmit="return validateForm();">
+        <label for="studentId">Student ID:</label>
+        <input type="text" id="studentId" name="studentId" required  oninput="saveInput()">
+        <br>
+        <label for="accessCode">Access Code:</label>
+        <input type="text" id="accessCode" name="accessCode" required>
+        <br>
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>

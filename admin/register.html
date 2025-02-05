@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Information</title>
+    <script>
+        function fetchAdminInfo() {
+            const empId = document.getElementById('emp_id').value;
+            if (empId) {
+                const xhr = new XMLHttpRequest();
+                xhr.open('GET', `fetch_admin.php?emp_id=${empId}`, true);
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        const response = JSON.parse(xhr.responseText);
+                        if (response.success) {
+                            document.getElementById('firstname').value = response.data.firstname;
+                            document.getElementById('middlename').value = response.data.middlename;
+                            document.getElementById('lastname').value = response.data.lastname;
+                            document.getElementById('dept').value = response.data.dept;
+                            document.getElementById('contactnumber').value = response.data.contactnumber;
+                            document.getElementById('email').value = response.data.email;
+                            document.getElementById('password').value = response.data.password;
+                            
+                        } else {
+                            alert(response.message);
+                        }
+                    }
+                };
+                xhr.send();
+            }
+        }
+    </script>
+
+<script>
+    function loadInput1() {
+        const mirroredInput = localStorage.getItem('mirroredInput');
+        document.getElementById('emp_id').value = mirroredInput ? mirroredInput : '';
+    }
+</script>
+</head>
+<body onload="loadInput1()">
+    <h1>Information</h1>
+    <form action="update.php" method="POST">
+        <label for="emp_id">Employee ID:</label>
+        <input type="text" id="emp_id" name="emp_id" readonly onblur="fetchadminInfo()">
+        <br>
+        <label for="firstname">firstname:</label>
+        <input type="text"  id="firstname" name="firstname" required>
+        <br>
+        <label for="middlename">middlename:</label>
+        <input type="text" id="middlename" name="middlename" required>
+        <br>
+        <label for="lastname">lastname:</label>
+        <input type="text" id="lastname" name="lastname" required>
+        <br>
+        <label for="dept">department:</label>
+        <input type="text" id="dept" name="dept" required>
+        <br>
+        <label for="contactnumber">contactnumber:</label>
+        <input type="text" id="contactnumber" name="contactnumber" required>
+        <br>
+        <label for="email">email:</label>
+        <input type="email" id="email" name="email" required>
+        <br>
+        <label for="password">password:</label>
+        <input type="text" id="password" name="password" required>
+        <br>
+        <input type="submit" value="Update">
+    </form>
+</body>
+</html>
