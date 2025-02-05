@@ -21,6 +21,93 @@ body {
     }
 }
 
+h2 {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.logo {
+    max-width: 80px;
+    margin-bottom: 20px;
+}
+
+/* Box around form container */
+.form-box {
+    border: 2px solid #f7f440;  /* Light gray border */
+    padding: 20px;  /* Add some space inside the box */
+    border-radius: 10px;  /* Rounded corners */
+    background-color: #f9f9f9;  /* Light background for the box */
+    margin-top: 20px;
+}
+
+.form-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.column {
+    width: 48%;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="email"],
+select {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+input[type="submit"] {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+input[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+.btn-link {
+    text-decoration: none;
+    color: #333;
+    font-size: 16px;
+    display: inline-block;
+    margin-top: 20px;
+}
+
+.btn-link:hover {
+    color: #4CAF50;
+}
+
+select {
+    background-color: #f9f9f9;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .form-container {
+        flex-direction: column;
+    }
+    
+    .column {
+        width: 100%;
+    }
+}
 
 /* FORM CONTAINER */
 form {

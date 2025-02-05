@@ -45,47 +45,50 @@
         <center>
             <img src="../pic/srclogo.png" alt="Company Logo" class="logo">
         </center>
-        <h2>Update Employee Information</h2>
+        <h2>REGISTER</h2>
         
-        <div class="form-container">
-            <div class="column">
-                <label for="emp_id">Employee ID:</label>
-                <input type="text" id="emp_id" name="emp_id" readonly onblur="fetchadminInfo()">
-    
-                <label for="firstname">First Name:</label>
-                <input type="text" id="firstname" name="firstname" required>
-    
-                <label for="middlename">Middle Name:</label>
-                <input type="text" id="middlename" name="middlename" required>
-    
-                <label for="lastname">Last Name:</label>
-                <input type="text" id="lastname" name="lastname" required>
-            </div>
-    
-            <div class="column">
-                <label for="dept">Department:</label>
-                <select id="dept" name="dept" required>
-                    <option value="">--Select Course--</option>
-                    <option value="BSIS">Bachelor of Science in Information Systems</option>
-                    <option value="BSAIS">Bachelor of Science in Accounting Information Systems</option>
-                    <option value="BEED">Bachelor of Elementary Education</option>
-                    <option value="BSET">Bachelor of Science in Entrepreneurship</option>
-                </select>
-    
-                <label for="contactnumber">Contact Number:</label>
-                <input type="text" id="contactnumber" name="contactnumber" required>
-    
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
-    
-                <label for="password">Password:</label>
-                <input type="text" id="password" name="password" required>
+        <!-- Added form-box to wrap the form elements in a box -->
+        <div class="form-box">
+            <div class="form-container">
+                <div class="column">
+                    <label for="emp_id">Employee ID:</label>
+                    <input type="text" id="emp_id" name="emp_id" style="width:180px;" readonly onblur="fetchadminInfo()">
+        
+                    <label for="firstname">First Name:</label>
+                    <input type="text" id="firstname" name="firstname" style="width:180px;" required>
+        
+                    <label for="middlename">Middle Name:</label>
+                    <input type="text" id="middlename" name="middlename" style="width:180px;" required>
+        
+                    <label for="lastname">Last Name:</label>
+                    <input type="text" id="lastname" name="lastname" style="width:180px;" required>
+                </div>
+        
+                <div class="column">
+                    <label for="dept">Department:</label>
+                    <select id="dept" name="dept" style="width:190px;" required>
+                        <option value="">--Select Department--</option>
+                        <option value="BSIS">Bachelor of Science in Information Systems</option>
+                        <option value="BSAIS">Bachelor of Science in Accounting Information Systems</option>
+                        <option value="BEED">Bachelor of Elementary Education</option>
+                        <option value="BSET">Bachelor of Science in Entrepreneurship</option>
+                    </select>
+        
+                    <label for="contactnumber">Contact Number:</label>
+                    <input type="text" id="contactnumber" name="contactnumber" style="width:180px;" required>
+        
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" style="width:180px;" required>
+        
+                    <label for="password">Password:</label>
+                    <input type="text" id="password" name="password" style="width:180px;" required>
+                </div>
             </div>
         </div>
     
-        <center><input type="submit" value="Update"></center>
+        <center><input type="submit" value="REGISTER"></center>
         <br>
-        <a href="../index.php" class="btn btn-link">Back to Home Page</a>	
+        <a href="../index.php" class="btn btn-link">Back to Home Page</a>    
     </form>
     
 </body>

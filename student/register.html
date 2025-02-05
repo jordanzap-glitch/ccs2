@@ -22,7 +22,6 @@
                             document.getElementById('contactnumber').value = response.data.contactnumber;
                             document.getElementById('email').value = response.data.email;
                             document.getElementById('password').value = response.data.password;
-                            
                         } else {
                             alert(response.message);
                         }
@@ -31,62 +30,61 @@
                 xhr.send();
             }
         }
-    </script>
 
-<script>
-    function loadInput() {
-        const mirroredInput = localStorage.getItem('mirroredInput');
-        document.getElementById('student_id').value = mirroredInput ? mirroredInput : '';
-    }
-</script>
+        function loadInput() {
+            const mirroredInput = localStorage.getItem('mirroredInput');
+            document.getElementById('student_id').value = mirroredInput ? mirroredInput : '';
+        }
+    </script>
 </head>
 <body onload="loadInput()">
     <form action="update.php" method="POST">
         <center>
             <img src="../pic/srclogo.png" alt="School Logo" class="logo">
         </center>
-        <h2>Update Student Information</h2>
+        <h2>REGISTER</h2>
+        <!-- Added form-box to wrap the form elements in a box -->
+        <div class="form-box">
+            <div class="form-container">
+                <div class="column">
+                    <label for="student_id">Student ID:</label>
+                    <input type="text" id="student_id" name="student_id" style="width:180px;" readonly onblur="fetchStudentInfo()">
         
-        <div class="form-container">
-            <div class="column">
-                <label for="student_id">Student ID:</label>
-                <input type="text" id="student_id" name="student_id" readonly onblur="fetchStudentInfo()">
-    
-                <label for="firstname">First Name:</label>
-                <input type="text" id="firstname" name="firstname" required>
-    
-                <label for="middlename">Middle Name:</label>
-                <input type="text" id="middlename" name="middlename" required>
-    
-                <label for="lastname">Last Name:</label>
-                <input type="text" id="lastname" name="lastname" required>
-            </div>
-    
-            <div class="column">
-                <label for="course">Course:</label>
-                <select id="course" name="course"  required>
-                    <option value="">--Select Course--</option>
-                    <option value="BSIS">Bachelor of Science in Information Systems</option>
-                    <option value="BSAIS">Bachelor of Science in Accounting Information Systems</option>
-                    <option value="BEED">Bachelor of Elementary Education</option>
-                    <option value="BSET">Bachelor of Science in Entrepreneurship</option>
-                </select>
-    
-                <label for="contactnumber">Contact Number:</label>
-                <input type="text" id="contactnumber" name="contactnumber" required>
-    
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
-    
-                <label for="password">Password:</label>
-                <input type="text" id="password" name="password" required>
+                    <label for="firstname">First Name:</label>
+                    <input type="text" id="firstname" name="firstname" style="width:180px;" required>
+        
+                    <label for="middlename">Middle Name:</label>
+                    <input type="text" id="middlename" name="middlename" style="width:180px;" required>
+        
+                    <label for="lastname">Last Name:</label>
+                    <input type="text" id="lastname" name="lastname" style="width:180px;" required>
+                </div>
+        
+                <div class="column">
+                    <label for="course">Course:</label>
+                    <select id="course" name="course" style="width:190px;" required>
+                        <option value="">--Select Course--</option>
+                        <option value="BSIS">Bachelor of Science in Information Systems</option>
+                        <option value="BSAIS">Bachelor of Science in Accounting Information Systems</option>
+                        <option value="BEED">Bachelor of Elementary Education</option>
+                        <option value="BSET">Bachelor of Science in Entrepreneurship</option>
+                    </select>
+        
+                    <label for="contactnumber">Contact Number:</label>
+                    <input type="text" id="contactnumber" name="contactnumber" style="width:180px;" required>
+        
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" style="width:180px;" required>
+        
+                    <label for="password">Password:</label>
+                    <input type="text" id="password" name="password" style="width:180px;" required>
+                </div>
             </div>
         </div>
     
-        <center><input type="submit" value="Update"></center>
+        <center><input type="submit" value="REGISTER"></center>
         <br>
         <a href="../index.php" class="btn btn-link">Back to Home Page</a>	
     </form>
-    
 </body>
 </html>
