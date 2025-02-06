@@ -1,6 +1,6 @@
 <?php
-// update.php
 ob_start();
+session_start();
 include '../db2.php'; // Include the database connection file
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
