@@ -39,52 +39,68 @@
 </head>
 <body onload="loadInput()">
     <form action="update.php" method="POST">
-        <center>
-            <img src="../pic/srclogo.png" alt="School Logo" class="logo">
-        </center>
-        <h2>REGISTER</h2>
-        <!-- Added form-box to wrap the form elements in a box -->
         <div class="form-box">
+            <center>
+                <img src="../pic/srclogo.png" alt="School Logo" class="logo">
+            </center>
+
+            <h2>Student Registration</h2>
+
             <div class="form-container">
-                <div class="column">
+
+                <div class="form-group">
                     <label for="student_id">Student ID:</label>
-                    <input type="text" id="student_id" name="student_id" style="width:180px;" readonly onblur="fetchStudentInfo()">
-        
-                    <label for="firstname">First Name:</label>
-                    <input type="text" id="firstname" name="firstname" style="width:180px;" required>
-        
-                    <label for="middlename">Middle Name:</label>
-                    <input type="text" id="middlename" name="middlename" style="width:180px;" required>
-        
-                    <label for="lastname">Last Name:</label>
-                    <input type="text" id="lastname" name="lastname" style="width:180px;" required>
+                    <input type="text" id="student_id" name="student_id" readonly onblur="fetchStudentInfo()">
                 </div>
-        
-                <div class="column">
+
+                <div class="form-group">
+                    <label for="firstname">First Name:</label>
+                    <input type="text" id="firstname" name="firstname" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="middlename">Middle Name:</label>
+                    <input type="text" id="middlename" name="middlename" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="lastname">Last Name:</label>
+                    <input type="text" id="lastname" name="lastname" required>
+                </div>
+
+                <div class="form-group">
                     <label for="course">Course:</label>
-                    <select id="course" name="course" style="width:190px;" required>
+                    <select id="course" name="course" required>
                         <option value="">--Select Course--</option>
                         <option value="BSIS">Bachelor of Science in Information Systems</option>
                         <option value="BSAIS">Bachelor of Science in Accounting Information Systems</option>
                         <option value="BEED">Bachelor of Elementary Education</option>
                         <option value="BSET">Bachelor of Science in Entrepreneurship</option>
                     </select>
-        
-                    <label for="contactnumber">Contact Number:</label>
-                    <input type="text" id="contactnumber" name="contactnumber" style="width:180px;" required>
-        
-                    <label for="email">Email:</label>
-                    <input type="email" id="email" name="email" style="width:180px;" required>
-        
-                    <label for="password">Password:</label>
-                    <input type="text" id="password" name="password" style="width:180px;" required>
                 </div>
+
+                <div class="form-group">
+                    <label for="contactnumber">Contact Number:</label>
+                    <input type="text" id="contactnumber" name="contactnumber" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="text" id="password" name="password" required>
+                </div>
+
+                <div class="center-btn">
+                    <input type="submit" value="REGISTER">
+                </div>
+
+                <a href="../index.php" class="back-link">Back to Home Page</a>
             </div>
         </div>
-    
-        <center><input type="submit" value="REGISTER"></center>
-        <br>
-        <a href="../index.php" class="btn btn-link">Back to Home Page</a>	
-    </form>
+    </form>  
 </body>
 </html>
