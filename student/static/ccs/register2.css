@@ -1,8 +1,8 @@
-/* BODY DESIGN */
-body {
+ /* BODY DESIGN */
+ body {
     font-family: 'Poppins', sans-serif;
     background: linear-gradient(to bottom, #87CEEB, #FFD700);
-    height: 100vh;
+    height: 150vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -13,171 +13,115 @@ body {
 
 /* Background Animation */
 @keyframes gradientAnimation {
-    0% {
-        background: linear-gradient(to bottom, #87CEEB, #FFD700);
-    }
-    100% {
-        background: linear-gradient(to bottom, #FFD700, #87CEEB);
-    }
+    0% { background: linear-gradient(to bottom, #87CEEB, #FFD700); }
+    100% { background: linear-gradient(to bottom, #FFD700, #87CEEB); }
 }
 
-h2 {
-    text-align: center;
-    font-size: 24px;
-    margin-bottom: 20px;
-}
-
-.logo {
-    max-width: 80px;
-    margin-bottom: 20px;
-}
-
-/* Box around form container */
+/* Form Box */
 .form-box {
-    border: 2px solid #f7f440;  /* Light gray border */
-    padding: 20px;  /* Add some space inside the box */
-    border-radius: 10px;  /* Rounded corners */
-    background-color: #f9f9f9;  /* Light background for the box */
-    margin-top: 20px;
-}
-
-.form-container {
-    display: flex;
-    justify-content: space-between;
-    gap: 20px;
-}
-
-.column {
-    width: 48%;
-}
-
-label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: bold;
-}
-
-input[type="text"],
-input[type="email"],
-select {
-    width: 100%;
-    padding: 10px;
-    margin: 8px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
-}
-
-input[type="submit"] {
-    padding: 10px 20px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 18px;
-}
-
-input[type="submit"]:hover {
-    background-color: #45a049;
-}
-
-.btn-link {
-    text-decoration: none;
-    color: #333;
-    font-size: 16px;
-    display: inline-block;
-    margin-top: 20px;
-}
-
-.btn-link:hover {
-    color: #4CAF50;
-}
-
-select {
-    background-color: #f9f9f9;
-}
-
-/* Responsive design */
-@media (max-width: 768px) {
-    .form-container {
-        flex-direction: column;
-    }
-    
-    .column {
-        width: 100%;
-    }
-}
-
-/* FORM CONTAINER */
-form {
-    background: rgba(255, 255, 255, 0.95);
+    border: 2px solid #f7f440;
     padding: 25px;
     border-radius: 10px;
+    background: rgba(255, 255, 255, 0.95);
     box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
-    width: 500px;
+    width: 400px;
     text-align: center;
 }
 
-/* SCHOOL LOGO */
+/* School Logos */
 .logo {
     width: 90px;
     height: auto;
     margin-bottom: 10px;
 }
 
-/* FORM HEADER */
+/* Form Header */
 h2 {
-    font-size: 20px;
+    font-size: 22px;
     color: #333;
     margin-bottom: 15px;
 }
 
-/* TWO-COLUMN LAYOUT */
+/* Form Layout */
 .form-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 15px;
-    text-align: left;
-    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
 }
 
-/* INPUT FIELDS */
-input[type="text"],
-input[type="email"] {
+/* Labels */
+.form-group {
     width: 100%;
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+/* Input Fields */
+input[type="text"], 
+input[type="email"], 
+select {
+    width: 100%;
+    max-width: 400px;
     padding: 10px;
-    margin: 5px 0;
     border: 2px solid #ccc;
     border-radius: 5px;
     font-size: 14px;
+    box-sizing: border-box;
 }
 
-/* SUBMIT BUTTON */
+/* Submit Button */
+.center-btn {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+}
+
 input[type="submit"] {
-    width: 85%;
+    width: 100%;
+    max-width: 200px;
     padding: 10px;
-    background-color: #008000; /* Green */
+    background-color: #008000;
     color: white;
     font-size: 16px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    margin-top: 10px;
     font-weight: bold;
 }
 
 input[type="submit"]:hover {
-    background-color: #006400; /* Darker Green */
+    background-color: #006400;
 }
 
-/* RESPONSIVE DESIGN */
-@media screen and (max-width: 600px) {
-    .form-container {
-        grid-template-columns: 1fr;
+/* Back Link */
+.back-link {
+    display: block;
+    text-align: center;
+    margin-top: 15px;
+    font-size: 16px;
+    color: #333;
+    text-decoration: none;
+}
+
+.back-link:hover {
+    color: #4CAF50;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .form-box {
+        width: 90%;
     }
 
-    form {
-        width: 90%;
+    input[type="text"], input[type="email"], select {
+        width: 100%;
     }
 }
