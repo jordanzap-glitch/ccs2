@@ -1,7 +1,7 @@
  /* BODY DESIGN */
  body {
     font-family: 'Poppins', sans-serif;
-    background: linear-gradient(to bottom, #87CEEB, #FFD700);
+    background: linear-gradient(to bottom, #00218b, #fffc58);
     height: 150vh;
     display: flex;
     justify-content: center;
@@ -13,8 +13,8 @@
 
 /* Background Animation */
 @keyframes gradientAnimation {
-    0% { background: linear-gradient(to bottom, #87CEEB, #FFD700); }
-    100% { background: linear-gradient(to bottom, #FFD700, #87CEEB); }
+    0% { background: linear-gradient(to bottom, #00218b, #fffc58); }
+    100% { background: linear-gradient(to bottom, #fffc58, #00218b); }
 }
 
 /* Form Box */

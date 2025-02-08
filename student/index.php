@@ -35,32 +35,29 @@ $_SESSION['errmsg']="Invalid username or password";
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <div class="login-container">
-        <div class="login-box">
+        <div class="form-box">
+		    <center>
+                <img src="../pic/srclogo.png" alt="School Logo" class="logo">
+            </center>
+			<div class="form-container">
             <h2>Student Login</h2>
             <form method="post">
-                <fieldset>
-                    <legend>Sign in to your account</legend>
-                    <p>Please enter your email and password to log in.</p>
 					<?php echo htmlentities($_SESSION['errmsg']); ?>
                         <?php echo htmlentities($_SESSION['errmsg'] = ""); ?>
                     <span class="text-danger">
                         
                     </span>
                     <div class="mb-3">
-                        <label for="email" class="form-label">Email</label>
+                        <label for="email" class="form-label">Email:</label>
                         <input type="text" id="email" name="email" class="form-control" placeholder="Enter email">
                     </div>
                     <div class="mb-3">
-                        <label for="password" class="form-label">Password</label>
+                        <label for="password" class="form-label">Password:</label>
                         <input type="password" id="password" name="password" class="form-control" placeholder="Enter password">
                     </div>
                     <button type="submit" class="btn btn-primary w-100" name="submit">Login</button>
-						</fieldset>
-					</form>
 					<a href="../index.php" class="btn btn-link">Back to Home Page</a>				
-						</fieldset>
-					</form>
+			</form>
 				</div>
 
 			</div>

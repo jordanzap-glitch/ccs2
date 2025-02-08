@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Update Student Information</title>
     <link rel="stylesheet" href="static/ccs/register2.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script>
         function fetchStudentInfo() {
             const studentId = document.getElementById('student_id').value;
@@ -49,7 +50,7 @@
             <div class="form-container">
 
                 <div class="form-group">
-                    <label for="student_id">Student ID:</label>
+                    <label class="fas fa-id-card mr-2" for="student_id">Student ID:</label>
                     <input type="text" id="student_id" name="student_id" readonly onblur="fetchStudentInfo()">
                 </div>
 

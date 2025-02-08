@@ -1,84 +1,127 @@
-/* General styles */
-body {
-    font-family: 'Lato', sans-serif;
-    background:linear-gradient(to right, #c9c500, #275cec) ;
+ /* BODY DESIGN */
+ body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(to bottom, #00218b, #fffc58);
+    height: 150vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
     margin: 0;
+    padding: 0;
+    animation: gradientAnimation 10s ease infinite alternate;
 }
 
-/* Login container styles */
-.login-container {
+/* Background Animation */
+@keyframes gradientAnimation {
+    0% { background: linear-gradient(to bottom, #00218b, #fffc58); }
+    100% { background: linear-gradient(to bottom, #fffc58, #00218b); }
+}
+
+/* Form Box */
+.form-box {
+    border: 2px solid #f7f440;
+    padding: 25px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+    width: 400px;
+    text-align: center;
+}
+
+/* School Logos */
+.logo {
+    width: 90px;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+/* Form Header */
+h2 {
+    font-size: 22px;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+/* Form Layout */
+.form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+/* Labels */
+.form-group {
+    width: 100%;
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+/* Input Fields */
+input[type="text"], 
+input[type="email"], 
+select {
     width: 100%;
     max-width: 400px;
-    padding: 20px;
+    padding: 10px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
     box-sizing: border-box;
 }
 
-/* Login box styles */
-.login-box {
-    background:linear-gradient(to right, #c9c500, #275cec) ;
-    border-radius: 10px;
-    padding: 30px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+/* Submit Button */
+.center-btn {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
 }
 
-/* Title styles */
-.login-box h2 {
-    margin-bottom: 20px;
-    color: #333;
-    text-align: center;
-}
-
-/* Form field styles */
-.form-label {
-    font-weight: bold;
-    color: #333;
-}
-
-.form-control {
-    border-radius: 5px;
-    border: 1px solid #ccc;
+input[type="submit"] {
+    width: 100%;
+    max-width: 200px;
     padding: 10px;
-}
-
-.form-control:focus {
-    border-color: #2196f3;
-    box-shadow: 0 0 5px rgba(33, 150, 243, 0.5);
-}
-
-/* Button styles */
-.btn-primary {
-    background-color: #2196f3;
+    background-color: #008000;
+    color: white;
+    font-size: 16px;
     border: none;
     border-radius: 5px;
-    padding: 10px;
-    transition: background-color 0.3s;
+    cursor: pointer;
+    font-weight: bold;
 }
 
-.btn-primary:hover {
-    background-color: #1769aa;
+input[type="submit"]:hover {
+    background-color: #006400;
 }
 
-.btn-link {
+/* Back Link */
+.back-link {
     display: block;
     text-align: center;
     margin-top: 15px;
-    color: #2196f3;
+    font-size: 16px;
+    color: #333;
     text-decoration: none;
-    font-weight: bold;
 }
 
-.btn-link:hover {
-    text-decoration: underline;
+.back-link:hover {
+    color: #4CAF50;
 }
 
-/* Error message styles */
-.text-danger {
-    color: red;
-    font-size: 0.9em;
-    margin-bottom: 10px;
-    display: block;
+/* Responsive Design */
+@media (max-width: 600px) {
+    .form-box {
+        width: 90%;
+    }
+
+    input[type="text"], input[type="email"], select {
+        width: 100%;
+    }
 }
