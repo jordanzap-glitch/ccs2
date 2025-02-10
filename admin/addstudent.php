@@ -30,7 +30,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 ?>
 
-<!-- HTML Form for Adding Student -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -39,21 +38,42 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Add Student</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <title>Add Student</title>
+    <link rel="stylesheet" href="../admin/static/addstud.css">
 </head>
 <body>
-    <form method="POST" action="addstudent.php">
-        <input type="text" name="student_id" placeholder="Student ID" required>
-        <input type="text" name="firstname" placeholder="First Name" required>
-        <input type="text" name="middlename" placeholder="Middle Name">
-        <input type="text" name="lastname" placeholder="Last Name" required>
-        <button type="submit" class="btn btn-primary">Add Student</button>
-    </form>
-        <a class="btn btn-danger" href="dashboard.php">Back</a>
-    <?php if ($message): ?>
-        <div style="background-color: <?= $toastClass ?>; color: white; padding: 10px;">
-            <?= $message; ?>
+    <div class="form-box">
+        <center>
+            <img src="../pic/srclogo.png" alt="School Logo" class="logo">
+        </center>
+        <div class="form-container">
+            <center><h3>Add Student</h3></center>
+            <form method="POST" action="addstudent.php">
+                <div class="mb-3">
+                    <label for="student_id">Student ID:</label>
+                    <input type="text" id="student_id" name="student_id" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label for="firstname">First Name:</label>
+                    <input type="text" id="firstname" name="firstname" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label for="middlename">Middle Name:</label>
+                    <input type="text" id="middlename" name="middlename" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label for="lastname">Last Name:</label>
+                    <input type="text" id="lastname" name="lastname" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-custom"><i class="fas fa-user-plus"></i> Add Student</button>
+                <button type="button" class="btn btn-back" onclick="window.location.href='../admin/dashboard.php'">Back</button>
+            </form>
+            <?php if (isset($message)): ?>
+                <div class="toast-message" style="background-color: <?= $toastClass ?>;">
+                    <?= $message; ?>
+                </div>
+            <?php endif; ?>
         </div>
-    <?php endif; ?>
+    </div>
 </body>
 </html>
+

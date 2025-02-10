@@ -1,0 +1,123 @@
+ /* BODY DESIGN */
+ body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(to bottom, #00218b, #fffc58);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    animation: gradientAnimation 10s ease infinite alternate;
+}
+
+/* Background Animation */
+@keyframes gradientAnimation {
+    0% { background: linear-gradient(to bottom, #00218b, #fffc58); }
+    100% { background: linear-gradient(to bottom, #fffc58, #00218b); }
+}
+
+/* Form Box */
+.form-box {
+    border: 2px solid #f7f440;
+    padding: 25px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+/* School Logo */
+.logo {
+    width: 90px;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+/* Form Header */
+h3 {
+    font-size: 22px;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+/* Form Layout */
+.form-container {
+    width: 100%;
+    text-align: left;
+}
+
+/* Labels & Inputs */
+label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.form-control {
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+/* Submit Button */
+.btn-custom {
+    width: 100%;
+    background-color: #008000;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+
+.btn-custom:hover {
+    background-color: #006400;
+}
+
+/* Toast Message */
+.toast-message {
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+}
+
+.btn-custom {
+    width: 100%;
+    background-color: #008000;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+
+.btn-custom:hover {
+    background-color: #006400;
+}
+
+.btn-back {
+    width: 100%;
+    margin-top: 10px;
+    background-color: #6c757d;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+
+.btn-back:hover {
+    background-color: #5a6268;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .form-box {
+        width: 90%;
+    }
+}
