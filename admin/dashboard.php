@@ -30,6 +30,7 @@ if(strlen($_SESSION['id']==0)) {
     <h2>CCS</h2>
     <ul>
         <li><a href="dashboard.php" class="active"><i class="fas fa-home"></i> Dashboard</a></li>
+        <li><a href="addstudent.php"><i class="fas fa-graduation-cap"></i> Add Student</a></li>
         <li><a href="../addcapstone.php"><i class="fas fa-book"></i> Capstone Study</a></li>
         <br><br><br><br><br><br><br><br><br><br><br>
         <li><a href="index.php"><i class="fas fa-sign-out-alt"></i> Logout</a></li>

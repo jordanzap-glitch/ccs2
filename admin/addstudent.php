@@ -37,6 +37,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Student</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <title>Add Student</title>
 </head>
 <body>
     <form method="POST" action="addstudent.php">
@@ -44,9 +47,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <input type="text" name="firstname" placeholder="First Name" required>
         <input type="text" name="middlename" placeholder="Middle Name">
         <input type="text" name="lastname" placeholder="Last Name" required>
-        <button type="submit">Add Student</button>
+        <button type="submit" class="btn btn-primary">Add Student</button>
     </form>
-
+        <a class="btn btn-danger" href="dashboard.php">Back</a>
     <?php if ($message): ?>
         <div style="background-color: <?= $toastClass ?>; color: white; padding: 10px;">
             <?= $message; ?>
