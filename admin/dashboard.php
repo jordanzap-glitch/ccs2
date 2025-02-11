@@ -19,7 +19,7 @@ if(strlen($_SESSION['id']) == 0) {
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-
+hello
 <!-- Sidebar and Content Section -->
 <div class="menu-toggle" id="menu-toggle">
     <i class="fas fa-bars"></i>
