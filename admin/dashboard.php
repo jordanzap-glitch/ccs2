@@ -19,7 +19,7 @@ if(strlen($_SESSION['id']) == 0) {
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-hello
+
 <!-- Sidebar and Content Section -->
 <div class="menu-toggle" id="menu-toggle">
     <i class="fas fa-bars"></i>
@@ -31,11 +31,11 @@ hello
     <ul>
         <li><a href="dashboard.php" class="active"><i class="fas fa-home"></i> Dashboard</a></li>
         
-        <li class="nav-item dropdown" >
+        <li class="nav-item dropdown" style="background: #2c3e50;">
             <a href="#" class="nav-link dropdown-toggle text-white" data-bs-toggle="dropdown" role="button" aria-expanded="false">
                 <i class="fas fa-user-graduate"></i> Student
             </a>
-            <ul class="dropdown-menu" style="background: #343a40;">
+            <ul class="dropdown-menu" style="background: #2c3e50;">
                 <li><a class="dropdown-item text-white" href="addstudent.php"><i class="fas fa-user-plus"></i> Add Student</a></li>
                 <li><a class="dropdown-item text-white" href="viewstudent.php"><i class="fas fa-users"></i> View Students</a></li>
             </ul>
