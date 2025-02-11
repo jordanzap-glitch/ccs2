@@ -2,11 +2,10 @@
 session_start();
 error_reporting(0);
 include('../db.php');
-if(strlen($_SESSION['id']==0)) {
- header('location:logout.php');
-  } else{
 
-
+if(strlen($_SESSION['id']) == 0) {
+    header('location:logout.php');
+} else {
 ?>
 
 <!DOCTYPE html>
@@ -20,6 +19,7 @@ if(strlen($_SESSION['id']==0)) {
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 </head>
 <body>
+
 <!-- Sidebar and Content Section -->
 <div class="menu-toggle" id="menu-toggle">
     <i class="fas fa-bars"></i>
@@ -30,17 +30,26 @@ if(strlen($_SESSION['id']==0)) {
     <h2>CCS</h2>
     <ul>
         <li><a href="dashboard.php" class="active"><i class="fas fa-home"></i> Dashboard</a></li>
-        <li><a href="addstudent.php"><i class="fas fa-graduation-cap"></i> Add Student</a></li>
-        <li><a href="viewstudent.php"><i class="fas fa-school"></i> View Students</a></li>
+        
+        <li class="nav-item dropdown">
+            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false">
+                <i class="fas fa-user-graduate"></i> Student
+            </a>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="addstudent.php"><i class="fas fa-user-plus"></i> Add Student</a></li>
+                <li><a class="dropdown-item" href="viewstudent.php"><i class="fas fa-users"></i> View Students</a></li>
+            </ul>
+        </li>
+
         <li><a href="../addcapstone.php"><i class="fas fa-book"></i> Capstone Study</a></li>
         <li><a href="viewcapstone.php"><i class="fas fa-book-open"></i> View Capstone</a></li>
-        <br><br><br><br><br><br><br><br><br>
+        <br><br><br><br>
         <li><a href="index.php"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
     </ul>
 </div>
 
 <div class="content">
-    <h1>Welcome,  <?php echo htmlspecialchars($_SESSION['login'], ENT_QUOTES, 'UTF-8'); ?>! </h1>
+    <h1>Welcome, <?php echo htmlspecialchars($_SESSION['login'], ENT_QUOTES, 'UTF-8'); ?>! </h1>
     <p>This is the Dashboard page where you can view your information and access other sections of the system. Enjoy an enhanced experience with our clean and professional design.</p>
 
     <hr>
@@ -59,24 +68,20 @@ if(strlen($_SESSION['id']==0)) {
     <h2>Submitted Capstone Projects</h2>
     <div class="capstone-list">
         <?php
-        // Include the database connection file
         include '../db.php';
 
-        // Check if search query is provided
         $searchTerm = isset($_GET['search']) ? $_GET['search'] : '';
 
-        // Modify SQL query to filter by title if search term is provided
         $sql = "SELECT title, abstract AS description, submit_date AS submitted_at FROM tbl_capstone";
         if ($searchTerm) {
             $sql .= " WHERE title LIKE ?";
         }
         $sql .= " ORDER BY submit_date DESC";
 
-        // Prepare and execute query
         $stmt = $conn->prepare($sql);
         if ($searchTerm) {
-            $searchTerm = "%" . $searchTerm . "%"; // Add wildcard characters for LIKE search
-            $stmt->bind_param("s", $searchTerm); // Bind the search term to the query
+            $searchTerm = "%" . $searchTerm . "%";
+            $stmt->bind_param("s", $searchTerm);
         }
         $stmt->execute();
         $result = $stmt->get_result();
@@ -100,18 +105,15 @@ if(strlen($_SESSION['id']==0)) {
     </div>
 </div>
 
+<!-- Bootstrap JS (Gamit ang bundle para gumana ang dropdown) -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-    // Get the sidebar and menu toggle elements
-    const menuToggle = document.getElementById('menu-toggle');
-    const sidebar = document.getElementById('sidebar');
 
-    // Add a click event listener to toggle the sidebar's active class
-    menuToggle.addEventListener('click', () => {
-        sidebar.classList.toggle('active');
+<script>
+    // Toggle sidebar
+    document.getElementById('menu-toggle').addEventListener('click', function() {
+        document.getElementById('sidebar').classList.toggle('active');
     });
 </script>
-
 
 </body>
 </html>

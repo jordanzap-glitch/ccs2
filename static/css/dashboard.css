@@ -89,6 +89,60 @@
     margin-left: 0;
 }
 
+/* Sidebar styling */
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    background: #343a40;
+    padding-top: 20px;
+    position: fixed;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    padding: 10px;
+    position: relative;
+}
+
+.sidebar ul li a {
+    color: rgb(0, 0, 0);
+    text-decoration: none;
+    display: block;
+}
+
+.sidebar ul li a:hover {
+    background: #000000;
+}
+
+/* Dropdown menu styling */
+.dropdown-menu {
+    background: #000000;
+    border: none;
+    display: none;
+    position: absolute;
+    left: 100%;
+    top: 0;
+}
+
+.dropdown-menu a {
+    color: black !important;
+    padding: 10px;
+    display: block;
+}
+
+.dropdown-menu a:hover {
+    background: #000000;
+}
+
+/* Show dropdown on hover */
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
 /* Form Styling */
 .capstone-form {
     max-width: 800px;
