@@ -118,30 +118,22 @@
     background: #000000;
 }
 
-/* Dropdown menu styling */
+.nav-item.dropdown {
+    background: #343a40;
+}
+
 .dropdown-menu {
-    background: #000000;
-    border: none;
-    display: none;
-    position: absolute;
-    left: 100%;
-    top: 0;
+    background: #343a40 !important;
 }
 
-.dropdown-menu a {
-    color: black !important;
-    padding: 10px;
-    display: block;
+.dropdown-menu .dropdown-item {
+    color: white !important;
 }
 
-.dropdown-menu a:hover {
-    background: #000000;
+.dropdown-menu .dropdown-item:hover {
+    background: #23272b !important;
 }
 
-/* Show dropdown on hover */
-.dropdown:hover .dropdown-menu {
-    display: block;
-}
 
 /* Form Styling */
 .capstone-form {

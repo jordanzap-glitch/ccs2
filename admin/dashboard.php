@@ -31,15 +31,16 @@ if(strlen($_SESSION['id']) == 0) {
     <ul>
         <li><a href="dashboard.php" class="active"><i class="fas fa-home"></i> Dashboard</a></li>
         
-        <li class="nav-item dropdown">
-            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false">
+        <li class="nav-item dropdown" >
+            <a href="#" class="nav-link dropdown-toggle text-white" data-bs-toggle="dropdown" role="button" aria-expanded="false">
                 <i class="fas fa-user-graduate"></i> Student
             </a>
-            <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="addstudent.php"><i class="fas fa-user-plus"></i> Add Student</a></li>
-                <li><a class="dropdown-item" href="viewstudent.php"><i class="fas fa-users"></i> View Students</a></li>
+            <ul class="dropdown-menu" style="background: #343a40;">
+                <li><a class="dropdown-item text-white" href="addstudent.php"><i class="fas fa-user-plus"></i> Add Student</a></li>
+                <li><a class="dropdown-item text-white" href="viewstudent.php"><i class="fas fa-users"></i> View Students</a></li>
             </ul>
         </li>
+
 
         <li><a href="../addcapstone.php"><i class="fas fa-book"></i> Capstone Study</a></li>
         <li><a href="viewcapstone.php"><i class="fas fa-book-open"></i> View Capstone</a></li>
