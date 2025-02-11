@@ -2,17 +2,24 @@
 include 'db.php';
 
 try {
+    // Fetch images from the database
+    $result = $conn->query("SELECT poster_path, link_path FROM tbl_capstone LIMIT 4");
 
-    $result = $conn->query("SELECT * FROM tbl_capstone");
-
-
+    // Check if query was successful
     if (!$result) {
         throw new Exception("Error fetching images: " . $conn->error);
     }
 
+    // Check if any images exist
     $images_exist = ($result->num_rows > 0);
 } catch (Exception $e) {
     $error_message = $e->getMessage();
+}
+
+// Function to extract video ID from YouTube link
+function getYouTubeVideoId($url) {
+    parse_str(parse_url($url, PHP_URL_QUERY), $query);
+    return $query['v'] ?? null;
 }
 ?>
 
@@ -130,12 +137,23 @@ try {
             <?php endif; ?>
 
             <?php if (isset($images_exist) && $images_exist): ?>
-                <?php while ($row = $result->fetch_assoc()): ?>
-                    <div class="col-md-3 mb-3">
-                        <div class="p-3 border grid-item">
-                            <img src="<?php echo $row['poster_path']; ?>" alt="Uploaded Image" class="img-fluid">
-                        </div>
-                    </div>
+        <?php while ($row = $result->fetch_assoc()): ?>
+            <div class="col-md-3 mb-3">
+                <div class="p-3 border grid-item">
+                    <img src="<?php echo $row['poster_path']; ?>" alt="Uploaded Image" class="img-fluid">
+                    <?php
+                    $video_id = getYouTubeVideoId($row['link_path']);
+                    if ($video_id): 
+                        $thumbnail_url = "https://img.youtube.com/vi/$video_id/0.jpg";
+                    ?>
+                        <a href="<?php echo $row['link_path']; ?>" target="_blank">
+                            <img src="<?php echo $thumbnail_url; ?>" alt="YouTube Thumbnail" class="img-fluid mt-2">
+                        </a>
+                    <?php endif; ?>
+                    <br><br>
+                    <a href="<?php echo $row['link_path']; ?>" target="_blank" class="btn btn-primary">Watch Video</a>
+                </div>
+            </div>
                 <?php endwhile; ?>
             <?php endif; ?>
 

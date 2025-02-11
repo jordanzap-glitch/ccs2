@@ -1,8 +1,30 @@
 <?php
 include '../db.php'; // Include your database connection file
 
-// Fetch capstone projects from the database
-$sql = "SELECT id, title, abstract, a1_sname, a1_fname, a1_mname, a1_role, adviser, submit_date, poster_path, imrad_path, link_path FROM tbl_capstone";
+// Set the number of results per page
+$results_per_page = 5;
+
+// Find out the number of results stored in the database
+$sql = "SELECT COUNT(*) AS total FROM tbl_capstone";
+$result = $conn->query($sql);
+$row = $result->fetch_assoc();
+$total_results = $row['total'];
+
+// Determine the total number of pages available
+$number_of_pages = ceil($total_results / $results_per_page);
+
+// Determine which page number visitor is currently on
+if (!isset($_GET['page']) || $_GET['page'] < 1) {
+    $current_page = 1;
+} else {
+    $current_page = (int)$_GET['page'];
+}
+
+// Calculate the starting limit for the results on the current page
+$starting_limit = ($current_page - 1) * $results_per_page;
+
+// Fetch capstone projects from the database with pagination
+$sql = "SELECT id, title, abstract, a1_sname, a1_fname, a1_mname, a1_role, adviser, submit_date, poster_path, imrad_path, link_path FROM tbl_capstone LIMIT $starting_limit, $results_per_page";
 $result = $conn->query($sql);
 
 // Check if the form is submitted to update project information
@@ -46,10 +68,6 @@ if ($edit_id) {
     $stmt->close();
 }
 
-
-
-
-
 if (isset($_GET['delete'])) {
     $delete_id = $_GET['delete'];
     $stmt = $conn->prepare("DELETE FROM tbl_capstone WHERE id = ?");
@@ -67,6 +85,20 @@ if (isset($_GET['delete'])) {
 
 
 
+$search_query = isset($_GET['search']) ? $_GET['search'] : '';
+
+// Fetch students from the database with pagination and search
+$sql = "SELECT id, title, abstract, a1_sname, a1_fname, a1_mname, a1_role, adviser, submit_date, poster_path, imrad_path, link_path 
+        FROM tbl_capstone 
+        WHERE title LIKE ? OR adviser LIKE ? 
+        LIMIT $starting_limit, $results_per_page";
+
+$stmt = $conn->prepare($sql);
+$search_term = "%" . $search_query . "%";
+$stmt->bind_param("ss", $search_term, $search_term);
+$stmt->execute();
+$result = $stmt->get_result();
+
 
 ?>
 
@@ -79,9 +111,16 @@ if (isset($_GET['delete'])) {
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-<div class="container mt-5">
+<div class="container mt- 5">
 <h2>View Capstone Projects</h2>
 <p><a class="btn btn-danger" href="dashboard.php">Back to Dashboard</a></p>
+<form method="GET" action="">
+    <div class="form-group">
+        <label for="search">Search by Student ID or Last Name:</label>
+        <input type="text" class="form-control" id="search" name="search" placeholder="Enter Student ID or Last Name">
+    </div>
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
     <?php if (isset($message)): ?>
         <div class="alert alert-info"><?= $message; ?></div>
     <?php endif; ?>
@@ -89,7 +128,6 @@ if (isset($_GET['delete'])) {
     <table class="table table-bordered">
         <thead>
             <tr>
-                
                 <th>Title</th>
                 <th>Abstract</th>
                 <th>Author Surname</th>
@@ -109,7 +147,6 @@ if (isset($_GET['delete'])) {
             <?php if ($result->num_rows > 0): ?>
                 <?php while($row = $result->fetch_assoc()): ?>
                     <tr>
-                        
                         <td><?= htmlspecialchars($row['title']); ?></td>
                         <td><?= htmlspecialchars($row['abstract']); ?></td>
                         <td><?= htmlspecialchars($row['a1_sname']); ?></td>
@@ -125,7 +162,7 @@ if (isset($_GET['delete'])) {
                             <a href="viewcapstone.php?edit=<?= $row['id']; ?>" class="btn btn-warning">Edit</a>
                         </td>
                         <td>
-                        <a href="viewcapstone.php?delete=<?= $row['id']; ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this project?');">Delete</a>
+                            <a href="viewcapstone.php?delete=<?= $row['id']; ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this project?');">Delete</a>
                         </td>
                     </tr>
                 <?php endwhile; ?>
@@ -167,7 +204,7 @@ if (isset($_GET['delete'])) {
             </div>
             <div class="form-group">
                 <label for="adviser">Adviser</label>
-                <input type="text" class="form-control" name="adviser" value="<?= htmlspecialchars($edit_row['adviser']); ?>" required>
+                <input type="text" class="form-control" name="adviser" value="<?= htmlspecialchars($edit_row ['adviser']); ?>" required>
             </div>
             <div class="form-group">
                 <label for="submit_date">Submit Date</label>
@@ -176,6 +213,25 @@ if (isset($_GET['delete'])) {
             <button type="submit" name="update" class="btn btn-primary">Update Project</button>
         </form>
     <?php endif; ?>
+<br>
+    <div class="pagination">
+        <?php if ($current_page > 1): ?>
+            <a href="viewcapstone.php?page=<?= $current_page - 1; ?>" class="btn btn-secondary">Previous</a>
+        <?php endif; ?>
+
+        <?php for ($page = 1; $page <= $number_of_pages; $page++): ?>
+            <?php if ($page == $current_page): ?>
+                <strong><?= $page; ?></strong> 
+            <?php else: ?>
+                <a href="viewcapstone.php?page=<?= $page; ?>" class="btn btn-light"><?= $page; ?></a> 
+            <?php endif; ?>
+        <?php endfor; ?>
+
+        <?php if ($current_page < $number_of_pages): ?>
+            <a href="viewcapstone.php?page=<?= $current_page + 1; ?>" class="btn btn-secondary">Next</a>
+        <?php endif; ?>
+    </div>
+</div>
 </div>
 </body>
 </html>

@@ -10,22 +10,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $middlename = $_POST['middlename'];
     $lastname = $_POST['lastname'];
     
-    // Generate a unique access code
-    $accessCode = bin2hex(random_bytes(3)); // Generates a random 20-character hexadecimal string
+    // Check if the Student ID already exists
+    $stmt = $conn->prepare("SELECT COUNT(*) FROM tblstudent WHERE student_id = ?");
+    $stmt->bind_param("s", $student_id);
+    $stmt->execute();
+    $stmt->bind_result($count);
+    $stmt->fetch();
+    $stmt->close();
 
-    // Prepare and bind
-    $stmt = $conn->prepare("INSERT INTO tblstudent (student_id, firstname, middlename, lastname, accessCode) VALUES (?, ?, ?, ?, ?)");
-    $stmt->bind_param("sssss", $student_id, $firstname, $middlename, $lastname, $accessCode);
-
-    if ($stmt->execute()) {
-        $message = "Student added successfully. Access Code: " . $accessCode;
-        $toastClass = "#28a745"; // Success color
-    } else {
-        $message = "Error: " . $stmt->error;
+    if ($count > 0) {
+        $message = "Error: Student ID already exists.";
         $toastClass = "#dc3545"; // Danger color
+    } else {
+        // Generate a unique access code
+        $accessCode = bin2hex(random_bytes(3)); // Generates a random 20-character hexadecimal string
+
+        // Prepare and bind
+        $stmt = $conn->prepare("INSERT INTO tblstudent (student_id, firstname, middlename, lastname, accessCode) VALUES (?, ?, ?, ?, ?)");
+        $stmt->bind_param("sssss", $student_id, $firstname, $middlename, $lastname, $accessCode);
+
+        if ($stmt->execute()) {
+            $message = "Student added successfully. Access Code: " . $accessCode;
+            $toastClass = "#28a745"; // Success color
+        } else {
+            $message = "Error: " . $stmt->error;
+            $toastClass = "#dc3545"; // Danger color
+        }
+
+        $stmt->close();
     }
 
-    $stmt->close();
     $conn->close();
 }
 ?>
