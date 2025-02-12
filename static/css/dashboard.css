@@ -1,106 +1,92 @@
-/* General Reset */
-* {
+ /* General Reset */
+ * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* General Sidebar Styles */
-.sidebar-menu {
-    list-style: none;
-    padding: 0;
+/* Sidebar Styling */
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    background-color: #2c3e50;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding-top: 20px;
+    transition: all 0.3s ease;
 }
 
-.sidebar-menu li {
-    padding: 12px 15px;
-    background: #2c3e50; /* Consistent background */
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+.sidebar.active {
+    left: -250px;
 }
 
-/* Style for Links */
-.sidebar-menu li a {
-    color: #ecf0f1;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    font-size: 16px;
-    transition: background 0.3s ease;
-}
-
-/* Icons */
-.sidebar-menu li a i {
-    margin-right: 10px;
-}
-
-/* Hover Effect */
-.sidebar-menu li a:hover,
-.sidebar-menu li a.active {
-    background: #34495e;
-    border-radius: 5px;
-}
-
-/* Dropdown Menu */
-.nav-item.dropdown .dropdown-menu {
-    background: #2c3e50 !important;
-    border: none;
-}
-
-.dropdown-menu .dropdown-item {
-    color: white !important;
-}
-
-.dropdown-menu .dropdown-item:hover {
-    background: #23272b !important;
-}
-
-/* Logo Styling */
 .sidebar .logo {
-    display: block;
-    margin: 0 auto 10px;
-    width: 100px;
-    height: auto;
     border-radius: 50%;
+    margin-bottom: 10px;
 }
 
-/* Sidebar Title */
 .sidebar h2 {
     color: #ecf0f1;
     text-align: center;
-    font-size: 20px;
     margin-bottom: 20px;
 }
 
-/* Sidebar Menu */
 .sidebar ul {
     list-style: none;
-    padding: 0;
 }
 
 .sidebar ul li {
-    padding: 12px 20px;
+    padding: 15px 20px;
 }
 
-/* Sidebar Links */
 .sidebar ul li a {
     color: #ecf0f1;
-    font-size: 16px;
+    font-size: 18px;
     text-decoration: none;
-    display: flex;
-    align-items: center;
-    transition: all 0.2s ease;
+    display: block;
 }
 
-/* Sidebar Icons */
-.sidebar ul li a i {
-    margin-right: 10px;
-}
-
-/* Active & Hover States */
-.sidebar ul li a:hover,
+.sidebar ul li a:hover, 
 .sidebar ul li a.active {
-    background-color: #2c3e50;
+    background-color: #34495e;
     border-radius: 5px;
-    padding: 10px;
+}
+
+/* Hamburger Menu */
+.menu-toggle {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    font-size: 24px;
+    color: #2c3e50;
+    cursor: pointer;
+    display: none;
+}
+
+.menu-toggle.active {
+    color: #ecf0f1;
+}
+
+/* Content Styling */
+.content {
+    margin-left: 250px;
+    padding: 20px;
+    transition: all 0.3s ease;
+}
+
+.sidebar.active {
+    width: 0;
+    overflow: hidden;
+}
+
+.content {
+    margin-left: 250px;
+    transition: margin-left 0.3s ease;
+}
+
+.sidebar.active ~ .content {
+    margin-left: 0;
 }
 
 /* Dropdown Menu */
@@ -141,11 +127,6 @@
     margin-left: 250px;
     padding: 20px;
     transition: all 0.3s ease;
-}
-
-/* Adjust Content When Sidebar Collapses */
-.sidebar.active ~ .content {
-    margin-left: 0;
 }
 
 /* Responsive Design */
