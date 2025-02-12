@@ -29,24 +29,49 @@ if(strlen($_SESSION['id']) == 0) {
     <center><img src="../pic/ccs-logo.png" class="logo" alt="Logo" width="90px" height="90px"></center>
     <h2>CCS</h2>
     <ul>
-        <li><a href="dashboard.php" class="active"><i class="fas fa-home"></i> Dashboard</a></li>
-        
-        <li class="nav-item dropdown" style="background: #2c3e50;">
-            <a href="#" class="nav-link dropdown-toggle text-white" data-bs-toggle="dropdown" role="button" aria-expanded="false">
-                <i class="fas fa-user-graduate"></i> Student
-            </a>
-            <ul class="dropdown-menu" style="background: #2c3e50;">
-                <li><a class="dropdown-item text-white" href="addstudent.php"><i class="fas fa-user-plus"></i> Add Student</a></li>
-                <li><a class="dropdown-item text-white" href="viewstudent.php"><i class="fas fa-users"></i> View Students</a></li>
-            </ul>
-        </li>
+    <ul>
+    <li>
+        <a href="dashboard.php" class="active text-white">
+            <i class="fas fa-home"></i> Dashboard
+        </a>
+    </li>
+    <br>
+    <!-- Student Dropdown -->
+    <li class="nav-item dropdown">
+        <a href="#" class="nav-link dropdown-toggle text-white" data-bs-toggle="dropdown" role="button" aria-expanded="false">
+            <i class="fas fa-user-graduate"></i> Student
+        </a>
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item text-white" href="addstudent.php"><i class="fas fa-user-plus"></i> Add Student</a></li>
+            <li><a class="dropdown-item text-white" href="viewstudent.php"><i class="fas fa-users"></i> View Students</a></li>
+        </ul>
+    </li>
+    <br>
+    <li class="nav-item dropdown">
+        <a href="#" class="nav-link dropdown-toggle text-white" data-bs-toggle="dropdown" role="button" aria-expanded="false">
+            <i class="fas fa-book"></i> Capstone
+        </a>
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item text-white" href="../addcapstone.php"><i class="fas fa-plus"></i> Add Capstone</a></li>
+            <li><a class="dropdown-item text-white" href="viewcapstone.php"><i class="fas fa-eye"></i> View Capstone</a></li>
+        </ul>
+    </li>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <!-- Logout -->
+    <li>
+        <a href="index.php" class="text-white">
+            <i class="fas fa-sign-out-alt"></i> Logout
+        </a>
+    </li>
+</ul>
 
-
-        <li><a href="../addcapstone.php"><i class="fas fa-book"></i> Capstone Study</a></li>
-        <li><a href="viewcapstone.php"><i class="fas fa-book-open"></i> View Capstone</a></li>
-        <br><br><br><br>
-        <li><a href="index.php"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
-    </ul>
 </div>
 
 <div class="content">
