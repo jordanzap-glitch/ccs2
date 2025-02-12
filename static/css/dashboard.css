@@ -65,7 +65,7 @@
 }
 
 .menu-toggle.active {
-    color: #ecf0f1;
+    color: #000000;
 }
 
 /* Content Styling */
@@ -147,4 +147,4 @@
     .content {
         margin-left: 0;
     }
-}
+}   
