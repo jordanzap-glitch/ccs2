@@ -1,5 +1,5 @@
 <?php
-// validate.php
+session_start();
 include '../db2.php'; // Include the database connection file
 
 // Get the POST data

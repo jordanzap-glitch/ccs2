@@ -1,5 +1,4 @@
 <?php
-// fetch_student.php
 include '../db.php'; // Include the database connection file
 
 // Get the student ID from the request

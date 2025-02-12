@@ -1,5 +1,5 @@
 <?php
-// fetch_student.php
+session_start();
 include '../db2.php'; // Include the database connection file
 
 $student_id = $_GET['student_id'] ?? '';

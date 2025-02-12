@@ -1,5 +1,5 @@
 <?php
-session_start();
+include '../session.php';
 // Include database connection
 include '../db.php';
 
