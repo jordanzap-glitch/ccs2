@@ -39,7 +39,9 @@ if(strlen($_SESSION['id']==0)) {
     <center><img src="../pic/ccs-logo.png" class="logo" alt="Logo" width="90px" height="90px"></center>
     <h2>CCS</h2>
     <ul>
-        <li><a href="dashboard2.php" class="active"><i class="fas fa-home"></i>  Dashboard</a></li>
+        <li><a href="dashboard2.php" class="active">
+            <i class="fas fa-home"></i>  Dashboard
+        </a></li>
         <li><a class="active" href="View.php">
             <i class="fas fa-eye" style="font: size 24px;"></i> View Studies
         </a></li>
