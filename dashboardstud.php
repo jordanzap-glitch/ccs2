@@ -10,7 +10,7 @@ try {
     }
 
     // Fetch images from the database
-    $result = $conn->query("SELECT * FROM tbl_capstone LIMIT 4");
+    $result = $conn->query("SELECT poster_path, link_path FROM tbl_capstone LIMIT 4");
 
     // Check if query was successful
     if (!$result) {
@@ -24,6 +24,15 @@ try {
 }
 
 $login_message = isset($_SESSION['login']) ? htmlspecialchars($_SESSION['login'], ENT_QUOTES, 'UTF-8') : 'Guest';
+
+
+
+function getYouTubeVideoId($url) {
+    parse_str(parse_url($url, PHP_URL_QUERY), $query);
+    return $query['v'] ?? null;
+}
+
+
 
 
 if(strlen($_SESSION['id']==0)) {
@@ -138,6 +147,17 @@ if(strlen($_SESSION['id']==0)) {
                 <div class="p-3 border grid-item" onclick="">
                     <img src="<?php echo $row['poster_path']; ?>" alt="Uploaded Image" class="img-fluid">
                     <!-- <h6 class="mt-2">Record Management</h6> -->
+                    <?php
+                    $video_id = getYouTubeVideoId($row['link_path']);
+                    if ($video_id): 
+                        $thumbnail_url = "https://img.youtube.com/vi/$video_id/0.jpg";
+                    ?>
+                        <a href="<?php echo $row['link_path']; ?>" target="_blank">
+                            <img src="<?php echo $thumbnail_url; ?>" alt="YouTube Thumbnail" class="img-fluid mt-2">
+                        </a>
+                    <?php endif; ?>
+                    <br><br>
+                    <a href="<?php echo $row['link_path']; ?>" target="_blank" class="btn btn-primary">Watch Commercial Video</a>
                 </div>
             </div>
         <?php endwhile; ?>
@@ -146,7 +166,7 @@ if(strlen($_SESSION['id']==0)) {
     </div> 
 
 <div class="text-end mb-4">
-            <a href="seemore1.php" class="btn btn-primary">See More...</a>
+            <a href="seemorestud.php" class="btn btn-primary">See More...</a>
 </div>
     
     
