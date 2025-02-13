@@ -21,6 +21,11 @@ function getYouTubeVideoId($url) {
     parse_str(parse_url($url, PHP_URL_QUERY), $query);
     return $query['v'] ?? null;
 }
+
+
+if(strlen($_SESSION['id']==0)) {
+    header('location:index.php');
+     } else{
 ?>
 
 <!DOCTYPE html>
@@ -170,3 +175,4 @@ function getYouTubeVideoId($url) {
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+<?php } ?>
