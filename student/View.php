@@ -70,22 +70,41 @@ if(strlen($_SESSION['id']==0)) {
     </div>
 
 
+    <h2>Submitted Capstone Projects</h2>
     <div class="capstone-list">
         <?php
-        $sql = "SELECT title, abstract AS description, submit_date AS submitted_at FROM tbl_capstone ORDER BY submit_date DESC";
-        $result = $conn->query($sql);
+        include '../db.php';
+
+        $searchTerm = isset($_GET['search']) ? $_GET['search'] : '';
+
+        $sql = "SELECT title, abstract AS description, submit_date AS submitted_at FROM tbl_capstone";
+        if ($searchTerm) {
+            $sql .= " WHERE title LIKE ?";
+        }
+        $sql .= " ORDER BY submit_date DESC";
+
+        $stmt = $conn->prepare($sql);
+        if ($searchTerm) {
+            $searchTerm = "%" . $searchTerm . "%";
+            $stmt->bind_param("s", $searchTerm);
+        }
+        $stmt->execute();
+        $result = $stmt->get_result();
 
         if ($result && $result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
-                echo '<div class="capstone-item" data-bs-toggle="modal" data-bs-target="#capstoneModal" data-title="' . htmlspecialchars($row['title']) . '" data-description="' . htmlspecialchars($row['description']) . '" data-date="' . htmlspecialchars($row['submitted_at']) . '">';
+                echo '<div class="capstone-item">';
                 echo '<h3>' . htmlspecialchars($row['title']) . '</h3>';
                 echo '<p>' . htmlspecialchars($row['description']) . '</p>';
+                echo '<small>Student submitted: ' . (isset($_SESSION['email']) ? htmlspecialchars($_SESSION['email']) : 'Unknown User') . '</small>';
+                echo '<br>';
                 echo '<small>Submitted on: ' . htmlspecialchars($row['submitted_at']) . '</small>';
                 echo '</div><hr>';
             }
         } else {
-            echo '<p>No capstone studies found.</p>';
+            echo '<p>No capstone projects found matching your search.</p>';
         }
+
         $conn->close();
         ?>
     </div>
