@@ -1,5 +1,5 @@
- /* General Reset */
- * {
+/* General Reset */
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -76,12 +76,10 @@
 }
 
 .sidebar.active {
-    width: 0;
-    overflow: hidden;
+    left: -250px;
 }
 
 .content {
-    margin-left: 250px;
     transition: margin-left 0.3s ease;
 }
 
@@ -128,6 +126,22 @@
     padding: 20px;
     transition: all 0.3s ease;
 }
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: white;
+    cursor: pointer;
+}
+
+.hidden {
+    display: none;
+}
+
 
 /* Responsive Design */
 @media (max-width: 768px) {

@@ -47,12 +47,16 @@ if(strlen($_SESSION['id']==0)) {
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-    // Sidebar Toggle
-    document.getElementById('menu-toggle').addEventListener('click', function () {
-        document.getElementById('sidebar').classList.toggle('active');
-    });
-</script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const menuToggle = document.getElementById("menu-toggle");
+            const sidebar = document.getElementById("sidebar");
+
+            menuToggle.addEventListener("click", function () {
+                sidebar.classList.toggle("active");
+            });
+        });
+    </script>
 </body>
 </html>
 <?php } ?>

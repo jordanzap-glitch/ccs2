@@ -34,6 +34,7 @@ if (strlen($_SESSION['id']) == 0) {
 </div>
 
 <div class="sidebar" id="sidebar">
+    <button class="close-btn" id="close-sidebar">&times;</button>
     <center><img src="../pic/ccs-logo.png" class="logo" alt="Logo" width="90px" height="90px"></center>
     <h2>CCS</h2>
     <ul>
@@ -84,29 +85,31 @@ if (strlen($_SESSION['id']) == 0) {
     <hr>
 
     <!-- Capstone and Student Count Boxes -->
-    <div class="container mt-4">
-        <div class="row">
-            <!-- Capstone Projects Count -->
-            <div class="col-md-4">
-                <div class="card text-white bg-primary shadow rounded">
-                    <div class="card-body text-center">
-                        <h4 class="card-title"><i class="fas fa-book"></i> Total Capstone Projects</h4>
-                        <h2 class="card-text"><?php echo $capstoneCount; ?></h2>
-                    </div>
+    <div class="container mt-4" id="row-count">
+    <div class="row">
+        <!-- Capstone Projects Count -->
+        <div class="col-12 col-md-6 mb-3">
+            <div class="card text-white bg-primary shadow rounded">
+                <div class="card-body text-center">
+                    <h4 class="card-title"><i class="fas fa-book"></i> Total Capstone Projects</h4>
+                    <h2 class="card-text"><?php echo $capstoneCount; ?></h2>
                 </div>
             </div>
+        </div>
 
-            <!-- Total Students Count -->
-            <div class="col-md-4">
-                <div class="card text-white bg-success shadow rounded">
-                    <div class="card-body text-center">
-                        <h4 class="card-title"><i class="fas fa-users"></i> Total Students</h4>
-                        <h2 class="card-text"><?php echo $studentCount; ?></h2>
-                    </div>
+        <!-- Total Students Count -->
+        <div class="col-12 col-md-6 mb-3">
+            <div class="card text-white bg-success shadow rounded">
+                <div class="card-body text-center">
+                    <h4 class="card-title"><i class="fas fa-users"></i> Total Students</h4>
+                    <h2 class="card-text"><?php echo $studentCount; ?></h2>
                 </div>
             </div>
         </div>
     </div>
+</div>
+
+
     <br>
     <!-- Search Bar -->
     <div class="search-bar mb-4">
@@ -169,9 +172,21 @@ if (strlen($_SESSION['id']) == 0) {
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
-    // Toggle sidebar
-    document.getElementById('menu-toggle').addEventListener('click', function() {
-        document.getElementById('sidebar').classList.toggle('active');
+    document.addEventListener("DOMContentLoaded", function () {
+        const menuToggle = document.getElementById("menu-toggle");
+        const sidebar = document.getElementById("sidebar");
+        const rowCount = document.getElementById("row-count");
+        const closeSidebar = document.getElementById("close-sidebar");
+
+        menuToggle.addEventListener("click", function () {
+            sidebar.classList.toggle("active");
+            rowCount.classList.toggle("hidden");
+        });
+
+        closeSidebar.addEventListener("click", function () {
+            sidebar.classList.remove("active");
+            rowCount.classList.remove("hidden");
+        });
     });
 </script>
 
