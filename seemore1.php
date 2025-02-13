@@ -151,7 +151,7 @@ function getYouTubeVideoId($url) {
                         </a>
                     <?php endif; ?>
                     <br><br>
-                    <a href="<?php echo $row['link_path']; ?>" target="_blank" class="btn btn-primary">Watch Video</a>
+                    <a href="<?php echo $row['link_path']; ?>" target="_blank" class="btn btn-primary">Watch Commercial Video</a>
                 </div>
             </div>
                 <?php endwhile; ?>
