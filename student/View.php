@@ -22,7 +22,7 @@ if(strlen($_SESSION['id']==0)) {
             transition: transform 0.3s ease-in-out;
         }
         .capstone-item:hover {
-            transform: scale(1.05);
+            transform: scale(1.01);
         }
         .modal-content {
             padding: 20px;
