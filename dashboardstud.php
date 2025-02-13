@@ -169,28 +169,6 @@ if(strlen($_SESSION['id']==0)) {
             <a href="seemorestud.php" class="btn btn-primary">See More...</a>
 </div>
     
-    
-    <!-- Grid Section 2 -->
-    <div class="row mb-3">
-        <!-- Placeholder Items -->
-        <?php for ($i = 5; $i <= 8; $i++): ?>
-            <div class="col-md-3">
-                <div class="p-3 border grid-item" onclick="window.location.href='item<?= $i ?>.html'">
-                    <img src="https://via.placeholder.com/150" alt="Item <?= $i ?>" class="img-fluid">
-                    <h6 class="mt-2">jj<?= $i ?></h6>
-                </div>
-            </div>
-        <?php endfor; ?>
-      
-    </div>
-
-  
-
-    <div class="text-end">
-
-        <a href="#" class="btn btn-primary">See More...</a>
-    </div>
-
 </div>
 
 
