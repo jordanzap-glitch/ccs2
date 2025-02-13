@@ -3,11 +3,19 @@ session_start();
 error_reporting(0);
 include('../db.php');
 
-if(strlen($_SESSION['id']) == 0) {
+if (strlen($_SESSION['id']) == 0) {
     header('location:index.php');
 } else {
-?>
+    // Count total capstone projects
+    $capstoneCountQuery = "SELECT COUNT(*) AS total FROM tbl_capstone";
+    $capstoneCountResult = $conn->query($capstoneCountQuery);
+    $capstoneCount = $capstoneCountResult->fetch_assoc()['total'];
 
+    // Count total students
+    $studentCountQuery = "SELECT COUNT(*) AS total FROM tblstudent";
+    $studentCountResult = $conn->query($studentCountQuery);
+    $studentCount = $studentCountResult->fetch_assoc()['total'];
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -29,90 +37,110 @@ if(strlen($_SESSION['id']) == 0) {
     <center><img src="../pic/ccs-logo.png" class="logo" alt="Logo" width="90px" height="90px"></center>
     <h2>CCS</h2>
     <ul>
-    <ul>
-    <li>
-        <a href="dashboard.php" class="active text-white">
-            <i class="fas fa-home"></i> Dashboard
-        </a>
-    </li>
-    <br>
-    <!-- Student Dropdown -->
-    <li class="nav-item dropdown">
-        <a href="#" class="nav-link dropdown-toggle text-white" data-bs-toggle="dropdown" role="button" aria-expanded="false">
-            <i class="fas fa-user-graduate"></i> Student
-        </a>
-        <ul class="dropdown-menu">
-            <li><a class="dropdown-item text-white" href="addstudent.php"><i class="fas fa-user-plus"></i> Add Student</a></li>
-            <li><a class="dropdown-item text-white" href="viewstudent.php"><i class="fas fa-users"></i> View Students</a></li>
-        </ul>
-    </li>
-    <br>
-    <li class="nav-item dropdown">
-        <a href="#" class="nav-link dropdown-toggle text-white" data-bs-toggle="dropdown" role="button" aria-expanded="false">
-            <i class="fas fa-book"></i> Capstone
-        </a>
-        <ul class="dropdown-menu">
-            <li><a class="dropdown-item text-white" href="../addcapstone.php"><i class="fas fa-plus"></i> Add Capstone</a></li>
-            <li><a class="dropdown-item text-white" href="viewcapstone.php"><i class="fas fa-eye"></i> View Capstone</a></li>
-        </ul>
-    </li>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <!-- Logout -->
-    <li>
-        <a href="index.php" class="text-white">
-            <i class="fas fa-sign-out-alt"></i> Logout
-        </a>
-    </li>
-</ul>
+        <li>
+            <a href="dashboard.php" class="active text-white">
+                <i class="fas fa-home"></i> Dashboard
+            </a>
+        </li>
+        <br>
 
+        <!-- Student Dropdown -->
+        <li class="nav-item dropdown">
+            <a href="#" class="nav-link dropdown-toggle text-white" data-bs-toggle="dropdown">
+                <i class="fas fa-user-graduate"></i> Student
+            </a>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="addstudent.php"><i class="fas fa-user-plus"></i> Add Student</a></li>
+                <li><a class="dropdown-item" href="viewstudent.php"><i class="fas fa-users"></i> View Students</a></li>
+            </ul>
+        </li>
+        <br>
+
+        <!-- Capstone Dropdown -->
+        <li class="nav-item dropdown">
+            <a href="#" class="nav-link dropdown-toggle text-white" data-bs-toggle="dropdown">
+                <i class="fas fa-book"></i> Capstone
+            </a>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="../addcapstone.php"><i class="fas fa-plus"></i> Add Capstone</a></li>
+                <li><a class="dropdown-item" href="viewcapstone.php"><i class="fas fa-eye"></i> View Capstone</a></li>
+            </ul>
+        </li>
+        <br><br><br><br><br><br>
+
+        <!-- Logout -->
+        <li>
+            <a href="index.php" class="text-white">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </a>
+        </li>
+    </ul>
 </div>
 
 <div class="content">
-    <h1>Welcome, <?php echo htmlspecialchars($_SESSION['login'], ENT_QUOTES, 'UTF-8'); ?>! </h1>
-    <p>This is the Dashboard page where you can view your information and access other sections of the system. Enjoy an enhanced experience with our clean and professional design.</p>
+    <h1>Welcome, <?php echo htmlspecialchars($_SESSION['login'], ENT_QUOTES, 'UTF-8'); ?>!</h1>
+    <p>This is the Dashboard page where you can view your information and access other sections of the system.</p>
 
     <hr>
 
-    <div class="search-bar mb-4">
-        <form method="GET" action="dashboard.php" class="d-flex align-items-center">
+    <!-- Capstone and Student Count Boxes -->
+    <div class="container mt-4">
+        <div class="row">
+            <!-- Capstone Projects Count -->
+            <div class="col-md-4">
+                <div class="card text-white bg-primary shadow rounded">
+                    <div class="card-body text-center">
+                        <h4 class="card-title"><i class="fas fa-book"></i> Total Capstone Projects</h4>
+                        <h2 class="card-text"><?php echo $capstoneCount; ?></h2>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Total Students Count -->
+            <div class="col-md-4">
+                <div class="card text-white bg-success shadow rounded">
+                    <div class="card-body text-center">
+                        <h4 class="card-title"><i class="fas fa-users"></i> Total Students</h4>
+                        <h2 class="card-text"><?php echo $studentCount; ?></h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Search Bar -->
+    <div class="search-bar my-4">
+        <form method="GET" action="dashboard.php" class="d-flex">
             <input type="text" name="search" class="form-control me-2" placeholder="Search by Title" 
-                value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>"
-                aria-label="Search">
+                value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>">
             <button type="submit" class="btn btn-primary">
                 <i class="fas fa-search"></i> Search
             </button>
         </form>
     </div>
 
+    <!-- Submitted Capstone Projects -->
     <h2>Submitted Capstone Projects</h2>
     <div class="capstone-list">
         <?php
-        include '../db.php';
-
-        $searchTerm = isset($_GET['search']) ? $_GET['search'] : '';
+        // Secure search query
+        $searchTerm = isset($_GET['search']) ? trim($_GET['search']) : '';
 
         $sql = "SELECT title, abstract AS description, submit_date AS submitted_at FROM tbl_capstone";
-        if ($searchTerm) {
+        if (!empty($searchTerm)) {
             $sql .= " WHERE title LIKE ?";
         }
         $sql .= " ORDER BY submit_date DESC";
 
         $stmt = $conn->prepare($sql);
-        if ($searchTerm) {
+        if (!empty($searchTerm)) {
             $searchTerm = "%" . $searchTerm . "%";
             $stmt->bind_param("s", $searchTerm);
         }
         $stmt->execute();
         $result = $stmt->get_result();
 
-        if ($result && $result->num_rows > 0) {
+        if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
                 echo '<div class="capstone-item">';
                 echo '<h3>' . htmlspecialchars($row['title']) . '</h3>';
@@ -126,12 +154,13 @@ if(strlen($_SESSION['id']) == 0) {
             echo '<p>No capstone projects found matching your search.</p>';
         }
 
+        $stmt->close();
         $conn->close();
         ?>
     </div>
 </div>
 
-<!-- Bootstrap JS (Gamit ang bundle para gumana ang dropdown) -->
+<!-- Bootstrap JS (For dropdown functionality) -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
