@@ -69,48 +69,47 @@ if(strlen($_SESSION['id']==0)) {
         </form>
     </div>
 
-
-    <h2>Submitted Capstone Projects</h2>
     <div class="capstone-list">
-        <?php
-        include '../db.php';
+    <?php
+    include '../db.php';
 
-        $searchTerm = isset($_GET['search']) ? $_GET['search'] : '';
+    $searchTerm = isset($_GET['search']) ? $_GET['search'] : '';
 
-        $sql = "SELECT title, abstract AS description, submit_date AS submitted_at FROM tbl_capstone";
-        if ($searchTerm) {
-            $sql .= " WHERE title LIKE ?";
+    $sql = "SELECT title, abstract AS description, submit_date AS submitted_at FROM tbl_capstone";
+    if (!empty($searchTerm)) {
+        $sql .= " WHERE title LIKE ?";
+    }
+    $sql .= " ORDER BY submit_date DESC";
+
+    $stmt = $conn->prepare($sql);
+    if (!empty($searchTerm)) {
+        $searchTerm = "%" . $searchTerm . "%";
+        $stmt->bind_param("s", $searchTerm);
+    }
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result && $result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            echo '<div class="capstone-item" data-bs-toggle="modal" data-bs-target="#capstoneModal" 
+                    data-title="' . htmlspecialchars($row['title']) . '" 
+                    data-description="' . htmlspecialchars($row['description']) . '" 
+                    data-date="' . htmlspecialchars($row['submitted_at']) . '">';
+            echo '<h3>' . htmlspecialchars($row['title']) . '</h3>';
+            echo '<p>' . htmlspecialchars($row['description']) . '</p>';
+            echo '<small>Submitted on: ' . htmlspecialchars($row['submitted_at']) . '</small>';
+            echo '</div><hr>';
         }
-        $sql .= " ORDER BY submit_date DESC";
+    } else {
+        echo '<p>No capstone projects found matching your search.</p>';
+    }
 
-        $stmt = $conn->prepare($sql);
-        if ($searchTerm) {
-            $searchTerm = "%" . $searchTerm . "%";
-            $stmt->bind_param("s", $searchTerm);
-        }
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        if ($result && $result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                echo '<div class="capstone-item">';
-                echo '<h3>' . htmlspecialchars($row['title']) . '</h3>';
-                echo '<p>' . htmlspecialchars($row['description']) . '</p>';
-                echo '<small>Student submitted: ' . (isset($_SESSION['email']) ? htmlspecialchars($_SESSION['email']) : 'Unknown User') . '</small>';
-                echo '<br>';
-                echo '<small>Submitted on: ' . htmlspecialchars($row['submitted_at']) . '</small>';
-                echo '</div><hr>';
-            }
-        } else {
-            echo '<p>No capstone projects found matching your search.</p>';
-        }
-
-        $conn->close();
-        ?>
-    </div>
+    $conn->close();
+    ?>
+</div>
 </div>
 
-<!-- Modal -->
+<!-- Bootstrap Modal -->
 <div class="modal fade" id="capstoneModal" tabindex="-1" aria-labelledby="capstoneModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -118,9 +117,9 @@ if(strlen($_SESSION['id']==0)) {
                 <h5 class="modal-title" id="capstoneModalLabel"></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body" id="capstoneModalBody"></div>
-            <div class="modal-footer">
-                <small id="capstoneModalDate"></small>
+            <div class="modal-body">
+                <p id="capstoneDescription"></p>
+                <small id="capstoneDate"></small>
             </div>
         </div>
     </div>
@@ -128,19 +127,16 @@ if(strlen($_SESSION['id']==0)) {
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    const menuToggle = document.getElementById('menu-toggle');
-    const sidebar = document.getElementById('sidebar');
-    menuToggle.addEventListener('click', () => {
-        sidebar.classList.toggle('active');
-    });
-
     document.addEventListener("DOMContentLoaded", function () {
-        const capstoneItems = document.querySelectorAll(".capstone-item");
-        capstoneItems.forEach(item => {
+        document.querySelectorAll(".capstone-item").forEach(item => {
             item.addEventListener("click", function () {
-                document.getElementById("capstoneModalLabel").innerText = this.getAttribute("data-title");
-                document.getElementById("capstoneModalBody").innerText = this.getAttribute("data-description");
-                document.getElementById("capstoneModalDate").innerText = "Submitted on: " + this.getAttribute("data-date");
+                let title = this.getAttribute("data-title");
+                let description = this.getAttribute("data-description");
+                let date = this.getAttribute("data-date");
+
+                document.getElementById("capstoneModalLabel").innerText = title;
+                document.getElementById("capstoneDescription").innerText = description;
+                document.getElementById("capstoneDate").innerText = "Submitted on: " + date;
             });
         });
     });
