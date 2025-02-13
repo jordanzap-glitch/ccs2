@@ -5,8 +5,6 @@ include('../db.php');
 if(strlen($_SESSION['id']==0)) {
  header('location:index.php');
   } else{
-
-
 ?>
 
 <!DOCTYPE html>
