@@ -42,6 +42,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $conn->close();
 }
+if(strlen($_SESSION['id']==0)) {
+    header('location:index.php');
+     } else{
 ?>
 
 <!DOCTYPE html>
@@ -90,4 +93,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 </body>
 </html>
-
+<?php } ?>

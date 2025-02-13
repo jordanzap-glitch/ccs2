@@ -30,7 +30,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update'])) {
 
     $stmt->close();
 }
-
+if(strlen($_SESSION['id']==0)) {
+    header('location:index.php');
+     } else{
 ?>
 
 <!DOCTYPE html>
@@ -93,3 +95,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update'])) {
 </div>
 </body>
 </html>
+<?php}?>

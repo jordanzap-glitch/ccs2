@@ -100,6 +100,9 @@ $stmt->execute();
 $result = $stmt->get_result();
 
 
+if(strlen($_SESSION['id']==0)) {
+    header('location:index.php');
+     } else{
 ?>
 
 <!DOCTYPE html>
@@ -235,3 +238,4 @@ $result = $stmt->get_result();
 </div>
 </body>
 </html>
+<?php } ?>

@@ -24,6 +24,11 @@ try {
 }
 
 $login_message = isset($_SESSION['login']) ? htmlspecialchars($_SESSION['login'], ENT_QUOTES, 'UTF-8') : 'Guest';
+
+
+if(strlen($_SESSION['id']==0)) {
+    header('location:student/index.php');
+     } else{
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -199,3 +204,4 @@ $login_message = isset($_SESSION['login']) ? htmlspecialchars($_SESSION['login']
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+<?php } ?>

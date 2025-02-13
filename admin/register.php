@@ -1,5 +1,9 @@
 <?php
 session_start();
+include('../db.php');
+if(strlen($_SESSION['id']==0)) {
+    header('location:index.php');
+     } else{
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -87,8 +91,8 @@ session_start();
 
                 <div class="form-group">
                 <i class="fas fa-book mr-2"></i>
-                    <label for="course">Course:</label>
-                    <select id="course" name="course" required>
+                    <label for="dept">Course:</label>
+                    <select id="dept" name="dept" required>
                         <option value="">--Select Course--</option>
                         <option value="BSIS">Bachelor of Science in Information Systems</option>
                         <option value="BSAIS">Bachelor of Science in Accounting Information Systems</option>
@@ -126,3 +130,4 @@ session_start();
     
 </body>
 </html>
+<?php } ?>
