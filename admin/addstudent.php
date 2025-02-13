@@ -1,4 +1,5 @@
 <?php
+session_start();
 include '../db.php'; // Include your database connection file
 
 $message = "";
@@ -42,9 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $conn->close();
 }
-if(strlen($_SESSION['id']==0)) {
-    header('location:index.php');
-     } else{
+
 ?>
 
 <!DOCTYPE html>
@@ -93,4 +92,4 @@ if(strlen($_SESSION['id']==0)) {
     </div>
 </body>
 </html>
-<?php } ?>
+

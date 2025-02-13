@@ -1,4 +1,5 @@
 <?php
+session_start();
 include '../db.php'; // Include your database connection file
 
 // Set the number of results per page
@@ -118,9 +119,7 @@ $result = $stmt->get_result();
 
 
 
-if(strlen($_SESSION['id']==0)) {
-    header('location:index.php');
-     } else{
+
 ?>
 
 <!DOCTYPE html>
@@ -261,4 +260,3 @@ if(strlen($_SESSION['id']==0)) {
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
-<?php } ?>

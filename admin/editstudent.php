@@ -1,4 +1,5 @@
 <?php
+session_start();
 include '../db.php'; // Include your database connection file
 
 // Fetch students from the database
