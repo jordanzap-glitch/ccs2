@@ -116,7 +116,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         <div class="mb-3">
             <label for="link_path" class="form-label">link</label>
-            <input type="text" class="form-control" name="link_path" required>
+            <input type="text" class="form-control" name="link_path">
         </div>
 
 
