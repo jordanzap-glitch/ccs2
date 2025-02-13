@@ -3,7 +3,7 @@ session_start();
 error_reporting(0);
 include('../db.php');
 if(strlen($_SESSION['id']==0)) {
-    header('location:index.php');
+    header('location:logout.php');
 } else {
 ?>
 
@@ -55,15 +55,20 @@ if(strlen($_SESSION['id']==0)) {
     <hr>
 
     <div class="search-bar mb-4">
-        <form method="GET" action="dashboard2.php" class="d-flex align-items-center">
-            <input type="text" name="search" class="form-control me-2" placeholder="Search by Title" 
-                value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>"
-                aria-label="Search">
-            <button type="submit" class="btn btn-primary">
-                <i class="fas fa-search"></i> Search
-            </button>
+        <form method="GET" action="View.php" class="row g-2">
+            <div class="col-md-10">
+                <input type="text" name="search" class="form-control" placeholder="Search by Title" 
+                    value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search'], ENT_QUOTES, 'UTF-8') : ''; ?>"
+                    aria-label="Search">
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary w-100">
+                    <i class="fas fa-search"></i> Search
+                </button>
+            </div>
         </form>
     </div>
+
 
     <div class="capstone-list">
         <?php
