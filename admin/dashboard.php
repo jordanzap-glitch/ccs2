@@ -107,15 +107,20 @@ if (strlen($_SESSION['id']) == 0) {
             </div>
         </div>
     </div>
-    
+    <br>
     <!-- Search Bar -->
-    <div class="search-bar my-4">
-        <form method="GET" action="dashboard.php" class="d-flex">
-            <input type="text" name="search" class="form-control me-2" placeholder="Search by Title" 
-                value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>">
-            <button type="submit" class="btn btn-primary">
-                <i class="fas fa-search"></i> Search
-            </button>
+    <div class="search-bar mb-4">
+        <form method="GET" action="dashboard.php" class="row g-2">
+            <div class="col-md-10">
+                <input type="text" name="search" class="form-control" placeholder="Search by Title" 
+                    value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search'], ENT_QUOTES, 'UTF-8') : ''; ?>"
+                    aria-label="Search">
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary w-100">
+                    <i class="fas fa-search"></i> Search
+                </button>
+            </div>
         </form>
     </div>
 
