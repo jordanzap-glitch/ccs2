@@ -221,11 +221,11 @@ $result = $stmt->get_result();
             </div>
             <div class="form-group">
                 <label for="poster_path">Poster Path</label>
-                <input type="text" class="form-control" name="poster_path" value="<?= htmlspecialchars($edit_row['poster_path']); ?>" required>
+                <input type="file" class="form-control" name="poster_path" accept="image/*" required>
             </div>
             <div class="form-group">
                 <label for="imrad_path">IMRaD Path</label>
-                <input type="text" class="form-control" name="imrad_path" value="<?= htmlspecialchars($edit_row['imrad_path']); ?>">
+                <input type="file" class="form-control" name="imrad_path" accept="application/pdf">
             </div>
             <div class="form-group">
                 <label for="link_path">Link Path</label>
