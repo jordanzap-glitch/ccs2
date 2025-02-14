@@ -15,6 +15,11 @@ if (strlen($_SESSION['id']) == 0) {
     $studentCountQuery = "SELECT COUNT(*) AS total FROM tblstudent";
     $studentCountResult = $conn->query($studentCountQuery);
     $studentCount = $studentCountResult->fetch_assoc()['total'];
+
+    // Count total teachers
+    $teacherCountQuery = "SELECT COUNT(*) AS total FROM tblteacher";
+    $teacherCountResult = $conn->query($teacherCountQuery);
+    $teacherCount = $teacherCountResult->fetch_assoc()['total'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -84,31 +89,40 @@ if (strlen($_SESSION['id']) == 0) {
 
     <hr>
 
-    <!-- Capstone and Student Count Boxes -->
+    <!-- Count Boxes -->
     <div class="container mt-4" id="row-count">
-    <div class="row">
-        <!-- Capstone Projects Count -->
-        <div class="col-12 col-md-6 mb-3">
-            <div class="card text-white bg-primary shadow rounded">
-                <div class="card-body text-center">
-                    <h4 class="card-title"><i class="fas fa-book"></i> Total Capstone Projects</h4>
-                    <h2 class="card-text"><?php echo $capstoneCount; ?></h2>
+        <div class="row">
+            <!-- Capstone Projects Count -->
+            <div class="col-12 col-md-4 mb-3">
+                <div class="card text-white bg-primary shadow rounded">
+                    <div class="card-body text-center">
+                        <h4 class="card-title"><i class="fas fa-book"></i> Total Capstone</h4>
+                        <h2 class="card-text"><?php echo $capstoneCount; ?></h2>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Total Students Count -->
-        <div class="col-12 col-md-6 mb-3">
-            <div class="card text-white bg-success shadow rounded">
-                <div class="card-body text-center">
-                    <h4 class="card-title"><i class="fas fa-users"></i> Total Students</h4>
-                    <h2 class="card-text"><?php echo $studentCount; ?></h2>
+            <!-- Total Students Count -->
+            <div class="col-12 col-md-4 mb-3">
+                <div class="card text-white bg-success shadow rounded">
+                    <div class="card-body text-center">
+                        <h4 class="card-title"><i class="fas fa-users"></i> Total Students</h4>
+                        <h2 class="card-text"><?php echo $studentCount; ?></h2>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Total Teachers Count -->
+            <div class="col-12 col-md-4 mb-3">
+                <div class="card text-white bg-warning shadow rounded">
+                    <div class="card-body text-center">
+                        <h4 class="card-title"><i class="fas fa-chalkboard-teacher"></i> Total Teachers/Admin</h4>
+                        <h2 class="card-text"><?php echo $teacherCount; ?></h2>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-
 
     <br>
     <!-- Search Bar -->
@@ -131,7 +145,6 @@ if (strlen($_SESSION['id']) == 0) {
     <h2>Submitted Capstone Projects</h2>
     <div class="capstone-list">
         <?php
-        // Secure search query
         $searchTerm = isset($_GET['search']) ? trim($_GET['search']) : '';
 
         $sql = "SELECT title, abstract AS description, submit_date AS submitted_at FROM tbl_capstone";
@@ -168,7 +181,7 @@ if (strlen($_SESSION['id']) == 0) {
     </div>
 </div>
 
-<!-- Bootstrap JS (For dropdown functionality) -->
+<!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
