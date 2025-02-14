@@ -110,7 +110,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         <div class="mb-3">
             <label for="imrad_path" class="form-label">IMRAD File (PDF)</label>
-            <input type="file" class="form-control" name="imrad_path" accept="application/pdf" required>
+            <input type="file" class="form-control" name="imrad_path" accept="application/pdf">
         </div>
 
 
