@@ -75,7 +75,7 @@ if(strlen($_SESSION['id']==0)) {
             <i class="fas fa-eye" style="font-size: 24px;"></i> View Studies
         </a></li>
         <li><a class="active" href="../dashboardstud.php">
-            <i class="fas fa-arrow-circle-left me-2" style="font-size: 24px;"></i> Back
+            <i class="fas fa-arrow-circle-left me-2" style="font-size: 24px;"></i> Back Home
         </a></li>
     </ul>
 </div>
