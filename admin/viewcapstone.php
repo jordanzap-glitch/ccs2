@@ -145,34 +145,42 @@ $result = $stmt->get_result();
             </tr>
         </thead>
         <tbody>
-            <?php if ($result->num_rows > 0): ?>
-                <?php while($row = $result->fetch_assoc()): ?>
-                    <tr>
-                        <td><?= htmlspecialchars($row['title']); ?></td>
-                        <td><?= htmlspecialchars($row['abstract']); ?></td>
-                        <td><?= htmlspecialchars($row['a1_sname']); ?></td>
-                        <td><?= htmlspecialchars($row['a1_fname']); ?></td>
-                        <td><?= htmlspecialchars($row['a1_mname']); ?></td>
-                        <td><?= htmlspecialchars($row['a1_role']); ?></td>
-                        <td><?= htmlspecialchars($row['adviser']); ?></td>
-                        <td><?= htmlspecialchars($row['submit_date']); ?></td>
-                        <td><a href="<?= htmlspecialchars($row['poster_path']); ?>" target="_blank">View</a></td>
-                        <td><a href="<?= htmlspecialchars($row['imrad_path']); ?>" target="_blank" download>View</a></td>
-                        <td><a href="<?= htmlspecialchars($row['link_path']); ?>" target="_blank">View</a></td>
-                        <td>
-                            <a href="viewcapstone.php?edit=<?= $row['id']; ?>" class="btn btn-warning">Edit</a>
-                        </td>
-                        <td>
-                            <a href="viewcapstone.php?delete=<?= $row['id']; ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this project?');">Delete</a>
-                        </td>
-                    </tr>
-                <?php endwhile; ?>
-            <?php else: ?>
-                <tr>
-                    <td colspan="13" class="text-center">No capstone projects found.</td>
-                </tr>
-            <?php endif; ?>
-        </tbody>
+    <?php if ($result->num_rows > 0): ?>
+        <?php while($row = $result->fetch_assoc()): ?>
+            <tr>
+                <td><?= htmlspecialchars($row['title']); ?></td>
+                <td><?= htmlspecialchars($row['abstract']); ?></td>
+                <td><?= htmlspecialchars($row['a1_sname']); ?></td>
+                <td><?= htmlspecialchars($row['a1_fname']); ?></td>
+                <td><?= htmlspecialchars($row['a1_mname']); ?></td>
+                <td><?= htmlspecialchars($row['a1_role']); ?></td>
+                <td><?= htmlspecialchars($row['adviser']); ?></td>
+                <td><?= htmlspecialchars($row['submit_date']); ?></td>
+                <td>
+                        <?php if (!empty($row['poster_path']) && file_exists($row['poster_path'])): ?>
+                            <a href="<?= htmlspecialchars($row['poster_path']); ?>" target="_blank">
+                                <img src="<?= htmlspecialchars($row['poster_path']); ?>" alt="Poster" style="width: 100px; height: auto;">
+                            </a>
+                        <?php else: ?>
+                            <span>No Image Available</span>
+                        <?php endif; ?>
+                </td>
+                <td><a href="<?= htmlspecialchars($row['imrad_path']); ?>" target="_blank" download>View</a></td>
+                <td><a href="<?= htmlspecialchars($row['link_path']); ?>" target="_blank">View</a></td>
+                <td>
+                    <a href="viewcapstone.php?edit=<?= $row['id']; ?>" class="btn btn-warning">Edit</a>
+                </td>
+                <td>
+                    <a href="viewcapstone.php?delete=<?= $row['id']; ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this project?');">Delete</a>
+                </td>
+            </tr>
+        <?php endwhile; ?>
+    <?php else: ?>
+        <tr>
+            <td colspan="13" class="text-center">No capstone projects found.</td>
+        </tr>
+    <?php endif; ?>
+</tbody>
     </table>
 
     <?php if ($edit_row): ?>
@@ -210,6 +218,18 @@ $result = $stmt->get_result();
             <div class="form-group">
                 <label for="submit_date">Submit Date</label>
                 <input type="date" class="form-control" name="submit_date" value="<?= htmlspecialchars($edit_row['submit_date']); ?>" required>
+            </div>
+            <div class="form-group">
+                <label for="poster_path">Poster Path</label>
+                <input type="text" class="form-control" name="poster_path" value="<?= htmlspecialchars($edit_row['poster_path']); ?>" required>
+            </div>
+            <div class="form-group">
+                <label for="imrad_path">IMRaD Path</label>
+                <input type="text" class="form-control" name="imrad_path" value="<?= htmlspecialchars($edit_row['imrad_path']); ?>">
+            </div>
+            <div class="form-group">
+                <label for="link_path">Link Path</label>
+                <input type="text" class="form-control" name="link_path" value="<?= htmlspecialchars($edit_row['link_path']); ?>">
             </div>
             <button type="submit" name="update" class="btn btn-primary">Update Project</button>
         </form>
