@@ -85,7 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         <div class="mb-3">
             <label for="a1_name" class="form-label">Middle</label>
-            <input type="text" class="form-control" name="a1_mname" required>
+            <input type="text" class="form-control" name="a1_mname">
         </div>
 
         <div class="mb-3">
