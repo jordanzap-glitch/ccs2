@@ -141,6 +141,20 @@ if(strlen($_SESSION['id']==0)) {
                 document.getElementById("capstoneDate").innerText = "Submitted on: " + date;
             });
         });
+        const menuToggle = document.getElementById("menu-toggle");
+        const sidebar = document.getElementById("sidebar");
+        const rowCount = document.getElementById("row-count");
+        const closeSidebar = document.getElementById("close-sidebar");
+
+        menuToggle.addEventListener("click", function () {
+            sidebar.classList.toggle("active");
+            rowCount.classList.toggle("hidden");
+        });
+
+        closeSidebar.addEventListener("click", function () {
+            sidebar.classList.remove("active");
+            rowCount.classList.remove("hidden");
+        });
     });
 </script>
 
