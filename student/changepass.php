@@ -63,6 +63,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <input type="submit" value="Change Password">
     </form>
     <p><?php echo $message; ?></p>
-    <p><a href="dashboard.php">Back to Dashboard</a></p>
+    <p><a href="dashboard2.php">Back to Dashboard</a></p>
 </body>
 </html>

@@ -13,26 +13,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $contactnumber = $_POST['contactnumber'];
     $email = $_POST['email'];
     $password = $_POST['password'];
-    
 
-    // Prepare and execute the SQL statement
-    $stmt = $pdo->prepare("UPDATE tblstudent SET firstname = :firstname, middlename = :middlename, lastname = :lastname, course = :course, contactnumber = :contactnumber, email = :email, password = :password WHERE student_id = :student_id");
+    // Check if the email already exists for another student
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM tblstudent WHERE email = :email AND student_id != :student_id");
+    $stmt->execute(['email' => $email, 'student_id' => $student_id]);
+    $emailExists = $stmt->fetchColumn();
 
-    try {
-        $stmt->execute([
-            'student_id' => $student_id,
-            'firstname' => $firstname,
-            'middlename' => $middlename,
-            'lastname' => $lastname,
-            'course' => $course,
-            'contactnumber' => $contactnumber,
-            'email' => $email,
-            'password' => $password
-        ]);
-        echo "Student information updated successfully!";
-        header("location:index.php");
-    } catch (PDOException $e) {
-        echo "Error: " . $e->getMessage();
+    if ($emailExists) {
+        echo "Error: The email address is already in use by another student.";
+    } else {
+        // Prepare and execute the SQL statement
+        $stmt = $pdo->prepare("UPDATE tblstudent SET firstname = :firstname, middlename = :middlename, lastname = :lastname, course = :course, contactnumber = :contactnumber, email = :email, password = :password WHERE student_id = :student_id");
+
+        try {
+            $stmt->execute([
+                'student_id' => $student_id,
+                'firstname' => $firstname,
+                'middlename' => $middlename,
+                'lastname' => $lastname,
+                'course' => $course,
+                'contactnumber' => $contactnumber,
+                'email' => $email,
+                'password' => $password // Consider hashing the password before storing it
+            ]);
+            echo "Student information updated successfully!";
+            header("location:index.php");
+            exit(); // Ensure no further code is executed after the redirect
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+        }
     }
 }
 ob_end_flush();
