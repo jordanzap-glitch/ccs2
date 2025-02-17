@@ -71,7 +71,7 @@ if(strlen($_SESSION['id']==0)) {
     <h2>CCS</h2>
     <ul>
         <li><a href="dashboard2.php" class="active"><i class="fas fa-home"></i> Dashboard</a></li>
-        <li><a class="active" href=".php">
+        <li><a class="active" href="changepass.php">
             <i class="fa fa-key" style="font-size: 24px;"></i> Change Password
         </a></li>
         <li><a class="active" href="View.php">
