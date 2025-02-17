@@ -58,6 +58,12 @@ input[type="submit"]:hover {
     background-color: #006400;
 }
 
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
 /* Responsive */
 @media (max-width: 600px) {
     .form-box {

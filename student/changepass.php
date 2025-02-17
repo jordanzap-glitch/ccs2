@@ -61,8 +61,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <label for="email">Email:</label>
             <input type="email" name="email" required>
             <br>
+            <br>
             <label for="current_password">Current Password:</label>
             <input type="password" name="current_password" required>
+            <br>
             <br>
             <label for="new_password">New Password:</label>
             <input type="password" name="new_password" required>
