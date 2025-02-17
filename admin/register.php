@@ -1,9 +1,6 @@
 <?php
 session_start();
 include('../db.php');
-if(strlen($_SESSION['id']==0)) {
-    header('location:index.php');
-     } else{
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -130,4 +127,3 @@ if(strlen($_SESSION['id']==0)) {
     
 </body>
 </html>
-<?php } ?>

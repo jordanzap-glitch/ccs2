@@ -1,9 +1,7 @@
 <?php
 session_start();
 include('../db2.php');
-if(strlen($_SESSION['id']==0)) {
-    header('location:index.php');
-     } else{
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -131,4 +129,3 @@ if(strlen($_SESSION['id']==0)) {
     </form>  
 </body>
 </html>
-<?php } ?>
