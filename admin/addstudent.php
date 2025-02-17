@@ -56,6 +56,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../admin/static/addstud.css">
 </head>
+<style>
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(to bottom, #00218b, #fffc58);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    background-attachment: fixed; /* Ensure the background remains fixed */
+    background-repeat: no-repeat;
+    background-size: cover; /* Cover the entire viewport */
+}
+</style>
 <body>
     <center>
         <div class="form-box">

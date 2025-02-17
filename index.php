@@ -167,7 +167,7 @@ function getYouTubeVideoId($url) {
 </div>
 
 <div class="text-end mb-4">
-            <a href="seemore1.php" class="btn btn-primary">See More...</a>
+    <a href="seemore1.php" class="btn btn-primary">See More...</a>
 </div>
 
 </div>
