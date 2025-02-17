@@ -117,8 +117,8 @@ $result = $stmt->get_result();
 <p><a class="btn btn-danger" href="dashboard.php">Back to Dashboard</a></p>
 <form method="GET" action="">
     <div class="form-group">
-        <label for="search">Search by Student ID or Last Name:</label>
-        <input type="text" class="form-control" id="search" name="search" placeholder="Enter Student ID or Last Name">
+        <label for="search">Search by Title or Adviser:</label>
+        <input type="text" class="form-control" id="search" name="search" placeholder="Enter Title or Adviser">
     </div>
     <button type="submit" class="btn btn-primary">Search</button>
 </form>
