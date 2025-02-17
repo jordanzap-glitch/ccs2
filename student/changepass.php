@@ -47,22 +47,31 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Change Password</title>
+    <link rel="stylesheet" href="../static/css/change.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-    <h1>Change Password</h1>
-    <form method="POST" action="">
-        <label for="email">Email:</label>
-        <input type="email" name="email" required>
-        <br>
-        <label for="current_password">Current Password:</label>
-        <input type="password" name="current_password" required>
-        <br>
-        <label for="new_password">New Password:</label>
-        <input type="password" name="new_password" required>
-        <br>
-        <input type="submit" value="Change Password">
-    </form>
-    <p><?php echo $message; ?></p>
-    <p><a href="dashboard2.php">Back to Dashboard</a></p>
+    <div class="form-box">
+        <center>
+            <img src="../pic/srclogo.png" alt="School Logo" class="logo">
+        </center>
+        <h2>Change Password</h2>
+        <form method="POST" action="">
+            <label for="email">Email:</label>
+            <input type="email" name="email" required>
+            <br>
+            <label for="current_password">Current Password:</label>
+            <input type="password" name="current_password" required>
+            <br>
+            <label for="new_password">New Password:</label>
+            <input type="password" name="new_password" required>
+            <br>
+            <input type="submit" value="Change Password">
+        </form>
+        <p><?php echo $message; ?></p>
+        <p><a href="dashboard2.php">Back to Dashboard</a></p>
+    </div>
+    
 </body>
 </html>

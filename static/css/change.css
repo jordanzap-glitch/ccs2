@@ -1,8 +1,7 @@
- /* BODY DESIGN */
- body {
+body {
     font-family: 'Poppins', sans-serif;
     background: linear-gradient(to bottom, #00218b, #fffc58);
-    height: 150vh;
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -28,59 +27,22 @@
     margin-bottom: 10px;
 }
 
-/* Form Header */
-h2 {
-    font-size: 22px;
-    color: #333;
-    margin-bottom: 15px;
-}
-
-/* Form Layout */
-.form-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-}
-
-/* Labels */
-.form-group {
-    width: 100%;
-    text-align: left;
-    margin-bottom: 10px;
-}
-
-label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 5px;
-}
-
 /* Input Fields */
 input[type="text"], 
 input[type="email"], 
-input[type="password"],
-select {
+input[type="password"] {
     width: 100%;
-    max-width: 400px;
     padding: 10px;
-    border: 2px solid #b4b4b4;
+    margin-top: 5px;
+    border: 2px solid #7e7e7e;
     border-radius: 5px;
     font-size: 14px;
     box-sizing: border-box;
 }
 
 /* Submit Button */
-.center-btn {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    margin-top: 15px;
-}
-
 input[type="submit"] {
     width: 100%;
-    max-width: 200px;
     padding: 10px;
     background-color: #008000;
     color: white;
@@ -89,33 +51,16 @@ input[type="submit"] {
     border-radius: 5px;
     cursor: pointer;
     font-weight: bold;
+    margin-top: 10px;
 }
 
 input[type="submit"]:hover {
     background-color: #006400;
 }
 
-/* Back Link */
-.back-link {
-    display: block;
-    text-align: center;
-    margin-top: 15px;
-    font-size: 16px;
-    color: #333;
-    text-decoration: none;
-}
-
-.back-link:hover {
-    color: #4CAF50;
-}
-
-/* Responsive Design */
+/* Responsive */
 @media (max-width: 600px) {
     .form-box {
         width: 90%;
-    }
-
-    input[type="text"], input[type="email"], select {
-        width: 100%;
     }
 }
