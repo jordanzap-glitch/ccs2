@@ -29,10 +29,10 @@ if(strlen($_SESSION['id']==0)) {
         border-radius: 10px;
         display: flex;
         align-items: center;
-        justify-content: center; /* Center the header */
         text-align: left;
         width: 80%;
-        margin: 0 auto; /* Center the container */
+        margin: 0 auto; /* Centers it horizontally */
+        margin-left: 200px; /* Moves it away from the sidebar */
     }
     .dashboard-text {
         max-width: 50%;
