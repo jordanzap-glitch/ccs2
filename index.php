@@ -33,6 +33,25 @@ function getYouTubeVideoId($url) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="static/css/index.css">
 </head>
+    <style>
+        .picture-box {
+            width: 550px;
+            height: 400px;
+            border: 2px dashed #ccc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .picture-box img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: cover;
+        }
+    </style>
 <body>
 
 <!-- Navigator Section -->
@@ -170,15 +189,22 @@ function getYouTubeVideoId($url) {
     <a href="seemore1.php" class="btn btn-primary">See More...</a>
 </div>
 
+    <center>
+        <div class="picture-box">
+            <img id="preview" src="pic/flow.png" alt="Upload an image">
+        </div>
+    </center>
+    <br>
+    <br>
+    <br>
+
 </div>
-
-
 
 
     <div id="fullscreenModal" class="fullscreen-modal">
         <span class="close" onclick="closeFullscreen()">&times;</span>
         <img id="fullscreenImage" src="">
-    </di>
+    </div>
 
 <!-- Footer Section -->
 <footer>
