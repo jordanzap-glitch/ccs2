@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Santa Rita College</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .gallery-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+        }
+        .picture-box {
+            width: 100%;
+            padding-top: 100%;
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s ease-in-out;
+        }
+        .picture-box:hover {
+            transform: scale(1.05);
+        }
+        .picture-box img {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body class="d-flex justify-content-center align-items-center vh-100 bg-light">
+
+    <div class="gallery-container">
+        <div class="picture-box" data-bs-toggle="modal" data-bs-target="#imageModal" onclick="showImage(this)">
+            <img src="pic/1.png" alt="Image 1">
+        </div>
+        <div class="picture-box" data-bs-toggle="modal" data-bs-target="#imageModal" onclick="showImage(this)">
+            <img src="pic/2.png" alt="Image 2">
+        </div>
+        <div class="picture-box" data-bs-toggle="modal" data-bs-target="#imageModal" onclick="showImage(this)">
+            <img src="pic/3.png" alt="Image 3">
+        </div>
+        <div class="picture-box" data-bs-toggle="modal" data-bs-target="#imageModal" onclick="showImage(this)">
+            <img src="pic/4.png" alt="Image 4">
+        </div>
+        <div class="picture-box" data-bs-toggle="modal" data-bs-target="#imageModal" onclick="showImage(this)">
+            <img src="pic/5.png" alt="Image 5">
+        </div>
+        <div class="picture-box" data-bs-toggle="modal" data-bs-target="#imageModal" onclick="showImage(this)">
+            <img src="pic/6.png" alt="Image 6">
+        </div>
+        <div class="picture-box" data-bs-toggle="modal" data-bs-target="#imageModal" onclick="showImage(this)">
+            <img src="pic/7.png" alt="Image 7">
+        </div>
+        <div class="picture-box" data-bs-toggle="modal" data-bs-target="#imageModal" onclick="showImage(this)">
+            <img src="pic/8.png" alt="Image 8">
+        </div>
+        <div class="picture-box" data-bs-toggle="modal" data-bs-target="#imageModal" onclick="showImage(this)">
+            <img src="pic/9.png" alt="Image 9">
+        </div>
+    </div>
+
+    <!-- Bootstrap Modal for Image Zoom -->
+    <div class="modal fade" id="imageModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body p-0">
+                    <img id="modalImage" src="" class="img-fluid rounded">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showImage(element) {
+            let imgSrc = element.querySelector("img").src;
+            document.getElementById("modalImage").src = imgSrc;
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

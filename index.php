@@ -34,22 +34,24 @@ function getYouTubeVideoId($url) {
     <link rel="stylesheet" href="static/css/index.css">
 </head>
     <style>
+        .container {
+            max-width: 900px;
+            margin: auto;
+        }
         .picture-box {
-            width: 550px;
-            height: 400px;
-            border: 2px dashed #ccc;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            background-color: #f8f9fa;
-            border-radius: 10px;
+            position: relative;
+            cursor: pointer;
             overflow: hidden;
         }
         .picture-box img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: cover;
+            width: 100%;
+            transition: transform 0.3s ease-in-out;
+        }
+        .picture-box img:hover {
+            transform: scale(1.1);
+        }
+        .modal img {
+            width: 100%;
         }
     </style>
 <body>
@@ -188,12 +190,94 @@ function getYouTubeVideoId($url) {
 <div class="text-end mb-4">
     <a href="seemore1.php" class="btn btn-primary">See More...</a>
 </div>
+<br>
+    <center><h2>Manual for Student</h2></center>
 
-    <center>
-        <div class="picture-box">
-            <img id="preview" src="pic/flow.png" alt="Upload an image">
+    <div class="container mt-4">
+        <div class="row g-4">
+            <div class="col-md-6 text-center">
+                <h3>Step 1</h3>
+                <div class="picture-box" data-bs-toggle="modal" data-bs-target="#imageModal" onclick="zoomImage('pic/1.png')">
+                    <img src="pic/1.png" alt="Step 1">
+                </div>
+            </div>
+            <div class="col-md-6 text-center">
+                <h3>Step 2</h3>
+                <div class="picture-box" data-bs-toggle="modal" data-bs-target="#imageModal" onclick="zoomImage('pic/2.png')">
+                    <img src="pic/2.png" alt="Step 2">
+                </div>
+            </div>
+            <div class="col-md-6 text-center">
+                <h3>Step 3</h3>
+                <div class="picture-box" data-bs-toggle="modal" data-bs-target="#imageModal" onclick="zoomImage('pic/3.png')">
+                    <img src="pic/3.png" alt="Step 3">
+                </div>
+            </div>
+            <div class="col-md-6 text-center">
+                <h3>Step 4</h3>
+                <div class="picture-box" data-bs-toggle="modal" data-bs-target="#imageModal" onclick="zoomImage('pic/4.png')">
+                    <img src="pic/4.png" alt="Step 4">
+                </div>
+            </div>
+            <div class="col-md-6 text-center">
+                <h3>Step 5</h3>
+                <div class="picture-box" data-bs-toggle="modal" data-bs-target="#imageModal" onclick="zoomImage('pic/5.png')">
+                    <img src="pic/5.png" alt="Step 5">
+                </div>
+            </div>
+            <div class="col-md-6 text-center">
+                <h3>Step 6</h3>
+                <div class="picture-box" data-bs-toggle="modal" data-bs-target="#imageModal" onclick="zoomImage('pic/6.png')">
+                    <img src="pic/6.png" alt="Step 6">
+                </div>
+            </div>
+            <div class="col-md-6 text-center">
+                <h3>Step 7</h3>
+                <div class="picture-box" data-bs-toggle="modal" data-bs-target="#imageModal" onclick="zoomImage('pic/7.png')">
+                    <img src="pic/7.png" alt="Step 7">
+                </div>
+            </div>
+            <div class="col-md-6 text-center">
+                <h3>Step 8</h3>
+                <div class="picture-box" data-bs-toggle="modal" data-bs-target="#imageModal" onclick="zoomImage('pic/8.png')">
+                    <img src="pic/8.png" alt="Step 8">
+                </div>
+            </div>
+            <div class="col-md-6 text-center">
+                <h3>Step 9</h3>
+                <div class="picture-box" data-bs-toggle="modal" data-bs-target="#imageModal" onclick="zoomImage('pic/9.png')">
+                    <img src="pic/9.png" alt="Step 9">
+                </div>
+            </div>
+            <div class="col-md-6 text-center">
+                <h3>Step 10</h3>
+                <div class="picture-box" data-bs-toggle="modal" data-bs-target="#imageModal" onclick="zoomImage('pic/10.png')">
+                    <img src="pic/10.png" alt="Step 10">
+                </div>
+            </div>
         </div>
-    </center>
+    </div>
+    
+    <!-- Modal for zoomed image -->
+    <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="imageModalLabel">Image Preview</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <img id="modalImage" src="" alt="Zoomed Image">
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function zoomImage(src) {
+            document.getElementById("modalImage").src = src;
+        }
+    </script>
     <br>
     <br>
     <br>
