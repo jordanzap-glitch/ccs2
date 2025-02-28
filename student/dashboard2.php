@@ -30,9 +30,9 @@ if(strlen($_SESSION['id']==0)) {
         display: flex;
         align-items: center;
         text-align: left;
-        width: 80%;
+        width: 85%;
         margin: 0 auto; /* Centers it horizontally */
-        margin-left: 200px; /* Moves it away from the sidebar */
+        margin-left: 190px; /* Moves it away from the sidebar */
     }
     .dashboard-text {
         max-width: 50%;
