@@ -155,7 +155,7 @@ ob_end_flush();
                 <div class="form-group">
                 <i class="fas fa-lock mr-2"></i>
                     <label for="password" >Password:</label>
-                    <input type="text" id="password" name="password" required>
+                    <input type="password" id="password" name="password" required>
                 </div>
 
                 <div class="center-btn">
