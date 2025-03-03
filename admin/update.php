@@ -30,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             'password' => $password
         ]);
         echo "Student information updated successfully!";
-        header("location:index.php");
+        header("location:../login.php");
     } catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
     }

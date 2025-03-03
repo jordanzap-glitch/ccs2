@@ -85,7 +85,7 @@ if (strlen($_SESSION['userId']) == 0) {
 
         <!-- Logout -->
         <li>
-            <a href="index.php" class="text-white">
+            <a href="../login.php" class="text-white">
                 <i class="fas fa-sign-out-alt"></i> Logout
             </a>
         </li>
