@@ -66,73 +66,79 @@ ob_end_flush();
 
 <head>
   <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
-  <link href="img/logo/attnlg.jpg" rel="icon">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Login Panel</title>
-  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
-  <link href="css/ruang-admin.min.css" rel="stylesheet">
+  <link rel="icon" href="img/logo/attnlg.jpg">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
   <style>
     body {
-      background-color: #f8f9fc;
-    }
-    .container-login {
+      background: linear-gradient(to bottom, #00218b, #fffc58);
       height: 100vh;
       display: flex;
-      align-items: center;
       justify-content: center;
+      align-items: center;
     }
-    .card {
-      border-radius: 1rem;
+    .login-card {
+      width: 100%;
+      max-width: 400px;
+      background: #fff;
+      border-radius: 10px;
+      padding: 30px;
+      box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
     }
-    .btn-success {
-      background-color: #28a745;
-      border-color: #28a745;
+    .btn-login {
+      background-color: #4e73df;
+      border: none;
+    }
+    .btn-login:hover {
+      background-color: #3752aa;
+    }
+    .form-control {
+      border-radius: 30px;
+      padding: 10px;
+    }
+    .form-control:focus {
+      box-shadow: none;
+      border-color: #4e73df;
+    }
+    .custom-checkbox .custom-control-label {
+      cursor: pointer;
+    }
+    /* SCHOOL LOGO */
+    .logo {
+        width: 90px;
+        height: auto;
+        margin-bottom: 10px;
     }
   </style>
 </head>
 
-<body class="bg-gradient-login">
-  <!-- Login Content -->
-  <div class="container-login">
-    <div class="row justify-content-center">
-      <div class="col-xl-6 col-lg-8 col-md-10">
-        <div class="card shadow-sm my-5">
-          <div class="card-body p-4">
-            <h1 class="h4 text-center text-gray-900 mb-4">Login Panel</h1>
-            <form class="user" method="POST" action="">
-              <div class="form-group">
-                <input type="text" class="form-control" required name="username" id="exampleInputEmail" placeholder="Enter Email Address">
-              </div>
-              <div class="form-group">
-                <input type="password" name="password" required class="form-control" id="exampleInputPassword" placeholder="Enter Password">
-              </div>
-              <div class="form-group">
-                <div class="custom-control custom-checkbox small">
-                  <input type="checkbox" class="custom-control-input" id="customCheck">
-                  <label class="custom-control-label" for="customCheck">Remember Me</label>
-                </div>
-              </div>
-              <div class="form-group">
-                <input type="submit" class="btn btn-success btn-block" value="Login" name="login" />
-              </div>
-            </form>
-            <div class="text-center">
-              <a class="small" href="#">Forgot Password?</a>
-            </div>
-          </div>
-        </div>
+<body>
+  <div class="login-card text-center">
+    <center>
+      <img src="pic/srclogo.png" alt="School Logo" class="logo">
+    </center>
+    <h3 class="text-dark mb-4">Login Panel</h3>
+    <form method="POST" action="">
+      <div class="mb-3">
+        <input type="text" class="form-control" name="username" placeholder="Enter Email Address" required>
       </div>
-    </div>
+      <div class="mb-3">
+        <input type="password" class="form-control" name="password" placeholder="Enter Password" required>
+      </div>
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <div class="form-check">
+          <input type="checkbox" class="form-check-input" id="rememberMe">
+          <label class="form-check-label" for="rememberMe">Remember Me</label>
+        </div>
+        <a href="#" class="small text-primary">Forgot Password?</a>
+      </div>
+      <button type="submit" class="btn btn-login w-100 text-white">Login</button>
+    </form>
   </div>
-  <!-- Login Content -->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-  <script src="js/ruang-admin.min.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

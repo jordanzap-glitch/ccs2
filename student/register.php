@@ -172,9 +172,16 @@ ob_end_flush();
                 </div>
 
                 <div class="form-group">
-                <i class="fas fa-lock mr-2"></i>
-                    <label for="password" >Password:</label>
-                    <input type="password" id="password" name="password" required>
+                    <i class="fas fa-lock mr-2"></i>
+                    <label for="password">Password:</label>
+                    <div class="input-group">
+                        <input type="password" id="password" name="password" class="form-control" required minlength="6">
+                        <div class="input-group-append">
+                            <button type="button" class="btn btn-secondary" onclick="togglePassword()">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="center-btn">
@@ -189,5 +196,22 @@ ob_end_flush();
             </div>
         </div>
     </form>  
+
+    <script>
+        function togglePassword() {
+            var passwordField = document.getElementById("password");
+            var eyeIcon = document.querySelector(".input-group-append i");
+            
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+                eyeIcon.classList.remove("fa-eye");
+                eyeIcon.classList.add("fa-eye-slash");
+            } else {
+                passwordField.type = "password";
+                eyeIcon.classList.remove("fa-eye-slash");
+                eyeIcon.classList.add("fa-eye");
+            }
+        }
+    </script>
 </body>
 </html>
