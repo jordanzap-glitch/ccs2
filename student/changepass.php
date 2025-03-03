@@ -1,6 +1,5 @@
 <?php
-// change_password.php
-session_start();
+include '../session.php';
 include '../db.php';
 
 $message = '';

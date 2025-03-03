@@ -1,6 +1,7 @@
 <?php
 ob_start();
 session_start();
+error_reporting(0);
 include '../db2.php'; // Include the database connection file
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -14,33 +15,51 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    // Check if the email already exists for another student
-    $stmt = $pdo->prepare("SELECT COUNT(*) FROM tblstudent WHERE email = :email AND student_id != :student_id");
-    $stmt->execute(['email' => $email, 'student_id' => $student_id]);
-    $emailExists = $stmt->fetchColumn();
+    // Check if the student ID already exists
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM tblstudent WHERE student_id = :student_id");
+    $stmt->execute(['student_id' => $student_id]);
+    $studentIdExists = $stmt->fetchColumn();
 
-    if ($emailExists) {
-        echo "Error: The email address is already in use by another student.";
+    if (!$studentIdExists) {
+        echo "Error: The Student ID does not exist.";
     } else {
-        // Prepare and execute the SQL statement
-        $stmt = $pdo->prepare("UPDATE tblstudent SET firstname = :firstname, middlename = :middlename, lastname = :lastname, course = :course, contactnumber = :contactnumber, email = :email, password = :password WHERE student_id = :student_id");
+        // Check if the email already exists for another student
+        $stmt = $pdo->prepare("SELECT COUNT(*) FROM tblstudent WHERE email = :email AND student_id != :student_id");
+        $stmt->execute(['email' => $email, 'student_id' => $student_id]);
+        $emailExists = $stmt->fetchColumn();
 
-        try {
-            $stmt->execute([
-                'student_id' => $student_id,
-                'firstname' => $firstname,
-                'middlename' => $middlename,
-                'lastname' => $lastname,
-                'course' => $course,
-                'contactnumber' => $contactnumber,
-                'email' => $email,
-                'password' => $password // Consider hashing the password before storing it
-            ]);
-            echo "Student information updated successfully!";
-            header("location:index.php");
-            exit(); // Ensure no further code is executed after the redirect
-        } catch (PDOException $e) {
-            echo "Error: " . $e->getMessage();
+        if ($emailExists) {
+            echo "Error: The email address is already in use by another student.";
+        } else {
+            // Prepare and execute the SQL statement to update student information
+            $stmt = $pdo->prepare("UPDATE tblstudent SET firstname = :firstname, middlename = :middlename, lastname = :lastname, course = :course, contactnumber = :contactnumber, email = :email, password = :password WHERE student_id = :student_id");
+
+            try {
+                $stmt->execute([
+                    'student_id' => $student_id,
+                    'firstname' => $firstname,
+                    'middlename' => $middlename,
+                    'lastname' => $lastname,
+                    'course' => $course,
+                    'contactnumber' => $contactnumber,
+                    'email' => $email,
+                    'password' => $password // Consider hashing the password before storing it
+                ]);
+
+                // Insert email and password into tbluser with student_id as user_id
+                $stmtUser  = $pdo->prepare("INSERT INTO tbluser (user_id, email, password, user_type) VALUES (:user_id, :email, :password, 'Student')");
+                $stmtUser ->execute([
+                    'user_id' => $student_id, // Use student_id as user_id
+                    'email' => $email,
+                    'password' => $password // Consider hashing the password before storing it
+                ]);
+
+                echo "Student information updated successfully!";
+                header("location:index.php");
+                exit(); // Ensure no further code is executed after the redirect
+            } catch (PDOException $e) {
+                echo "Error: " . $e->getMessage();
+            }
         }
     }
 }

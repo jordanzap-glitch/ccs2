@@ -1,5 +1,5 @@
 <?php
-session_start();
+include '../session.php';
 include '../db.php'; // Include your database connection file
 
 // Set the number of results per page

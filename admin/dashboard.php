@@ -1,10 +1,9 @@
 <?php
-session_start();
-error_reporting(0);
+include '../session.php';
 include('../db.php');
 
-if (strlen($_SESSION['id']) == 0) {
-    header('location:index.php');
+if (strlen($_SESSION['userId']) == 0) {
+ 
 } else {
     // Count total capstone projects
     $capstoneCountQuery = "SELECT COUNT(*) AS total FROM tbl_capstone";
@@ -50,6 +49,13 @@ if (strlen($_SESSION['id']) == 0) {
         </li>
         <br>
 
+        <li>
+            <a href="addteacher.php" class="text-white">
+                <i class="fas fa-user-shield"></i> Add Admin
+            </a>
+        </li>
+        <br>
+
         <!-- Student Dropdown -->
         <li class="nav-item dropdown">
             <a href="#" class="nav-link dropdown-toggle text-white" data-bs-toggle="dropdown">
@@ -72,6 +78,9 @@ if (strlen($_SESSION['id']) == 0) {
                 <li><a class="dropdown-item" href="viewcapstone.php"><i class="fas fa-eye"></i> View Capstone</a></li>
             </ul>
         </li>
+        <br>
+
+        <!-- Add Admin Link -->
         <br><br><br><br><br><br>
 
         <!-- Logout -->
@@ -81,6 +90,7 @@ if (strlen($_SESSION['id']) == 0) {
             </a>
         </li>
     </ul>
+</div>
 </div>
 
 <div class="content">

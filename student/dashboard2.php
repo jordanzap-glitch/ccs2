@@ -1,5 +1,5 @@
 <?php
-session_start();
+include '../session.php';
 error_reporting(0);
 include('../db.php');
 
