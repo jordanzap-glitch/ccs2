@@ -5,6 +5,8 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 include 'db.php';
 
+$error_message = ''; // Initialize an error message variable
+
 if (isset($_POST['login'])) {
     // Get the submitted username and password
     $username = $_POST['username'];
@@ -53,9 +55,7 @@ if (isset($_POST['login'])) {
             exit();
         } else {
             // Invalid username or password
-            echo "<div class='alert alert-danger' role='alert'>
-            Invalid Username/Password!
-            </div>";
+            $error_message = "Invalid Username/Password!"; // Set the error message
         }
     }
 }
@@ -114,7 +114,7 @@ ob_end_flush();
   </style>
 </head>
 
-<body>
+ <body>
   <div class="login-card text-center">
     <center>
       <img src="pic/srclogo.png" alt="School Logo" class="logo">
@@ -122,11 +122,16 @@ ob_end_flush();
     <h3 class="text-dark mb-4">Login Panel</h3>
     <form method="POST" action="">
       <div class="mb-3">
-        <input type="text" class="form-control" name="username" placeholder="Enter Email Address" required>
+        <input type="text" class="form-control" required name="username" id="exampleInputEmail" placeholder="Enter Email Address">
       </div>
       <div class="mb-3">
-        <input type="password" class="form-control" name="password" placeholder="Enter Password" required>
+        <input type="password" name="password" required class="form-control" id="exampleInputPassword" placeholder="Enter Password">
       </div>
+      <?php if (!empty($error_message)): ?>
+        <div class="alert alert-danger" role="alert">
+          <?php echo htmlspecialchars($error_message); ?>
+        </div>
+      <?php endif; ?>
       <div class="d-flex justify-content-between align-items-center mb-3">
         <div class="form-check">
           <input type="checkbox" class="form-check-input" id="rememberMe">
@@ -134,7 +139,7 @@ ob_end_flush();
         </div>
         <a href="#" class="small text-primary">Forgot Password?</a>
       </div>
-      <button type="submit" class="btn btn-login w-100 text-white">Login</button>
+      <input type="submit" class="btn btn-success btn-block" value="Login" name="login" />
     </form>
   </div>
 
