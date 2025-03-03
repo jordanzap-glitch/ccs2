@@ -115,11 +115,11 @@ ob_end_flush();
 </head>
 
 <body>
- <div class="login-card text -center">
+ <div class="login-card text-center">
     <center>
       <img src="pic/srclogo.png" alt="School Logo" class="logo">
     </center>
-    <h3 class="text-dark mb-4">Login Panel</h3>
+    <h3 class="text-dark mb-4 text-center">Student Log in</h3>
     <form method="POST" action="">
       <div class="mb-3">
         <input type="text" class="form-control" required name="username" id="exampleInputEmail" placeholder="Enter Email Address">
