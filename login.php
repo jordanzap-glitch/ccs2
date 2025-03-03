@@ -115,7 +115,7 @@ ob_end_flush();
 </head>
 
 <body>
- <div class="login-card text-center">
+ <div class="login-card text -center">
     <center>
       <img src="pic/srclogo.png" alt="School Logo" class="logo">
     </center>
@@ -139,11 +139,10 @@ ob_end_flush();
         </div>
         <a href="#" class="small text-primary">Forgot Password?</a>
       </div>
-      <div>
-      <input type="submit" class="btn btn-success btn-block" value="Login" name="login" />
+      <div class="d-flex justify-content-between">
+        <input type="submit" class="btn btn-success" value="Login" name="login" />
+        <a href="index.php" class="btn btn-secondary">Back</a> 
       </div>
-      <a href="index.php" class="btn btn-secondary btn-block mt-2">Back</a> 
-      <!-- Back button -->
     </form>
   </div>
 
