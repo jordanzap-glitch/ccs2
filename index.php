@@ -70,24 +70,16 @@ function getYouTubeVideoId($url) {
                 <li class="nav-item">
                     <a class="nav-link active" href="#">Home</a>
                 </li>
-                <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Login
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="userDropdown">
-                    <li><a class="dropdown-item" href="student/index.php">Student</a></li>
-                    <li><a class="dropdown-item" href="admin/index.php">Admin</a></li>
-                </ul>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="registerDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Register
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="registerDropdown">
-                    <li><a class="dropdown-item" href="student/validate.html">Student</a></li>
-                    <li><a class="dropdown-item" href="admin/validate.html">Admin</a></li>
-                </ul>
-            </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="login.php">
+                        Login
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="student/validate.html">
+                        Register as Student
+                    </a>
+                </li>
             </ul>
         </div>
     </div>

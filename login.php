@@ -27,7 +27,7 @@ if (isset($_POST['login'])) {
         $_SESSION['firstName'] = $rows_teacher['firstname'];
         $_SESSION['lastName'] = $rows_teacher['lastname'];
         $_SESSION['emailAddress'] = $rows_teacher['email'];
-        $_SESSION['user_type'] = 'Teacher'; // Set session user type
+        $_SESSION['user_type'] = 'Admin'; // Set session user type
 
         header('Location:admin/dashboard.php'); // Redirect to the teacher dashboard
         exit();
@@ -71,48 +71,57 @@ ob_end_flush();
   <meta name="description" content="">
   <meta name="author" content="">
   <link href="img/logo/attnlg.jpg" rel="icon">
-  <title>OJT-MS - Login</title>
+  <title>Login Panel</title>
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
   <link href="css/ruang-admin.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f8f9fc;
+    }
+    .container-login {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .card {
+      border-radius: 1rem;
+    }
+    .btn-success {
+      background-color: #28a745;
+      border-color: #28a745;
+    }
+  </style>
 </head>
 
 <body class="bg-gradient-login">
   <!-- Login Content -->
   <div class="container-login">
     <div class="row justify-content-center">
-      <div class="col-xl-10 col-lg-12 col-md-9">
+      <div class="col-xl-6 col-lg-8 col-md-10">
         <div class="card shadow-sm my-5">
-          <div class="card-body p-0">
-            <div class="row">
-              <div class="col-lg-12">
-                <div class="login-form">
-                  <h5 align="center">OJT MONITORING SYSTEM</h5>
-                  <div class="text-center">
-                    <img src="img/logo/src-logo.jpg" style="width:100px;height:100px">
-                    <br><br>
-                    <h1 class="h4 text-gray-900 mb-4">Login Panel</h1>
-                  </div>
-                  <form class="user" method="POST" action="">
-                    <div class="form-group">
-                      <input type="text" class="form-control" required name="username" id="exampleInputEmail" placeholder="Enter Email Address">
-                    </div>
-                    <div class="form-group">
-                      <input type="password" name="password" required class="form-control" id="exampleInputPassword" placeholder="Enter Password">
-                    </div>
-                    <div class="form-group">
-                      <div class="custom-control custom-checkbox small" style="line-height: 1.5rem;">
-                        <input type="checkbox" class="custom-control-input" id="customCheck">
-                        <label class="custom-control-label" for="customCheck">Remember Me</label>
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <input type="submit" class="btn btn-success btn-block" value="Login" name="login" />
-                    </div>
-                  </form>
-                  <div class="text-center"></div>
+          <div class="card-body p-4">
+            <h1 class="h4 text-center text-gray-900 mb-4">Login Panel</h1>
+            <form class="user" method="POST" action="">
+              <div class="form-group">
+                <input type="text" class="form-control" required name="username" id="exampleInputEmail" placeholder="Enter Email Address">
+              </div>
+              <div class="form-group">
+                <input type="password" name="password" required class="form-control" id="exampleInputPassword" placeholder="Enter Password">
+              </div>
+              <div class="form-group">
+                <div class="custom-control custom-checkbox small">
+                  <input type="checkbox" class="custom-control-input" id="customCheck">
+                  <label class="custom-control-label" for="customCheck">Remember Me</label>
                 </div>
               </div>
+              <div class="form-group">
+                <input type="submit" class="btn btn-success btn-block" value="Login" name="login" />
+              </div>
+            </form>
+            <div class="text-center">
+              <a class="small" href="#">Forgot Password?</a>
             </div>
           </div>
         </div>
