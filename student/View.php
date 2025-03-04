@@ -1,10 +1,8 @@
 <?php
 include '../session.php';
+include '../db.php';
 error_reporting(0);
-include('../db.php');
-if(strlen($_SESSION['id']==0)) {
-    header('location:logout.php');
-} else {
+
 ?>
 
 <!DOCTYPE html>
@@ -146,21 +144,12 @@ if(strlen($_SESSION['id']==0)) {
         });
         const menuToggle = document.getElementById("menu-toggle");
         const sidebar = document.getElementById("sidebar");
-        const rowCount = document.getElementById("row-count");
-        const closeSidebar = document.getElementById("close-sidebar");
 
         menuToggle.addEventListener("click", function () {
             sidebar.classList.toggle("active");
-            rowCount.classList.toggle("hidden");
-        });
-
-        closeSidebar.addEventListener("click", function () {
-            sidebar.classList.remove("active");
-            rowCount.classList.remove("hidden");
         });
     });
 </script>
 
 </body>
 </html>
-<?php } ?>
