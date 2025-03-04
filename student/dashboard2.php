@@ -4,7 +4,6 @@ error_reporting(0);
 include('../db.php');
 
 if(strlen($_SESSION['id'])==0) {
-    header('location:index.php');
 } else {
     // Count total capstone projects
     $capstoneCountQuery = "SELECT COUNT(*) AS total FROM tbl_capstone";
