@@ -5,7 +5,7 @@ include '../db.php';
 // Check if the user is logged in
 
 // Fetch user information from the database
-$userId = $_SESSION['id'];
+$userId = $_SESSION['userId'];
 $userQuery = "SELECT firstName, lastName, email, course, contactnumber, bio FROM tblstudent WHERE id = ?";
 $stmt = $conn->prepare($userQuery);
 $stmt->bind_param("i", $userId);
