@@ -132,7 +132,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <div class="text-center">
             <button type="submit" class="btn btn-success">Save Bio</button>
             <a href="changepass.php" class="btn btn-warning">Change Password</a>
-            <a href="dashboard2.php" class="btn btn-secondary">Back to Dashboard</a>
         </div>
     </form>
 </div>
