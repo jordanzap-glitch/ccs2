@@ -3,12 +3,10 @@ include '../session.php';
 error_reporting(0);
 include('../db.php');
 
-if(strlen($_SESSION['id'])==0) {
-} else {
-    // Count total capstone projects
-    $capstoneCountQuery = "SELECT COUNT(*) AS total FROM tbl_capstone";
-    $capstoneCountResult = $conn->query($capstoneCountQuery);
-    $capstoneCount = $capstoneCountResult->fetch_assoc()['total'];
+// Count total capstone projects
+$capstoneCountQuery = "SELECT COUNT(*) AS total FROM tbl_capstone";
+$capstoneCountResult = $conn->query($capstoneCountQuery);
+$capstoneCount = $capstoneCountResult->fetch_assoc()['total'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -93,7 +91,7 @@ if(strlen($_SESSION['id'])==0) {
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap .bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const menuToggle = document.getElementById("menu-toggle");
@@ -106,4 +104,3 @@ if(strlen($_SESSION['id'])==0) {
 </script>
 </body>
 </html>
-<?php } ?>
