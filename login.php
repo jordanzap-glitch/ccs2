@@ -39,9 +39,9 @@ if (isset($_POST['login'])) {
 
         // Insert log into user_logs table
         $fullname = $_SESSION['firstName'] . ' ' . $_SESSION['lastName'];
-        $log_query = "INSERT INTO user_logs (user_id, fullname, course, action, user_type, timestamp) VALUES (?, ?, ?, 'Logged in as Teacher', ?, NOW())";
+        $log_query = "INSERT INTO user_logs (id, user_id, fullname, course, action, user_type, timestamp) VALUES (?, ?, ?, ?, 'Logged in as Teacher', ?, NOW())";
         $log_stmt = $conn->prepare($log_query);
-        $log_stmt->bind_param("isss", $_SESSION['emp_id'], $fullname, $_SESSION['dept'], $_SESSION['user_type']);
+        $log_stmt->bind_param("iisss",$_SESSION['userId'], $_SESSION['emp_id'], $fullname, $_SESSION['dept'], $_SESSION['user_type']);
         $log_stmt->execute();
 
         header('Location:admin/dashboard.php'); // Redirect to the teacher dashboard
@@ -68,9 +68,9 @@ if (isset($_POST['login'])) {
 
             // Insert log into user_logs table
             $fullname = $_SESSION['firstName'] . ' ' . $_SESSION['lastName'];
-            $log_query = "INSERT INTO user_logs (user_id, fullname, course, action, user_type, timestamp) VALUES (?, ?, ?, 'Logged in as Student', ?, NOW())";
+            $log_query = "INSERT INTO user_logs (id, user_id, fullname, course, action, user_type, timestamp) VALUES (?, ?, ?, ?, 'Logged in as Student', ?, NOW())";
             $log_stmt = $conn->prepare($log_query);
-            $log_stmt->bind_param("isss", $_SESSION['student_id'], $fullname, $_SESSION['course'], $_SESSION['user_type']);
+            $log_stmt->bind_param("iisss",$_SESSION['userId'], $_SESSION['student_id'], $fullname, $_SESSION['course'], $_SESSION['user_type']);
             $log_stmt->execute();
 
             header('Location:dashboardstud.php'); // Redirect to the student dashboard
