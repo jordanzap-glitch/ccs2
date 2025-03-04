@@ -1,6 +1,6 @@
 <?php
 error_reporting(0);   
-include '../session.php';
+session_start();
 include("../db.php");
 if(isset($_POST['submit']))
 {

@@ -1,6 +1,5 @@
 <?php
-session_start();
-// Include database connection
+include 'session.php';
 include 'db.php';
 
 try {
@@ -33,11 +32,6 @@ function getYouTubeVideoId($url) {
 }
 
 
-
-
-if(strlen($_SESSION['id']==0)) {
-    header('location:student/index.php');
-     } else{
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -56,7 +50,7 @@ if(strlen($_SESSION['id']==0)) {
             <img src="pic/ccs-logo.png" alt="CCS Logo" style="width: 40px; height: auto;"> College of Computer Studies
         </a>
         <div class="d-flex align-items-center">
-            <span style="color: white; margin-right: 15px;">Welcome, <?php echo $login_message; ?>!</span>
+            <span style="color: white; margin-right: 15px;">Welcome, <?php echo htmlspecialchars($_SESSION['firstName'], ENT_QUOTES, 'UTF-8'); ?> <?php echo htmlspecialchars($_SESSION['lastName'], ENT_QUOTES, 'UTF-8'); ?>!</span>
             <a href="student/dashboard2.php" class="btn btn-outline-light">Research Studies</a>
             <a href="index.php" class="btn btn-outline-light">Logout</a>
         </div>
@@ -202,4 +196,3 @@ if(strlen($_SESSION['id']==0)) {
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-<?php } ?>

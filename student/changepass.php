@@ -4,12 +4,14 @@ include '../db.php';
 
 $message = '';
 
+// Assuming the email is stored in the session
+$email = $_SESSION['email']; // Make sure you have the email stored in the session
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $email = $_POST['email']; // Assuming the email is stored in session
     $currentPassword = $_POST['current_password'];
     $newPassword = $_POST['new_password'];
 
-    // Check if the email exists
+    // Check if the email exists in tblstudent
     $stmt = $conn->prepare("SELECT password FROM tblstudent WHERE email = ?");
     $stmt->bind_param("s", $email);
     $stmt->execute();
@@ -26,14 +28,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($currentPassword !== $storedPassword) {
             $message = "Current password is incorrect.";
         } else {
-            // Update the password without hashing
+            // Update the password in tblstudent
             $stmt = $conn->prepare("UPDATE tblstudent SET password = ? WHERE email = ?");
             $stmt->bind_param("ss", $newPassword, $email);
 
             if ($stmt->execute()) {
-                $message = "Password changed successfully.";
+                // Update the password in tbluser
+                $stmt = $conn->prepare("UPDATE tbluser SET password = ? WHERE email = ?");
+                $stmt->bind_param("ss", $newPassword, $email);
+
+                if ($stmt->execute()) {
+                    $message = "Password changed successfully.";
+                } else {
+                    $message = "Error changing password in tbluser.";
+                }
             } else {
-                $message = "Error changing password.";
+                $message = "Error changing password in tblstudent.";
             }
         }
     }
@@ -58,7 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <h2>Change Password</h2>
         <form method="POST" action="">
             <label for="email">Email:</label>
-            <input type="email" name="email" required>
+            <input type="email" name="email" value="<?php echo htmlspecialchars($email, ENT_QUOTES, 'UTF-8'); ?>" readonly required>
             <br>
             <br>
             <label for="current_password">Current Password:</label>
@@ -73,6 +83,5 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <p><?php echo $message; ?></p>
         <p><a href="dashboard2.php">Back to Dashboard</a></p>
     </div>
-    
 </body>
 </html>

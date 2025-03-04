@@ -94,7 +94,7 @@ if (strlen($_SESSION['userId']) == 0) {
 </div>
 
 <div class="content">
-    <h1>Welcome, <?php echo htmlspecialchars($_SESSION['login'], ENT_QUOTES, 'UTF-8'); ?>!</h1>
+    <h1>Welcome, <?php echo htmlspecialchars($_SESSION['firstName'], ENT_QUOTES, 'UTF-8'); ?> <?php echo htmlspecialchars($_SESSION['lastName'], ENT_QUOTES, 'UTF-8'); ?>!</h1>
     <p>This is the Dashboard page where you can view your information and access other sections of the system.</p>
 
     <hr>

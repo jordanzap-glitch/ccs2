@@ -3,7 +3,7 @@ include '../session.php';
 error_reporting(0);
 include('../db.php');
 
-if(strlen($_SESSION['id']==0)) {
+if(strlen($_SESSION['id'])==0) {
     header('location:index.php');
 } else {
     // Count total capstone projects
@@ -71,8 +71,8 @@ if(strlen($_SESSION['id']==0)) {
     <h2>CCS</h2>
     <ul>
         <li><a href="dashboard2.php" class="active"><i class="fas fa-home"></i> Dashboard</a></li>
-        <li><a class="active" href="changepass.php">
-            <i class="fa fa-key" style="font-size: 24px;"></i> Change Password
+        <li><a class="active" href="profile.php">
+            <i class="fas fa-user" style="font-size: 24px;"></i> Profile
         </a></li>
         <li><a class="active" href="View.php">
             <i class="fas fa-eye" style="font-size: 24px;"></i> View Studies
@@ -94,17 +94,17 @@ if(strlen($_SESSION['id']==0)) {
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const menuToggle = document.getElementById("menu-toggle");
-            const sidebar = document.getElementById("sidebar");
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap .bundle.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const menuToggle = document.getElementById("menu-toggle");
+        const sidebar = document.getElementById("sidebar");
 
-            menuToggle.addEventListener("click", function () {
-                sidebar.classList.toggle("active");
-            });
+        menuToggle.addEventListener("click", function () {
+            sidebar.classList.toggle("active");
         });
-    </script>
+    });
+</script>
 </body>
 </html>
 <?php } ?>
