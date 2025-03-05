@@ -23,7 +23,6 @@ function getYouTubeVideoId($url) {
 }
 ?>
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -32,7 +31,6 @@ function getYouTubeVideoId($url) {
     <title>College of Computer Studies</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="static/css/index.css">
-</head>
     <style>
         .container {
             max-width: 900px;
@@ -53,7 +51,32 @@ function getYouTubeVideoId($url) {
         .modal img {
             width: 100%;
         }
+        .fullscreen-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+        }
+        .fullscreen-modal img {
+            max-width: 90%;
+            max-height: 90%;
+        }
+        .fullscreen-modal .close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 30px;
+            cursor: pointer;
+        }
     </style>
+</head>
 <body>
 
 <!-- Navigator Section -->
@@ -71,14 +94,10 @@ function getYouTubeVideoId($url) {
                     <a class="nav-link active" href="#">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="login.php">
-                        Login
-                    </a>
+                    <a class="nav-link" href="login.php">Login</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="student/validate.html">
-                        Register as Student
-                    </a>
+                    <a class="nav-link" href="student/validate.html">Register as Student</a>
                 </li>
             </ul>
         </div>
@@ -161,7 +180,7 @@ function getYouTubeVideoId($url) {
         <?php while ($row = $result->fetch_assoc()): ?>
             <div class="col-md-3 mb-3">
                 <div class="p-3 border grid-item">
-                    <img src="<?php echo $row['poster_path']; ?>" alt="Uploaded Image" class="img-fluid">
+                    <img src="<?php echo $row['poster_path']; ?>" alt="Uploaded Image" class="img-fluid" onclick="openFullscreen('<?php echo $row['poster_path']; ?>')">
                     <?php
                     $video_id = getYouTubeVideoId($row['link_path']);
                     if ($video_id): 
@@ -190,61 +209,61 @@ function getYouTubeVideoId($url) {
             <div class="col-md-6 text-center">
                 <h3>Step 1</h3>
                 <div class="picture-box" data-bs-toggle="modal" data-bs-target="#imageModal" onclick="zoomImage('pic/1.png')">
-                    <img src="pic/1.png" alt="Step 1">
+                    <img src="pic/1.png" alt="Step 1" onclick="openFullscreen('pic/1.png')">
                 </div>
             </div>
             <div class="col-md-6 text-center">
                 <h3>Step 2</h3>
                 <div class="picture-box" data-bs-toggle="modal" data-bs-target="#imageModal" onclick="zoomImage('pic/2.png')">
-                    <img src="pic/2.png" alt="Step 2">
+                    <img src="pic/2.png" alt="Step 2" onclick="openFullscreen('pic/2.png')">
                 </div>
             </div>
             <div class="col-md-6 text-center">
                 <h3>Step 3</h3>
                 <div class="picture-box" data-bs-toggle="modal" data-bs-target="#imageModal" onclick="zoomImage('pic/3.png')">
-                    <img src="pic/3.png" alt="Step 3">
+                    <img src="pic/3.png" alt="Step 3" onclick="openFullscreen('pic/3.png')">
                 </div>
             </div>
             <div class="col-md-6 text-center">
                 <h3>Step 4</h3>
                 <div class="picture-box" data-bs-toggle="modal" data-bs-target="#imageModal" onclick="zoomImage('pic/4.png')">
-                    <img src="pic/4.png" alt="Step 4">
+                    <img src="pic/4.png" alt="Step 4" onclick="openFullscreen('pic/4.png')">
                 </div>
             </div>
             <div class="col-md-6 text-center">
                 <h3>Step 5</h3>
                 <div class="picture-box" data-bs-toggle="modal" data-bs-target="#imageModal" onclick="zoomImage('pic/5.png')">
-                    <img src="pic/5.png" alt="Step 5">
+                    <img src="pic/5.png" alt="Step 5" onclick="openFullscreen('pic/5.png')">
                 </div>
             </div>
             <div class="col-md-6 text-center">
                 <h3>Step 6</h3>
                 <div class="picture-box" data-bs-toggle="modal" data-bs-target="#imageModal" onclick="zoomImage('pic/6.png')">
-                    <img src="pic/6.png" alt="Step 6">
+                    <img src="pic/6.png" alt="Step 6" onclick="openFullscreen('pic/6.png')">
                 </div>
             </div>
             <div class="col-md-6 text-center">
                 <h3>Step 7</h3>
                 <div class="picture-box" data-bs-toggle="modal" data-bs-target="#imageModal" onclick="zoomImage('pic/7.png')">
-                    <img src="pic/7.png" alt="Step 7">
+                    <img src="pic/7.png" alt="Step 7" onclick="openFullscreen('pic/7.png')">
                 </div>
             </div>
             <div class="col-md-6 text-center">
                 <h3>Step 8</h3>
                 <div class="picture-box" data-bs-toggle="modal" data-bs-target="#imageModal" onclick="zoomImage('pic/8.png')">
-                    <img src="pic/8.png" alt="Step 8">
+                    <img src="pic/8.png" alt="Step 8" onclick="openFullscreen('pic/8.png')">
                 </div>
             </div>
             <div class="col-md-6 text-center">
                 <h3>Step 9</h3>
                 <div class="picture-box" data-bs-toggle="modal" data-bs-target="#imageModal" onclick="zoomImage('pic/9.png')">
-                    <img src="pic/9.png" alt="Step 9">
+                    <img src="pic/9.png" alt="Step 9" onclick="openFullscreen('pic/9.png')">
                 </div>
             </div>
             <div class="col-md-6 text-center">
                 <h3>Step 10</h3>
                 <div class="picture-box" data-bs-toggle="modal" data-bs-target="#imageModal" onclick="zoomImage('pic/10.png')">
-                    <img src="pic/10.png" alt="Step 10">
+                    <img src="pic/10.png" alt="Step 10" onclick="openFullscreen('pic/10.png')">
                 </div>
             </div>
         </div>
@@ -276,11 +295,10 @@ function getYouTubeVideoId($url) {
 
 </div>
 
-
-    <div id="fullscreenModal" class="fullscreen-modal">
-        <span class="close" onclick="closeFullscreen()">&times;</span>
-        <img id="fullscreenImage" src="">
-    </div>
+<div id="fullscreenModal" class="fullscreen-modal">
+    <span class="close" onclick="closeFullscreen()">&times;</span>
+    <img id="fullscreenImage" src="">
+</div>
 
 <!-- Footer Section -->
 <footer>
@@ -289,20 +307,19 @@ function getYouTubeVideoId($url) {
     </div>
 </footer>
 
-    <script>
-        function openFullscreen(src) {
-            const modal = document.getElementById('fullscreenModal');
-            const modalImage = document.getElementById('fullscreenImage');
-            modal.style.display = 'block';
-            modalImage.src = src;
-        }
+<script>
+    function openFullscreen(src) {
+        const modal = document.getElementById('fullscreenModal');
+        const modalImage = document.getElementById('fullscreenImage');
+        modal.style.display = 'flex';
+        modalImage.src = src;
+    }
 
-        function closeFullscreen() {
-            document.getElementById('fullscreenModal').style.display = 'none';
-        }
-    </script>
+    function closeFullscreen() {
+        document.getElementById('fullscreenModal').style.display = 'none';
+    }
+</script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-  
