@@ -23,15 +23,6 @@ try {
 
 $login_message = isset($_SESSION['login']) ? htmlspecialchars($_SESSION['login'], ENT_QUOTES, 'UTF-8') : 'Guest';
 
-// Function to log user actions
-function logUser($conn, $user_id, $fullname, $course, $user_type, $action) {
-    $timestamp = date('Y-m-d H:i:s');
-    $stmt = $conn->prepare("INSERT INTO user_logs (user_id, fullname, course, user_type, action, timestamp) VALUES (?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("isssss", $user_id, $fullname, $course, $user_type, $action, $timestamp);
-    $stmt->execute();
-    $stmt->close();
-}
-
 function getYouTubeVideoId($url) {
     parse_str(parse_url($url, PHP_URL_QUERY), $query);
     return $query['v'] ?? null;
@@ -82,7 +73,7 @@ function getYouTubeVideoId($url) {
         <div class="d-flex align-items-center">
             <span style="color: white; margin-right: 15px;">Welcome, <?php echo htmlspecialchars($_SESSION['firstName'], ENT_QUOTES, 'UTF-8'); ?> <?php echo htmlspecialchars($_SESSION['lastName'], ENT_QUOTES, 'UTF-8'); ?>!</span>
             <a href="student/dashboard2.php" class="btn btn-outline-light">Research Studies</a>
-            <a href="index.php" class="btn btn-outline-light">Logout</a>
+            <a href="index.php" class="btn btn-outline-light" onclick="logLogout(); return false;">Logout</a>
         </div>
     </div>
 </nav>
@@ -169,12 +160,12 @@ function getYouTubeVideoId($url) {
                     if ($video_id): 
                         $thumbnail_url = "https://img.youtube.com/vi/$video_id/0.jpg";
                     ?>
-                        <a href="<?php echo $row['link_path']; ?>" target="_blank">
+                        <a href="<?php echo $row['link_path']; ?>" target="_blank" onclick="logVideoWatch('<?php echo $row['link_path']; ?>'); return false;">
                             <img src="<?php echo $thumbnail_url; ?>" alt="YouTube Thumbnail" class="img-fluid mt-2">
                         </a>
                     <?php endif; ?>
                     <br><br>
-                    <a href="<?php echo $row['link_path']; ?>" target="_blank" class="btn btn-primary">Watch Commercial Video</a>
+                    <a href="<?php echo $row['link_path']; ?>" target="_blank" class="btn btn-primary" onclick="logVideoWatch('<?php echo $row['link_path']; ?>'); return false;">Watch Commercial Video</a>
                 </div>
             </div>
         <?php endwhile; ?>
@@ -213,19 +204,64 @@ function getYouTubeVideoId($url) {
     }
 
     function logAndOpenFullscreen(src) {
-        // Log the user action
-        <?php
-        // Assuming you have user information in session
-        $user_id = $_SESSION['student_id'];
-        $fullname = $_SESSION['firstName'] . ' ' . $_SESSION['lastName'];
-        $course = $_SESSION['course']; // Assuming course is stored in session
-        $user_type = $_SESSION['user_type']; // Assuming user type is stored in session
-        $action = "Viewed image"; // Action description
-        logUser($conn, $user_id, $fullname, $course, $user_type, $action);
-        ?>
-        // Open the fullscreen modal
-        openFullscreen(src);
+        // Log the user action using AJAX
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "log_action.php", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                // Check if the logging was successful
+                const response = JSON.parse(xhr.responseText);
+                if (response.status === 'success') {
+                    // Open the fullscreen modal
+                    openFullscreen(src);
+                } else {
+                    console.error("Error logging action:", response.message);
+                }
+            }
+        };
+        xhr.send("action=viewed_image"); // Send the action to log
     }
+
+    function logVideoWatch(link) {
+        // Log the user action for watching the video using AJAX
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "log_action.php", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                // Check if the logging was successful
+                const response = JSON.parse(xhr.responseText);
+                if (response.status === 'success') {
+                    // Open the link in a new tab
+                    window.open(link, '_blank');
+                } else {
+                    console.error("Error logging action:", response.message);
+                }
+            }
+        };
+        xhr.send("action=watched_video&link=" + encodeURIComponent(link)); // Send the action to log
+    }
+
+    function logLogout() {
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "log_action.php", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                const response = JSON.parse(xhr.responseText);
+                if (response.status === 'success') {
+                    window.location.href = "index.php"; // Redirect to the login page
+                } else {
+                    console.error("Error logging logout action:", response.message);
+                }
+            }
+        };
+        xhr.send("action=logged_out");
+    }  
+    
+    
+
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

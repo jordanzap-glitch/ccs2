@@ -3,6 +3,22 @@ include '../session.php';
 include '../db.php';
 error_reporting(0);
 
+// Log user access to the View Capstone Studies page
+logUser ($_SESSION['student_id'], "Accessed View Capstone Studies Page");
+
+// Function to log user actions
+function logUser ($userId, $action) {
+    global $conn; // Use the global connection variable
+    $fullname = $_SESSION['firstName'] . ' ' . $_SESSION['lastName'];
+    $course = $_SESSION['course'];
+    $user_type = $_SESSION['user_type'];
+    $timestamp = date('Y-m-d H:i:s');
+
+    $stmt = $conn->prepare("INSERT INTO user_logs (user_id, fullname, course, user_type, action, timestamp) VALUES (?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("isssss", $userId, $fullname, $course, $user_type, $action, $timestamp);
+    $stmt->execute();
+    $stmt->close();
+}
 ?>
 
 <!DOCTYPE html>
@@ -44,7 +60,7 @@ error_reporting(0);
             <i class="fas fa-user" style="font-size: 24px;"></i> Profile
         </a></li>
         <li><a class="active" href="View.php">
-            <i class="fas fa-eye" style="font: size 24px;"></i> View Studies
+            <i class="fas fa-eye" style="font-size: 24px;"></i> View Studies
         </a></li>
         <li><a class="active" href="../dashboardstud.php">
             <i class="fas fa-arrow-circle-left me-2"></i> Back
@@ -74,8 +90,6 @@ error_reporting(0);
 
     <div class="capstone-list">
     <?php
-    include '../db.php';
-
     $searchTerm = isset($_GET['search']) ? $_GET['search'] : '';
 
     $sql = "SELECT title, abstract AS description, submit_date AS submitted_at FROM tbl_capstone";
@@ -109,7 +123,7 @@ error_reporting(0);
 
     $conn->close();
     ?>
-</div>
+    </div>
 </div>
 
 <!-- Bootstrap Modal -->

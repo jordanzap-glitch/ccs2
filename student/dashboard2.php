@@ -7,7 +7,17 @@ include('../db.php');
 $capstoneCountQuery = "SELECT COUNT(*) AS total FROM tbl_capstone";
 $capstoneCountResult = $conn->query($capstoneCountQuery);
 $capstoneCount = $capstoneCountResult->fetch_assoc()['total'];
+
+// Function to log user actions
+function logUser ($conn, $user_id, $fullname, $course, $user_type, $action) {
+    $timestamp = date('Y-m-d H:i:s');
+    $stmt = $conn->prepare("INSERT INTO user_logs (user_id, fullname, course, user_type, action, timestamp) VALUES (?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("isssss", $user_id, $fullname, $course, $user_type, $action, $timestamp);
+    $stmt->execute();
+    $stmt->close();
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -68,7 +78,7 @@ $capstoneCount = $capstoneCountResult->fetch_assoc()['total'];
     <h2>CCS</h2>
     <ul>
         <li><a href="dashboard2.php" class="active"><i class="fas fa-home"></i> Dashboard</a></li>
-        <li><a class="active" href="profile.php">
+        <li><a class="active" href="profile.php" onclick="logProfileAccess()">
             <i class="fas fa-user" style="font-size: 24px;"></i> Profile
         </a></li>
         <li><a class="active" href="View.php">
@@ -101,6 +111,19 @@ $capstoneCount = $capstoneCountResult->fetch_assoc()['total'];
             sidebar.classList.toggle("active");
         });
     });
+
+    function logProfileAccess() {
+        // Log the user action for accessing the profile
+        <?php
+        // Assuming you have user information in session
+        $user_id = $_SESSION['student_id'];
+        $fullname = $_SESSION['firstName'] . ' ' . $_SESSION['lastName'];
+        $course = $_SESSION['course']; // Assuming course is stored in session
+        $user_type = $_SESSION['user_type']; // Assuming user type is stored in session
+        $action = "Go to Dashboard"; // Action description
+        logUser ($conn, $user_id, $fullname, $course, $user_type, $action);
+        ?>
+    }
 </script>
 </body>
 </html>

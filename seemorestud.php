@@ -1,11 +1,9 @@
 <?php
-include 'session.php';
 include 'db.php';
+session_start(); // Start the session to access user information
 
 try {
-
     $result = $conn->query("SELECT poster_path, link_path FROM tbl_capstone");
-
 
     if (!$result) {
         throw new Exception("Error fetching images: " . $conn->error);
@@ -15,9 +13,19 @@ try {
 } catch (Exception $e) {
     $error_message = $e->getMessage();
 }
+
 function getYouTubeVideoId($url) {
     parse_str(parse_url($url, PHP_URL_QUERY), $query);
     return $query['v'] ?? null;
+}
+
+// Function to log user actions
+function logUser($conn, $user_id, $fullname, $course, $user_type, $action) {
+    $timestamp = date('Y-m-d H:i:s');
+    $stmt = $conn->prepare("INSERT INTO user_logs (user_id, fullname, course, user_type, action, timestamp) VALUES (?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("isssss", $user_id, $fullname, $course, $user_type, $action, $timestamp);
+    $stmt->execute();
+    $stmt->close();
 }
 ?>
 
@@ -75,6 +83,30 @@ function getYouTubeVideoId($url) {
             font-size: 2rem;
             margin-bottom: 0.5rem;
         }
+        .fullscreen-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+        }
+        .fullscreen-modal img {
+            max-width: 90%;
+            max-height: 90%;
+        }
+        .fullscreen-modal .close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 30px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -93,6 +125,24 @@ function getYouTubeVideoId($url) {
                 <li class="nav-item">
                     <a class="nav-link active" href="dashboardstud.php">Home</a>
                 </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Login
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="userDropdown">
+                        <li><a class="dropdown-item" href="login.php">Student</a></li>
+                        <li><a class="dropdown-item" href="login_admin.php">Admin</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="registerDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Register
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="registerDropdown">
+                        <li><a class="dropdown-item" href="register.php">Student</a></li>
+                        <li><a class="dropdown-item" href="register_admin.php">Admin</a></li>
+                    </ul>
+                </li>
             </ul>
         </div>
     </div>
@@ -100,45 +150,51 @@ function getYouTubeVideoId($url) {
 
 <!-- Main Content Section -->
 <div class="container mt-5">
-        <h1 class="mb-4 text-center">All Images</h1>
-        
-        <div class="row mb-3">
+    <h1 class="mb-4 text-center">All Images</h1>
+    
+    <div class="row mb-3">
 
-            <?php if (isset($error_message)): ?>
-                <div class="alert alert-danger" role="alert">
-                    <?= htmlspecialchars($error_message) ?>
-                </div>
-            <?php endif; ?>
+        <?php if (isset($error_message)): ?>
+            <div class="alert alert-danger" role="alert">
+                <?= htmlspecialchars($error_message) ?>
+            </div>
+        <?php endif; ?>
 
-            <?php if (isset($images_exist) && !$images_exist): ?>
-                <div class="alert alert-info" role="alert">
-                    No images uploaded yet. Be the first to upload an image!
-                </div>
-            <?php endif; ?>
+        <?php if (isset($images_exist) && !$images_exist): ?>
+            <div class="alert alert-info" role="alert">
+                No images uploaded yet. Be the first to upload an image!
+            </div>
+        <?php endif; ?>
 
-            <?php if (isset($images_exist) && $images_exist): ?>
-                <?php while ($row = $result->fetch_assoc()): ?>
-                    <div class="col-md-3 mb-3">
-                        <div class="p-3 border grid-item">
-                            <img src="<?php echo $row['poster_path']; ?>" alt="Uploaded Image" class="img-fluid">
-                            <?php
-                    $video_id = getYouTubeVideoId($row['link_path']);
-                    if ($video_id): 
-                        $thumbnail_url = "https://img.youtube.com/vi/$video_id/0.jpg";
-                    ?>
-                        <a href="<?php echo $row['link_path']; ?>" target="_blank">
-                            <img src="<?php echo $thumbnail_url; ?>" alt="YouTube Thumbnail" class="img-fluid mt-2">
-                        </a>
-                    <?php endif; ?>
-                    <br><br>
-                    <a href="<?php echo $row['link_path']; ?>" target="_blank" class="btn btn-primary">Watch Commercial Video</a>
-                        </div>
+        <?php if (isset($images_exist) && $images_exist): ?>
+            <?php while ($row = $result->fetch_assoc()): ?>
+                <div class="col-md-3 mb-3">
+                    <div class="p-3 border grid-item">
+                        <img src="<?php echo $row['poster_path']; ?>" alt="Uploaded Image" class="img-fluid" onclick="logAndOpenFullscreen('<?php echo $row['poster_path']; ?>')">
+                        <?php
+                        $video_id = getYouTubeVideoId($row['link_path']);
+                        if ($video_id): 
+                            $thumbnail_url = "https://img.youtube.com/vi/$video_id/0.jpg";
+                        ?>
+                            <a href="<?php echo $row['link_path']; ?>" target="_blank" onclick="logVideoWatch('<?php echo $row['link_path']; ?>'); return true;">
+                                <img src="<?php echo $thumbnail_url; ?>" alt="YouTube Thumbnail" class="img-fluid mt-2">
+                            </a>
+                        <?php endif; ?>
+                        <br><br>
+                        <a href="<?php echo $row['link_path']; ?>" target="_blank" class="btn btn-primary" onclick="logVideoWatch('<?php echo $row['link_path']; ?>'); return true;">Watch Commercial Video</a>
                     </div>
-                <?php endwhile; ?>
-            <?php endif; ?>
+                </div>
+            <?php endwhile; ?>
+        <?php endif; ?>
 
-        </div> 
-    </div>
+    </div> 
+</div>
+
+<!-- Fullscreen Modal -->
+<div id="fullscreenModal" class="fullscreen-modal">
+    <span class="close" onclick="closeFullscreen()">&times;</span>
+    <img id="fullscreenImage" src="">
+</div>
 
 <!-- Footer Section -->
 <footer class="bg-dark text-white text-center py-3">
@@ -148,5 +204,57 @@ function getYouTubeVideoId($url) {
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    function openFullscreen(src) {
+        const modal = document.getElementById('fullscreenModal');
+        const modalImage = document.getElementById('fullscreenImage');
+        modal.style.display = 'flex';
+        modalImage.src = src;
+    }
+
+    function closeFullscreen() {
+        document.getElementById('fullscreenModal').style.display = 'none';
+    }
+
+    function logAndOpenFullscreen(src) {
+        // Log the user action using AJAX
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "log_action.php", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                // Check if the logging was successful
+                const response = JSON.parse(xhr.responseText);
+                if (response.status === 'success') {
+                    // Open the fullscreen modal
+                    openFullscreen(src);
+                } else {
+                    console.error("Error logging action:", response.message);
+                }
+            }
+        };
+        xhr.send("action=viewed_image"); // Send the action to log
+    }
+
+    function logVideoWatch(link) {
+        // Log the user action for watching the video using AJAX
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "log_action.php", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                // Check if the logging was successful
+                const response = JSON.parse(xhr.responseText);
+                if (response.status === 'success') {
+                    // Open the link in a new tab
+                    window.open(link, '_blank');
+                } else {
+                    console.error("Error logging action:", response.message);
+                }
+            }
+        };
+        xhr.send("action=watched_video&link=" + encodeURIComponent(link)); // Send the action to log
+    }
+</script>
 </body>
 </html>

@@ -33,6 +33,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $stmt->bind_param("ss", $newPassword, $email);
 
             if ($stmt->execute()) {
+                // Log the user action for changing password
+                $user_id = $_SESSION['student_id'];
+                $fullname = $_SESSION['firstName'] . ' ' . $_SESSION['lastName'];
+                $course = $_SESSION['course'];
+                $user_type = $_SESSION['user_type'];
+                $action = "Changed password"; // Action description
+
+                // Log the user action
+                $logStmt = $conn->prepare("INSERT INTO user_logs (user_id, fullname, course, user_type, action, timestamp) VALUES (?, ?, ?, ?, ?, ?)");
+                $timestamp = date('Y-m-d H:i:s');
+                $logStmt->bind_param("isssss", $user_id, $fullname, $course, $user_type, $action, $timestamp);
+                $logStmt->execute();
+                $logStmt->close();
+
                 // Update the password in tbluser
                 $stmt = $conn->prepare("UPDATE tbluser SET password = ? WHERE email = ?");
                 $stmt->bind_param("ss", $newPassword, $email);

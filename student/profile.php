@@ -2,7 +2,10 @@
 include '../session.php';
 include '../db.php';
 
-// Check if the user is logged in
+$message = '';
+
+// Assuming the email is stored in the session
+$email = $_SESSION['email']; // Make sure you have the email stored in the session
 
 // Fetch user information from the database
 $userId = $_SESSION['userId'];
@@ -20,6 +23,9 @@ if ($result->num_rows > 0) {
     exit();
 }
 
+// Log user access to the profile page
+logUser ($userId, "Accessed Profile Page");
+
 // Handle form submission to update bio
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $bio = $_POST['bio'];
@@ -27,12 +33,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $updateStmt = $conn->prepare($updateQuery);
     $updateStmt->bind_param("si", $bio, $userId);
     if ($updateStmt->execute()) {
+        // Log the user action for saving bio
+        logUser ($userId, "Bio Saved");
+        
         // Redirect to the same page to avoid resubmission
         header("Location: " . $_SERVER['PHP_SELF']);
         exit();
     } else {
         $errorMessage = "Error updating bio.";
     }
+}
+
+// Function to log user actions
+function logUser ($userId, $action) {
+    global $conn; // Use the global connection variable
+    $fullname = $_SESSION['firstName'] . ' ' . $_SESSION['lastName'];
+    $course = $_SESSION['course'];
+    $user_type = $_SESSION['user_type'];
+    $timestamp = date('Y-m-d H:i:s');
+
+    $stmt = $conn->prepare("INSERT INTO user_logs (user_id, fullname, course, user_type, action, timestamp) VALUES (?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("isssss", $userId, $fullname, $course, $user_type, $action, $timestamp);
+    $stmt->execute();
+    $stmt->close();
 }
 ?>
 
@@ -96,8 +119,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <center><img src="../pic/ccs-logo.png" class="logo" alt="Logo" width="90px" height="90px"></center>
     <h2>CCS</h2>
     <ul>
-        <li><a class="active" href="profile.php"><i class="fas fa-user"></i> Profile</a></li>
-        <li><a href="dashboard2.php"><i class="fas fa-home"></i> Dashboard</a></li>
+        <li><a class="active" href="profile.php" onclick ="logProfileAccess()"><i class="fas fa-user"></i> Profile</a></li>
+        <li><a href="dashboard2.php" onclick="logDashboardAccess()"><i class="fas fa-home"></i> Dashboard</a></li>
         <li><a class="active" href="View.php"><i class="fas fa-eye"></i> View Studies</a></li>
         <li><a class="active" href="../dashboardstud.php"><i class="fas fa-arrow-circle-left"></i> Back Home</a></li>
     </ul>
@@ -112,7 +135,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <?php if (isset($successMessage)): ?>
         <div class="alert alert-success"><?php echo $successMessage; ?></div>
     <?php elseif (isset($errorMessage)): ?>
-        <div class="alert alert-danger"><?php echo $errorMessage ; ?></div>
+        <div class="alert alert-danger"><?php echo $errorMessage; ?></div>
     <?php endif; ?>
 
     <form method="POST" action="">

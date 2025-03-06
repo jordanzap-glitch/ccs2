@@ -17,6 +17,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!empty($_POST['filter_date'])) {
         $filterDate = mysqli_real_escape_string($conn, $_POST['filter_date']);
     }
+    if (isset($_POST['clear'])) {
+        $deleteQuery = "DELETE FROM user_logs";
+        mysqli_query($conn, $deleteQuery) or die("Delete query failed: " . mysqli_error($conn));
+        header("Location: logs.php"); // Redirect to the same page to refresh the data
+        exit();
+    }
 }
 
 // Fetch total records count
@@ -124,7 +130,7 @@ $result = mysqli_query($conn, $query) or die("Query failed: " . mysqli_error($co
 <div class="container-fluid mt-4">
     <div class="row justify-content-end">
         <div class="col-lg-9 col-md-10 offset-lg-1">
-            <h2 class="mb-3">📋 User Logs</h2>
+            <h2 class="mb-3">User Logs</h2>
             <div class="card p-3 shadow-sm">
                 <form method="POST">
                     <div class="row g-2 align-items-center">
@@ -143,7 +149,7 @@ $result = mysqli_query($conn, $query) or die("Query failed: " . mysqli_error($co
                             </div>
                         </div>
                         <div class="col-lg-3 col-md-12 text-md-end">
-                            <a href="logs.php" class="btn btn-danger w-100"><i class="fas fa-times"></i> Clear</a>
+                            <button type="submit" name="clear" class="btn btn-danger w-100"><i class="fas fa-times"></i> Clear</button>
                         </div>
                     </div>
                 </form>
