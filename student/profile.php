@@ -53,7 +53,7 @@ function logUser ($userId, $action) {
     
 
     $stmt = $conn->prepare("INSERT INTO user_logs (user_id, fullname, course, user_type, action, timestamp) VALUES (?, ?, ?, ?, ?)");
-    $stmt->bind_param("isssss", $userId, $fullname, $course, $user_type, $action);
+    $stmt->bind_param("issss", $userId, $fullname, $course, $user_type, $action);
     $stmt->execute();
     $stmt->close();
 }
