@@ -2,9 +2,12 @@
 include '../session.php';
 include('../db.php');
 
-// Initialize variables for the search term and date filter
+// Initialize variables for search, date filter, pagination
 $searchTerm = '';
 $filterDate = '';
+$limit = 10; // Number of records per page
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$offset = ($page - 1) * $limit;
 
 // Check if the form has been submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -16,7 +19,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// Fetch user logs with optional filters
+// Fetch total records count
+$countQuery = "SELECT COUNT(*) as total FROM user_logs WHERE 1=1";
+if (!empty($searchTerm)) {
+    $countQuery .= " AND fullname LIKE '%$searchTerm%'";
+}
+if (!empty($filterDate)) {
+    $countQuery .= " AND DATE(timestamp) = DATE('$filterDate')";
+}
+$countResult = mysqli_query($conn, $countQuery);
+$totalRows = mysqli_fetch_assoc($countResult)['total'];
+$totalPages = ceil($totalRows / $limit);
+
+// Fetch user logs with optional filters and pagination
 $query = "SELECT id, user_id, fullname, course, user_type, action, timestamp FROM user_logs WHERE 1=1";
 if (!empty($searchTerm)) {
     $query .= " AND fullname LIKE '%$searchTerm%'";
@@ -24,7 +39,7 @@ if (!empty($searchTerm)) {
 if (!empty($filterDate)) {
     $query .= " AND DATE(timestamp) = DATE('$filterDate')";
 }
-$query .= " ORDER BY timestamp ASC";
+$query .= " ORDER BY timestamp ASC LIMIT $limit OFFSET $offset";
 $result = mysqli_query($conn, $query) or die("Query failed: " . mysqli_error($conn));
 ?>
 <!DOCTYPE html>
@@ -158,6 +173,21 @@ $result = mysqli_query($conn, $query) or die("Query failed: " . mysqli_error($co
                         <?php endwhile; ?>
                     </tbody>
                 </table>
+                <nav>
+                <ul class="pagination justify-content-center">
+                    <?php if ($page > 1) : ?>
+                        <li class="page-item"><a class="page-link" href="?page=<?= $page - 1; ?>">Previous</a></li>
+                    <?php endif; ?>
+                    <?php for ($i = 1; $i <= $totalPages; $i++) : ?>
+                        <li class="page-item <?= ($i == $page) ? 'active' : ''; ?>">
+                            <a class="page-link" href="?page=<?= $i; ?>"><?= $i; ?></a>
+                        </li>
+                    <?php endfor; ?>
+                    <?php if ($page < $totalPages) : ?>
+                        <li class="page-item"><a class="page-link" href="?page=<?= $page + 1; ?>">Next</a></li>
+                    <?php endif; ?>
+                </ul>
+            </nav>
             </div>
         </div>
     </div>
