@@ -28,8 +28,9 @@ if (isset($_POST['login'])) {
 
     if ($num_teacher > 0) {
         // Teacher detected
-        $rows_teacher = $rs_teacher->fetch_assoc(); 
-        $_SESSION['userId'] = $rows_teacher['emp_id']; // Use 'emp_id' from tblteacher
+        $rows_teacher = $rs_teacher->fetch_assoc();
+        $_SESSION['userId'] = $rows_teacher['id']; 
+        $_SESSION['emp_id'] = $rows_teacher['emp_id']; // Use 'emp_id' from tblteacher
         $_SESSION['firstName'] = $rows_teacher['firstname'];
         $_SESSION['lastName'] = $rows_teacher['lastname'];
         $_SESSION['dept'] = $rows_teacher['dept'];
@@ -40,7 +41,7 @@ if (isset($_POST['login'])) {
         $fullname = $_SESSION['firstName'] . ' ' . $_SESSION['lastName'];
         $log_query = "INSERT INTO user_logs (user_id, fullname, course, action, user_type, timestamp) VALUES ( ?, ?, ?, 'Logged in as Teacher', ?, NOW())";
         $log_stmt = $conn->prepare($log_query);
-        $log_stmt->bind_param("isss", $_SESSION['userId'], $fullname, $_SESSION['dept'], $_SESSION['user_type']);
+        $log_stmt->bind_param("isss", $_SESSION['emp_id'], $fullname, $_SESSION['dept'], $_SESSION['user_type']);
         $log_stmt->execute();
 
         header('Location:admin/dashboard.php'); // Redirect to the teacher dashboard
@@ -57,7 +58,8 @@ if (isset($_POST['login'])) {
         if ($num_student > 0) {
             // Student detected
             $rows_student = $rs_student->fetch_assoc();
-            $_SESSION['userId'] = $rows_student['student_id']; // Use 'student_id' from tblstudent
+            $_SESSION['userId'] = $rows_student['id']; 
+            $_SESSION['student_id'] = $rows_student['student_id']; // Use 'student_id' from tblstudent
             $_SESSION['firstName'] = $rows_student['firstname'];
             $_SESSION['lastName'] = $rows_student['lastname'];
             $_SESSION['course'] = $rows_student['course']; // Assuming 'course' is in tblstudent
@@ -68,7 +70,7 @@ if (isset($_POST['login'])) {
             $fullname = $_SESSION['firstName'] . ' ' . $_SESSION['lastName'];
             $log_query = "INSERT INTO user_logs (user_id, fullname, course, action, user_type, timestamp) VALUES ( ?, ?, ?, 'Logged in as Student', ?, NOW())";
             $log_stmt = $conn->prepare($log_query);
-            $log_stmt->bind_param("isss", $_SESSION['userId'], $fullname, $_SESSION['course'], $_SESSION['user_type']);
+            $log_stmt->bind_param("isss", $_SESSION['student_id'], $fullname, $_SESSION['course'], $_SESSION['user_type']);
             $log_stmt->execute();
 
             header('Location:dashboardstud.php'); // Redirect to the student dashboard
