@@ -10,9 +10,9 @@ $capstoneCount = $capstoneCountResult->fetch_assoc()['total'];
 
 // Function to log user actions
 function logUser ($conn, $user_id, $fullname, $course, $user_type, $action) {
-    $timestamp = date('Y-m-d H:i:s');
-    $stmt = $conn->prepare("INSERT INTO user_logs (user_id, fullname, course, user_type, action, timestamp) VALUES (?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("isssss", $user_id, $fullname, $course, $user_type, $action, $timestamp);
+    
+    $stmt = $conn->prepare("INSERT INTO user_logs (user_id, fullname, course, user_type, action, timestamp) VALUES (?, ?, ?, ?, ?)");
+    $stmt->bind_param("issss", $user_id, $fullname, $course, $user_type, $action);
     $stmt->execute();
     $stmt->close();
 }

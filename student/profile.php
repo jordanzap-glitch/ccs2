@@ -50,10 +50,10 @@ function logUser ($userId, $action) {
     $fullname = $_SESSION['firstName'] . ' ' . $_SESSION['lastName'];
     $course = $_SESSION['course'];
     $user_type = $_SESSION['user_type'];
-    $timestamp = date('Y-m-d H:i:s');
+    
 
-    $stmt = $conn->prepare("INSERT INTO user_logs (user_id, fullname, course, user_type, action, timestamp) VALUES (?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("isssss", $userId, $fullname, $course, $user_type, $action, $timestamp);
+    $stmt = $conn->prepare("INSERT INTO user_logs (user_id, fullname, course, user_type, action, timestamp) VALUES (?, ?, ?, ?, ?)");
+    $stmt->bind_param("isssss", $userId, $fullname, $course, $user_type, $action);
     $stmt->execute();
     $stmt->close();
 }
