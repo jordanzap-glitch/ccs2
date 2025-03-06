@@ -63,9 +63,22 @@ $result = mysqli_query($conn, $query) or die("Query failed: " . mysqli_error($co
         table { width: 100%; border-collapse: collapse; }
         th, td { border: 1px solid black; padding: 8px; text-align: left; }
         th { background-color: #f2f2f2; position: sticky; top: 0; }
-        .sidebar { width: 250px; height: 100vh; background-color: #2c3e50; position: fixed; left: 0; transition: all 0.3s ease; }
-        .sidebar.active { left: -250px; }
-        .content { margin-left: 250px; padding: 20px; transition: all 0.3s ease; }
+        @media (max-width: 768px) {
+            .sidebar {
+                left: -100%; /* Hide sidebar fully */
+                width: 250px;
+                position: fixed;
+                transition: all 0.3s ease-in-out;
+                z-index: 1000;
+            }
+            .sidebar.active {
+                left: 0; /* Show sidebar when active */
+            }
+            .content {
+                margin-left: 0; /* Remove margin to make content full width */
+                width: 100%;
+            }
+        }
         .menu-toggle { position: absolute; top: 15px; left: 15px; font-size: 24px; cursor: pointer; display: none; }
         @media (max-width: 768px) {
             .menu-toggle { display: block; }
@@ -201,18 +214,25 @@ $result = mysqli_query($conn, $query) or die("Query failed: " . mysqli_error($co
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        const menuToggle = document.getElementById("menu-toggle");
-        const sidebar = document.getElementById("sidebar");
-        const closeSidebar = document.getElementById("close-sidebar");
+    const menuToggle = document.getElementById("menu-toggle");
+    const sidebar = document.getElementById("sidebar");
+    const closeSidebar = document.getElementById("close-sidebar");
 
-        menuToggle.addEventListener("click", function () {
-            sidebar.classList.toggle("active");
-        });
-
-        closeSidebar.addEventListener("click", function () {
-            sidebar.classList.remove("active");
-        });
+    menuToggle.addEventListener("click", function () {
+        sidebar.classList.toggle("active");
     });
+
+    closeSidebar.addEventListener("click", function () {
+        sidebar.classList.remove("active");
+    });
+
+    // Close sidebar when clicking outside
+    document.addEventListener("click", function (event) {
+        if (!sidebar.contains(event.target) && !menuToggle.contains(event.target)) {
+            sidebar.classList.remove("active");
+        }
+    });
+});
 </script>
 </body>
 </html>
