@@ -5,6 +5,22 @@ include '../db.php'; // Include your database connection file
 $message = "";
 $toastClass = "";
 
+// Log user action when the page is opened
+$userId = $_SESSION['emp_id']; // Assuming userId is stored in session
+$firstName = $_SESSION['firstName']; 
+$lastName = $_SESSION['lastName'];
+$fullname = $firstName . ' ' . $lastName; // Correctly concatenate first name and last name
+$course = $_SESSION['course']; // Assuming course is stored in session
+$user_type = $_SESSION['user_type']; // Assuming user_type is stored in session
+$action = "Opened Add Student Page";
+$timestamp = date("Y-m-d H:i:s");
+
+// Insert user log for page open
+$log_stmt = $conn->prepare("INSERT INTO user_logs (user_id, fullname, course, user_type, action, timestamp) VALUES (?, ?, ?, ?, ?, ?)");
+$log_stmt->bind_param("ssssss", $userId, $fullname, $course, $user_type, $action, $timestamp);
+$log_stmt->execute();
+$log_stmt->close();
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $student_id = $_POST['student_id'];
     $firstname = $_POST['firstname'];
@@ -31,6 +47,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->bind_param("sssss", $student_id, $firstname, $middlename, $lastname, $accessCode);
 
         if ($stmt->execute()) {
+            // Log user action for adding a student
+            $action = "Added Student: " . $firstname . " " . $lastname;
+            $log_stmt = $conn->prepare("INSERT INTO user_logs (user_id, fullname, course, user_type, action, timestamp) VALUES (?, ?, ?, ?, ?, ?)");
+            $log_stmt->bind_param("ssssss", $userId, $fullname, $course, $user_type, $action, $timestamp);
+            $log_stmt->execute();
+            $log_stmt->close();
+
             $message = "Student added successfully. Access Code: " . $accessCode;
             $toastClass = "#28a745"; // Success color
         } else {
@@ -77,7 +100,7 @@ body {
             <center>
                 <img src="../pic/srclogo.png" alt="School Logo" class="logo">
             </center>
-            <div class="form-container">
+            <div class=" form-container">
                 <center><h3>Add Student</h3></center>
                 <form method="POST" action="addstudent.php">
                     <div class="mb-3">
@@ -109,4 +132,3 @@ body {
     </center>
 </body>
 </html>
-
