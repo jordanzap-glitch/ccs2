@@ -81,7 +81,7 @@ function logUser ($conn, $user_id, $fullname, $course, $user_type, $action) {
         <li><a class="active" href="profile.php" onclick="logProfileAccess()">
             <i class="fas fa-user" style="font-size: 24px;"></i> Profile
         </a></li>
-        <li><a class="active" href="View.php">
+        <li><a class="active" href="../View.php">
             <i class="fas fa-eye" style="font-size: 24px;"></i> View Studies
         </a></li>
         <li><a class="active" href="../dashboardstud.php">
