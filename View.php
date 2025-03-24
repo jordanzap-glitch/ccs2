@@ -62,7 +62,7 @@ function logUser  ($userId, $action) {
         <li><a class="active" href="View.php">
             <i class="fas fa-eye" style="font-size: 24px;"></i> View Studies
         </a></li>
-        <li><a class="active" href="student/dashboardstud.php">
+        <li><a class="active" href="dashboardstud.php">
             <i class="fas fa-arrow-circle-left me-2"></i> Back
         </a></li>
     </ul>
