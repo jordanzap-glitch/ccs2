@@ -56,7 +56,7 @@ function logUser  ($userId, $action) {
         <li><a href="student/dashboard2.php" class="active">
             <i class="fas fa-home"></i>  Dashboard
         </a></li>
-        <li><a class="active" href="profile.php">
+        <li><a class="active" href=" student/profile.php">
             <i class="fas fa-user" style="font-size: 24px;"></i> Profile
         </a></li>
         <li><a class="active" href="View.php">
