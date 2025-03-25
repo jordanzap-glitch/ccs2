@@ -145,19 +145,19 @@ function getYouTubeVideoId($url) {
     <!-- First Row -->
     <div class="row text-center mt-5 mb-4">
         <div class="col-md-4">
-            <div class="grid-item ssite" onclick="window.location.href='ssite.html'">
+            <div class="grid-item ssite" onclick="window.location.href='ssite.php'">
                 <div class="grid-icon">📘</div>
                 <h4>SSITE</h4>
             </div>
         </div>
         <div class="col-md-4">
-            <div class="grid-item dns" onclick="window.location.href='dns.html'">
+            <div class="grid-item dns" onclick="window.location.href='dns.php'">
                 <div class="grid-icon">🌐</div>
                 <h4>DiNs Circle</h4>
             </div>
         </div>
         <div class="col-md-4">
-            <div class="grid-item class-offers" onclick="window.location.href='class-offers.html'">
+            <div class="grid-item class-offers" onclick="window.location.href='class-offers.php'">
                 <div class="grid-icon">📚</div>
                 <h4>Class Officers</h4>
             </div>

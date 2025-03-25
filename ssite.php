@@ -7,7 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         .navbar {
-            background-color: #343a40;
+            background-color:rgb(45, 73, 122);
         }
         .navbar .nav-link {
             color: #fff;
@@ -17,13 +17,13 @@
             color: #ffc107;
         }
         .banner {
-            background: linear-gradient(45deg, #6c757d, #343a40);
+            background: linear-gradient(45deg, #6c757d,rgb(45, 73, 122));
             color: #fff;
             padding: 3rem;
             border-radius: 0.5rem;
         }
         footer {
-            background-color: #343a40;
+            background-color:rgb(45, 73, 122);
             color: #fff;
             padding: 1rem 0;
             text-align: center;
@@ -89,7 +89,7 @@
 <nav class="navbar navbar-expand-lg">
     <div class="container-fluid">
         <a class="navbar-brand text-white" href="#">
-            <img src="pic/ccs-logo.png" alt="CCS Logo" style="width: 70px; height: auto;"> College of Computer Studies
+            <img src="pic/ccs-logo.png" alt="CCS Logo" style="width: 40px; height: auto;"> College of Computer Studies
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
