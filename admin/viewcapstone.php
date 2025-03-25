@@ -1,6 +1,6 @@
 <?php
 include '../db.php'; // Include your database connection file
-
+include '../session.php';
 // Set the number of results per page
 $results_per_page = 5;
 
@@ -39,9 +39,43 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update'])) {
     $a1_role = $_POST['a1_role'];
     $adviser = $_POST['adviser'];
     $submit_date = $_POST['submit_date'];
-    $poster_path = $_POST['poster_path'];
-    $imrad_path = $_POST['imrad_path'];
     $link_path = $_POST['link_path'];
+
+    // Handle poster file upload
+    $poster_path = $_FILES['poster_path']['name'];
+    if ($poster_path) {
+        $target_dir = "../poster/";
+        $target_file = $target_dir . basename($poster_path);
+        move_uploaded_file($_FILES['poster_path']['tmp_name'], $target_file);
+        $poster_path = "poster/" . basename($poster_path); // Update the path for the database
+    } else {
+        // If no new file is uploaded, keep the existing path
+        $stmt = $conn->prepare("SELECT poster_path FROM tbl_capstone WHERE id = ?");
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+        $poster_path = $row['poster_path'];
+        $stmt->close();
+    }
+
+    // Handle IMRaD file upload
+    $imrad_path = $_FILES['imrad_path']['name'];
+    if ($imrad_path) {
+        $target_dir = "../imrad/";
+        $target_file = $target_dir . basename($imrad_path);
+        move_uploaded_file($_FILES['imrad_path']['tmp_name'], $target_file);
+        $imrad_path = "imrad/" . basename($imrad_path); // Update the path for the database
+    } else {
+        // If no new file is uploaded, keep the existing path
+        $stmt = $conn->prepare("SELECT imrad_path FROM tbl_capstone WHERE id = ?");
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+        $imrad_path = $row['imrad_path'];
+        $stmt->close();
+    }
 
     // Prepare and bind
     $stmt = $conn->prepare("UPDATE tbl_capstone SET title=?, abstract=?, a1_sname=?, a1_fname=?, a1_mname=?, a1_role=?, adviser=?, submit_date=?, poster_path=?, imrad_path=?, link_path=? WHERE id=?");
@@ -82,9 +116,6 @@ if (isset($_GET['delete'])) {
     $stmt->close();
 }
 
-
-
-
 $search_query = isset($_GET['search']) ? $_GET['search'] : '';
 
 // Fetch students from the database with pagination and search
@@ -99,8 +130,6 @@ $stmt->bind_param("ss", $search_term, $search_term);
 $stmt->execute();
 $result = $stmt->get_result();
 
-
-
 ?>
 
 <!DOCTYPE html>
@@ -110,9 +139,12 @@ $result = $stmt->get_result();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Capstone Projects</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 <body>
-<div class="container mt- 5">
+<div class="container mt-5">
 <h2>View Capstone Projects</h2>
 <p><a class="btn btn-danger" href="dashboard.php">Back to Dashboard</a></p>
 <form method="GET" action="">
@@ -157,9 +189,9 @@ $result = $stmt->get_result();
                 <td><?= htmlspecialchars($row['adviser']); ?></td>
                 <td><?= htmlspecialchars($row['submit_date']); ?></td>
                 <td>
-                        <?php if (!empty($row['poster_path']) && file_exists($row['poster_path'])): ?>
+                        <?php if (!empty($row['poster_path']) && file_exists("../" . $row['poster_path'])): ?>
                             <a href="<?= htmlspecialchars($row['poster_path']); ?>" target="_blank">
-                                <img src="<?= htmlspecialchars($row['poster_path']); ?>" alt="Poster" style="width: 100px; height: auto;">
+                                <img src="<?= htmlspecialchars($row['poster_path']); ?>" alt="Poster" style="width : 100px; height: auto;">
                             </a>
                         <?php else: ?>
                             <span>No Image Available</span>
@@ -168,7 +200,70 @@ $result = $stmt->get_result();
                 <td><a href="<?= htmlspecialchars($row['imrad_path']); ?>" target="_blank" download>View</a></td>
                 <td><a href="<?= htmlspecialchars($row['link_path']); ?>" target="_blank">View</a></td>
                 <td>
-                    <a href="viewcapstone.php?edit=<?= $row['id']; ?>" class="btn btn-warning">Edit</a>
+                    <button class="btn btn-warning" data-toggle="modal" data-target="#editModal<?= $row['id']; ?>">Edit</button>
+                    <!-- Edit Modal -->
+                    <div class="modal fade" id="editModal<?= $row['id']; ?>" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="editModalLabel">Edit Capstone Project</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form method="POST" action="viewcapstone.php" enctype="multipart/form-data">
+                                        <input type="hidden" name="id" value="<?= $row['id']; ?>">
+                                        <div class="form-group">
+                                            <label for="title">Title</label>
+                                            <input type="text" class="form-control" name="title" value="<?= htmlspecialchars($row['title']); ?>" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="abstract">Abstract</label>
+                                            <textarea class="form-control" name="abstract" required><?= htmlspecialchars($row['abstract']); ?></textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="a1_sname">Author Surname</label>
+                                            <input type="text" class="form-control" name="a1_sname" value="<?= htmlspecialchars($row['a1_sname']); ?>" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="a1_fname">Author First Name</label>
+                                            <input type="text" class="form-control" name="a1_fname" value="<?= htmlspecialchars($row['a1_fname']); ?>" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="a1_mname">Author Middle Name</label>
+                                            <input type="text" class="form-control" name="a1_mname" value="<?= htmlspecialchars($row['a1_mname']); ?>">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="a1_role">Author Role</label>
+                                            <input type="text" class="form-control" name="a1_role" value="<?= htmlspecialchars($row['a1_role']); ?>" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="adviser">Adviser</label>
+                                            <input type="text" class="form-control" name="adviser" value="<?= htmlspecialchars($row['adviser']); ?>" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="submit_date">Submit Date</label>
+                                            <input type="date" class="form-control" name="submit_date" value="<?= htmlspecialchars($row['submit_date']); ?>" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="poster_path">Poster Path</label>
+                                            <input type="file" class="form-control" name="poster_path" accept="image/*">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="imrad_path">IMRaD Path</label>
+                                            <input type="file" class="form-control" name="imrad_path" accept="application/pdf">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="link_path">Link Path</label>
+                                            <input type="text" class="form-control" name="link_path" value="<?= htmlspecialchars($row['link_path']); ?>">
+                                        </div>
+                                        <button type="submit" name="update" class="btn btn-primary">Update Project</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </td>
                 <td>
                     <a href="viewcapstone.php?delete=<?= $row['id']; ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this project?');">Delete</a>
@@ -183,58 +278,6 @@ $result = $stmt->get_result();
 </tbody>
     </table>
 
-    <?php if ($edit_row): ?>
-        <h3>Edit Capstone Project</h3>
-        <form method="POST" action="viewcapstone.php">
-            <input type="hidden" name="id" value="<?= $edit_row['id']; ?>">
-            <div class="form-group">
-                <label for="title">Title</label>
-                <input type="text" class="form-control" name="title" value="<?= htmlspecialchars($edit_row['title']); ?>" required>
-            </div>
-            <div class="form-group">
-                <label for="abstract">Abstract</label>
-                <textarea class="form-control" name="abstract" required><?= htmlspecialchars($edit_row['abstract']); ?></textarea>
-            </div>
-            <div class="form-group">
-                <label for="a1_sname">Author Surname</label>
-                <input type="text" class="form-control" name="a1_sname" value="<?= htmlspecialchars($edit_row['a1_sname']); ?>" required>
-            </div>
-            <div class="form-group">
-                <label for="a1_fname">Author First Name</label>
-                <input type="text" class="form-control" name="a1_fname" value="<?= htmlspecialchars($edit_row['a1_fname']); ?>" required>
-            </div>
-            <div class="form-group">
-                <label for="a1_mname">Author Middle Name</label>
-                <input type="text" class="form-control" name="a1_mname" value="<?= htmlspecialchars($edit_row['a1_mname']); ?>">
-            </div>
-            <div class="form-group">
-                <label for="a1_role">Author Role</label>
-                <input type="text" class="form-control" name="a1_role" value="<?= htmlspecialchars($edit_row['a1_role']); ?>" required>
-            </div>
-            <div class="form-group">
-                <label for="adviser">Adviser</label>
-                <input type="text" class="form-control" name="adviser" value="<?= htmlspecialchars($edit_row ['adviser']); ?>" required>
-            </div>
-            <div class="form-group">
-                <label for="submit_date">Submit Date</label>
-                <input type="date" class="form-control" name="submit_date" value="<?= htmlspecialchars($edit_row['submit_date']); ?>" required>
-            </div>
-            <div class="form-group">
-                <label for="poster_path">Poster Path</label>
-                <input type="file" class="form-control" name="poster_path" accept="image/*" required>
-            </div>
-            <div class="form-group">
-                <label for="imrad_path">IMRaD Path</label>
-                <input type="file" class="form-control" name="imrad_path" accept="application/pdf">
-            </div>
-            <div class="form-group">
-                <label for="link_path">Link Path</label>
-                <input type="text" class="form-control" name="link_path" value="<?= htmlspecialchars($edit_row['link_path']); ?>">
-            </div>
-            <button type="submit" name="update" class="btn btn-primary">Update Project</button>
-        </form>
-    <?php endif; ?>
-<br>
     <div class="pagination">
         <?php if ($current_page > 1): ?>
             <a href="viewcapstone.php?page=<?= $current_page - 1; ?>" class="btn btn-secondary">Previous</a>
@@ -252,7 +295,6 @@ $result = $stmt->get_result();
             <a href="viewcapstone.php?page=<?= $current_page + 1; ?>" class="btn btn-secondary">Next</a>
         <?php endif; ?>
     </div>
-</div>
 </div>
 </body>
 </html>

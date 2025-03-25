@@ -99,9 +99,6 @@ if ($edit_id) {
     $stmt->close();
 }
 
-
-
-
 $search_query = isset($_GET['search']) ? $_GET['search'] : '';
 
 // Fetch students from the database with pagination and search
@@ -116,10 +113,6 @@ $stmt->bind_param("ss", $search_term, $search_term);
 $stmt->execute();
 $result = $stmt->get_result();
 
-
-
-
-
 ?>
 
 <!DOCTYPE html>
@@ -129,7 +122,7 @@ $result = $stmt->get_result();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Students</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font -awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 </head>
 <body>
 <div class="container mt-5">
@@ -177,82 +170,95 @@ $result = $stmt->get_result();
                     <td><?= htmlspecialchars($row['password']); ?></td>
                     <td><?= htmlspecialchars($row['accessCode']); ?></td>
                     <td>
-                        <a href="viewstudent.php?edit=<?= $row['id']; ?>" class="btn btn-warning btn-sm">Edit</a>
+                        <button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editModal<?= $row['id']; ?>">Edit</button>
                     </td>
                     <td>
                     <a href="viewstudent.php?delete=<?= $row['id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this student?');">Delete</a>
                     </td>
                 </tr>
+
+                <!-- Edit Modal -->
+                <div class="modal fade" id="editModal<?= $row['id']; ?>" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="editModalLabel">Edit Student Information</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form method="POST" action="">
+                                    <input type="hidden" name="id" value="<?= htmlspecialchars($row['id']); ?>">
+                                    <div class="form-group">
+                                        <label for="student_id">Student ID</label>
+                                        <input type="text" class="form-control" id="student_id" name="student_id" value="<?= htmlspecialchars($row['student_id']); ?>" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="firstname">First Name</label>
+                                        <input type="text" class="form-control" id="firstname" name="firstname" value="<?= htmlspecialchars($row['firstname']); ?>" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="middlename">Middle Name</label>
+                                        <input type="text" class="form-control" id="middlename" name="middlename" value="<?= htmlspecialchars($row['middlename']); ?>">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="lastname">Last Name</label>
+                                        <input type="text" class="form-control" id="lastname" name="lastname" value="<?= htmlspecialchars($row['lastname']); ?>" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="course">Course</label>
+                                        <input type="text" class="form-control" id="course" name="course" value="<?= htmlspecialchars($row['course']); ?>" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="contactnumber">Contact Number</label>
+                                        <input type="text" class="form-control" id="contactnumber" name="contactnumber" value="<?= htmlspecialchars($row['contactnumber']); ?>" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="email">Email</label>
+                                        <input type="email" class="form-control" id="email" name="email" value="<?= htmlspecialchars($row['email']); ?>">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="password">Password</label>
+                                        <input type="password" class="form-control" id="password" name="password" placeholder="Leave blank to keep current password">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="accessCode">Access Code</label>
+                                        <input type="text" class="form-control" id="accessCode" name="accessCode" value="<?= htmlspecialchars($row['accessCode']); ?>" required>
+                                    </div>
+                                    <button type="submit" name="update" class="btn btn-primary">Update Student</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             <?php endwhile; ?>
         <?php else: ?>
             <tr>
-                <td colspan="10" class="text-center">No students found.</td>
+                <td colspan="11" class="text-center">No students found.</td>
             </tr>
         <?php endif; ?>
     </tbody>
 </table>
 
-<?php if ($edit_row): ?>
-    <h3>Edit Student Information</h3>
-        <form method="POST" action="">
-            <input type="hidden" name="id" value="<?= htmlspecialchars($edit_row['id']); ?>">
-            <div class="form-group">
-                <label for="student_id">Student ID</label>
-                <input type="text" class="form-control" id="student_id" name="student_id" value="<?= htmlspecialchars($edit_row['student_id']); ?>" required>
-            </div>
-            <div class="form-group">
-                <label for="firstname">First Name</label>
-                <input type="text" class="form-control" id="firstname" name="firstname" value="<?= htmlspecialchars($edit_row['firstname']); ?>" required>
-            </div>
-            <div class="form-group">
-                <label for="middlename">Middle Name</label>
-                <input type="text" class="form-control" id="middlename" name="middlename" value="<?= htmlspecialchars($edit_row['middlename']); ?>">
-            </div>
-            <div class="form-group">
-                <label for="lastname">Last Name</label>
-                <input type="text" class="form-control" id="lastname" name="lastname" value="<?= htmlspecialchars($edit_row['lastname']); ?>" required>
-            </div>
-            <div class="form-group">
-                <label for="course">Course</label>
-                <input type="text" class="form-control" id="course" name="course" value="<?= htmlspecialchars($edit_row['course']); ?>" required>
-            </div>
-            <div class="form-group">
-                <label for="contactnumber">Contact Number</label>
-                <input type="text" class="form-control" id="contactnumber" name="contactnumber" value="<?= htmlspecialchars($edit_row['contactnumber']); ?>" required>
-            </div>
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" class="form-control" id="email" name="email" value="<?= htmlspecialchars($edit_row['email']); ?>">
-            </div>
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" class="form-control" id="password" name="password" placeholder="Leave blank to keep current password">
-            </div>
-            <div class="form-group">
-                <label for="accessCode">Access Code</label>
-                <input type="text" class="form-control" id="accessCode" name="accessCode" value="<?= htmlspecialchars($edit_row['accessCode']); ?>" required>
-            </div>
-            <button type="submit" name="update" class="btn btn-primary">Update Student</button>
-        </form>
-    <?php endif; ?>
 <br>
-    <div class="pagination">
-        <?php if ($current_page > 1): ?>
-            <a href="viewstudent.php?page=<?= $current_page - 1; ?>" class="btn btn-secondary">Previous</a>
-        <?php endif; ?>
+<div class="pagination">
+    <?php if ($current_page > 1): ?>
+        <a href="viewstudent.php?page=<?= $current_page - 1; ?>" class="btn btn-secondary">Previous</a>
+    <?php endif; ?>
 
-        <?php for ($page = 1; $page <= $number_of_pages; $page++): ?>
-            <?php if ($page == $current_page): ?>
-                <strong><?= $page; ?></strong> 
-            <?php else: ?>
-                <a href="viewstudent.php?page=<?= $page; ?>" class="btn btn-light"><?= $page; ?></a> 
-            <?php endif; ?>
-        <?php endfor; ?>
-
-        <?php if ($current_page < $number_of_pages): ?>
-            <a href="viewstudent.php?page=<?= $current_page + 1; ?>" class="btn btn-secondary">Next</a>
+    <?php for ($page = 1; $page <= $number_of_pages; $page++): ?>
+        <?php if ($page == $current_page): ?>
+            <strong><?= $page; ?></strong> 
+        <?php else: ?>
+            <a href="viewstudent.php?page=<?= $page; ?>" class="btn btn-light"><?= $page; ?></a> 
         <?php endif; ?>
-    </div>
+    <?php endfor; ?>
+
+    <?php if ($current_page < $number_of_pages): ?>
+        <a href="viewstudent.php?page=<?= $current_page + 1; ?>" class="btn btn-secondary">Next</a>
+    <?php endif; ?>
+</div>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
