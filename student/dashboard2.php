@@ -68,27 +68,7 @@ function logUser ($conn, $user_id, $fullname, $course, $user_type, $action) {
     }
 </style>
 <body>
-<!-- Sidebar and Content Section -->
-<div class="menu-toggle" id="menu-toggle">
-    <i class="fas fa-bars"></i>
-</div>
-
-<div class="sidebar" id="sidebar">
-    <center><img src="../pic/ccs-logo.png" class="logo" alt="Logo" width="90px" height="90px"></center>
-    <h2>CCS</h2>
-    <ul>
-        <li><a href="dashboard2.php" class="active"><i class="fas fa-home"></i> Dashboard</a></li>
-        <li><a class="active" href="profile.php" onclick="logProfileAccess()">
-            <i class="fas fa-user" style="font-size: 24px;"></i> Profile
-        </a></li>
-        <li><a class="active" href="../View.php">
-            <i class="fas fa-eye" style="font-size: 24px;"></i> View Studies
-        </a></li>
-        <li><a class="active" href="../dashboardstud.php">
-            <i class="fas fa-arrow-circle-left me-2" style="font-size: 24px;"></i> Back Home
-        </a></li>
-    </ul>
-</div>
+<?php include '../includes/sidebar.php'; ?>
 
 <div class="container mt-4">
     <div class="dashboard-header">

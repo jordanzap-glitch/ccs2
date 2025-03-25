@@ -96,7 +96,7 @@ ob_end_flush();
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
   <style>
     body {
-      background: linear-gradient(to bottom, #00218b, #fffc58);
+      background: linear-gradient(to bottom,rgb(20, 37, 95), #fffc58);
       height: 100vh;
       display: flex;
       justify-content: center;
@@ -142,7 +142,7 @@ ob_end_flush();
     <center>
       <img src="pic/srclogo.png" alt="School Logo" class="logo">
     </center>
-    <h3 class="text-dark mb-4 text-center">Student Log in</h3>
+    <h3 class="text-dark mb-4 text-center">Log in</h3>
     <form method="POST" action="">
       <div class="mb-3">
         <input type="text" class="form-control" required name="username" id="exampleInputEmail" placeholder="Enter Email Address">

@@ -89,57 +89,8 @@ $result = mysqli_query($conn, $query) or die("Query failed: " . mysqli_error($co
     </style>
 </head>
 <body>
-<div class="menu-toggle" id="menu-toggle"><i class="fas fa-bars"></i></div>
-<div class="sidebar" id="sidebar">
-    <button class="close-btn" id="close-sidebar">&times;</button>
-    <center><img src="../pic/ccs-logo.png" class="logo" alt="Logo" width="90px" height="90px"></center>
-    <h2>CCS</h2>
-    <ul>
-        <li>
-            <a href="dashboard.php" class="active text-white">
-                <i class="fas fa-home"></i> Dashboard
-            </a>
-        </li>
-        <br>
-        <li>
-            <a href="addteacher.php" class="text-white">
-                <i class="fas fa-user-shield"></i> Add Admin
-            </a>
-        </li>
-        <br>
-        <li class="nav-item dropdown">
-            <a href="#" class="nav-link dropdown-toggle text-white" data-bs-toggle="dropdown">
-                <i class="fas fa-user-graduate"></i> Student
-            </a>
-            <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="addstudent.php"><i class="fas fa-user-plus"></i> Add Student</a></li>
-                <li><a class="dropdown-item" href="viewstudent.php"><i class="fas fa-users"></i> View Students</a></li>
-            </ul>
-        </li>
-        <br>
-        <li class="nav-item dropdown">
-            <a href="#" class="nav-link dropdown-toggle text-white" data-bs-toggle="dropdown">
-                <i class="fas fa-book"></i> Capstone
-            </a>
-            <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="../addcapstone.php"><i class="fas fa-plus"></i> Add Capstone</a></li>
-                <li><a class="dropdown-item" href="viewcapstone.php"><i class="fas fa-eye"></i> View Capstone</a></li>
-            </ul>
-        </li>
-        <br>
-        <li>
-            <a href="logs.php" class="text-white">
-            <i class="fa-solid fa-clock"></i> Logs
-            </a>
-        </li>
-        <br>
-        <li>
-            <a href="../login.php" class="text-white">
-                <i class="fas fa-sign-out-alt"></i> Logout
-            </a>
-        </li>
-    </ul>
-</div>
+<?php include '../includes/sidebar2.php'; ?>
+
 <div class="container-fluid mt-4">
     <div class="row justify-content-end">
         <div class="col-lg-9 col-md-10 offset-lg-1">

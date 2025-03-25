@@ -65,6 +65,7 @@ function logUser ($userId, $action) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Profile</title>
+    <link rel="stylesheet" href="../static/css/dashboard.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
@@ -89,42 +90,10 @@ function logUser ($userId, $action) {
         .profile-header p {
             color: #6c757d;
         }
-        .sidebar {
-            width: 200px;
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 100%;
-            background-color: #343a40;
-            padding: 20px;
-            color: white;
-        }
-        .sidebar h2 {
-            color: #ffffff;
-        }
-        .sidebar a {
-            color: #ffffff;
-            text-decoration: none;
-            display: block;
-            padding: 10px 0;
-        }
-        .sidebar a:hover {
-            background-color: #495057;
-        }
     </style>
 </head>
 <body>
-
-<div class="sidebar">
-    <center><img src="../pic/ccs-logo.png" class="logo" alt="Logo" width="90px" height="90px"></center>
-    <h2>CCS</h2>
-    <ul>
-        <li><a class="active" href="profile.php" onclick ="logProfileAccess()"><i class="fas fa-user"></i> Profile</a></li>
-        <li><a href="dashboard2.php" onclick="logDashboardAccess()"><i class="fas fa-home"></i> Dashboard</a></li>
-        <li><a class="active" href="View.php"><i class="fas fa-eye"></i> View Studies</a></li>
-        <li><a class="active" href="../dashboardstud.php"><i class="fas fa-arrow-circle-left"></i> Back Home</a></li>
-    </ul>
-</div>
+<?php include '../includes/sidebar.php'; ?>
 
 <div class="profile-container">
     <div class="profile-header">

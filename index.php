@@ -32,10 +32,13 @@ function getYouTubeVideoId($url) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="static/css/index.css">
     <style>
+        .navbar {
+            background-color:rgb(22, 50, 112);
+        }
         .container {
             max-width: 900px;
             margin: auto;
-        }
+        }   
         .picture-box {
             position: relative;
             cursor: pointer;
