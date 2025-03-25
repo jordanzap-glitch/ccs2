@@ -129,7 +129,6 @@ $result = $stmt->get_result();
 
 <div class="container mt-4" style="max-width: 50%; margin: auto;">
 <h2>View Students</h2>
-<p><a class="btn btn-danger" href="dashboard.php">Back to Dashboard</a></p>
 <form method="GET" action="">
     <div class="form-group">
         <label for="search">Search by Student ID or Last Name:</label>

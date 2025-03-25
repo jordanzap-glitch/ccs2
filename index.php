@@ -33,7 +33,7 @@ function getYouTubeVideoId($url) {
     <link rel="stylesheet" href="static/css/index.css">
     <style>
         .navbar {
-            background-color:rgb(22, 50, 112);
+            background-color:rgb(45, 73, 122);  
         }
         .container {
             max-width: 900px;
