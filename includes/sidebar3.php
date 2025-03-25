@@ -17,18 +17,18 @@
 
 <div class="sidebar" id="sidebar">
     <button class="close-btn" id="close-sidebar">&times;</button>
-    <center><img src="../pic/ccs-logo.png" class="logo" alt="Logo" width="90px" height="90px"></center>
+    <center><img src="pic/ccs-logo.png" class="logo" alt="Logo" width="90px" height="90px"></center>
     <h2>CCS</h2>
     <ul>
         <li>
-            <a href="dashboard.php" class="active text-white">
+            <a href="admin/dashboard.php" class="active text-white">
                 <i class="fas fa-home"></i> Dashboard
             </a>
         </li>
         <br>
 
         <li>
-            <a href="addteacher.php" class="text-white">
+            <a href="admin/addteacher.php" class="text-white">
                 <i class="fas fa-user-shield"></i> Add Admin
             </a>
         </li>
@@ -53,7 +53,7 @@
             </a>
             <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="../addcapstone.php"><i class="fas fa-plus"></i> Add Capstone</a></li>
-                <li><a class="dropdown-item" href="viewcapstone.php"><i class="fas fa-eye"></i> View Capstone</a></li>
+                <li><a class="dropdown-item" href="admin/viewcapstone.php"><i class="fas fa-eye"></i> View Capstone</a></li>
             </ul>
         </li>
         <br>

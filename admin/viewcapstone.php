@@ -138,13 +138,16 @@ $result = $stmt->get_result();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Capstone Projects</title>
+    <link rel="stylesheet" href="../static/css/dashboard.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 <body>
-<div class="container mt-5">
+<?php include '../includes/sidebar2.php'; ?>
+
+<div class="container mt-4" style="max-width: 50%; margin: auto;">
 <h2>View Capstone Projects</h2>
 <p><a class="btn btn-danger" href="dashboard.php">Back to Dashboard</a></p>
 <form method="GET" action="">

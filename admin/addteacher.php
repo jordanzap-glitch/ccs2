@@ -70,7 +70,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <style>
 body {
     font-family: 'Poppins', sans-serif;
-    background: linear-gradient(to bottom, #00218b, #fffc58);
+    background: linear-gradient(to bottom,rgb(247, 247, 247),rgb(255, 255, 255));
     height: 100vh;
     display: flex;
     justify-content: center;
@@ -83,6 +83,7 @@ body {
 }
 </style>
 <body>
+<?php include '../includes/sidebar2.php'; ?>
     <center>
         <div class="form-box">
             <center>

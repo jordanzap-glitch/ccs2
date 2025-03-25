@@ -125,7 +125,9 @@ $result = $stmt->get_result();
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-<div class="container mt-5">
+<?php include '../includes/sidebar2.php'; ?>
+
+<div class="container mt-4" style="max-width: 50%; margin: auto;">
 <h2>View Students</h2>
 <p><a class="btn btn-danger" href="dashboard.php">Back to Dashboard</a></p>
 <form method="GET" action="">

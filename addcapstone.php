@@ -62,8 +62,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+<?php include 'includes/sidebar3.php'; ?>
 
-<div class="container mt-5">
+<div class="container mt-4" style="max-width: 50%; margin: auto;">
     <h2>Submit Capstone Project</h2>
 
     <form action="addcapstone.php" method="POST" enctype="multipart/form-data">
