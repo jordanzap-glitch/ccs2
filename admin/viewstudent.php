@@ -261,7 +261,34 @@ $result = $stmt->get_result();
     <?php endif; ?>
 </div>
 </div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const menuToggle = document.getElementById("menu-toggle");  
+        const closeSidebar = document.getElementById("close-sidebar"); 
+        const sidebar = document.getElementById("sidebar");
+        const formBox = document.querySelector(".form-box"); // Form box
 
+        if (menuToggle) {
+            menuToggle.addEventListener("click", function () {
+                sidebar.classList.toggle("active");
+
+                // Hide the form box when sidebar is active
+                if (sidebar.classList.contains("active")) {
+                    formBox.style.display = "none";
+                } else {
+                    formBox.style.display = "block";
+                }
+            });
+        }
+
+        if (closeSidebar) {
+            closeSidebar.addEventListener("click", function () {
+                sidebar.classList.remove("active");
+                formBox.style.display = "block"; // Show the form box
+            });
+        }
+    });
+</script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

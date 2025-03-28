@@ -91,7 +91,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             backdrop-filter: blur(10px);
             border-radius: 12px;
             padding: 30px;
-            width: 650px;
+            width: 500px;
+            height: 500px;
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
         }
 
@@ -105,7 +106,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         .form__group {
             position: relative;
             margin-bottom: 15px;
-            width: 100%;
+            width: 90%;
         }
 
         .form__field, .form__group select {
@@ -113,8 +114,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             border: none;
             border-bottom: 2px solid var(--gray);
             outline: 0;
-            font-size: 1.3rem;
-            color: var(--white);
+            font-size: 1.1rem;
+            color: black; /* Change text color to black */
             padding: 10px 5px;
             background: transparent;
             transition: border-color 0.3s, color 0.3s;
@@ -197,6 +198,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="form-box">
         <center>
             <img src="../pic/srclogo.png" alt="School Logo" class="logo">
+            <img src="../pic/ccs-logo.png" alt="School Logo" class="logo">
         </center>
         <h3 class="text-white text-center">Add Teacher/Admin</h3>
         <form method="POST" action="addteacher.php">
@@ -231,7 +233,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <label for="dept" class="form__label">Select Department</label>
                     </div>
                     <div class="form__group">
-                        <input type="text" id="contactnumber" name="contactnumber" class="form__field" placeholder=" " required>
+                        <input type="number" id="contactnumber" name="contactnumber" class="form__field" placeholder=" " required>
                         <label for="contactnumber" class="form__label">Contact Number</label>
                     </div>
                     <div class="form__group">
@@ -247,6 +249,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <button type="submit" class="btn btn-custom"><i class="fas fa-user-plus"></i> Add Teacher/Admin</button>
         </form>
     </div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const menuToggle = document.getElementById("menu-toggle");  
+        const closeSidebar = document.getElementById("close-sidebar"); 
+        const sidebar = document.getElementById("sidebar");
+        const formBox = document.querySelector(".form-box"); // Form box
+
+        if (menuToggle) {
+            menuToggle.addEventListener("click", function () {
+                sidebar.classList.toggle("active");
+
+                // Hide the form box when sidebar is active
+                if (sidebar.classList.contains("active")) {
+                    formBox.style.display = "none";
+                } else {
+                    formBox.style.display = "block";
+                }
+            });
+        }
+
+        if (closeSidebar) {
+            closeSidebar.addEventListener("click", function () {
+                sidebar.classList.remove("active");
+                formBox.style.display = "block"; // Show the form box
+            });
+        }
+    });
+</script>
 </body>
 </html>
 

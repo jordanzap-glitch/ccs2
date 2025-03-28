@@ -10,7 +10,6 @@ $userId = $_SESSION['emp_id']; // Assuming userId is stored in session
 $firstName = $_SESSION['firstName']; 
 $lastName = $_SESSION['lastName'];
 $fullname = $firstName . ' ' . $lastName; // Correctly concatenate first name and last name
-$course = $_SESSION['course']; // Assuming course is stored in session
 $user_type = $_SESSION['user_type']; // Assuming user_type is stored in session
 $action = "Opened Add Student Page";
 $timestamp = date("Y-m-d H:i:s");
@@ -159,10 +158,9 @@ body {
     top: 0;
     display: block;
     transition: 0.2s;
-    font-size: 1.2rem; /* Increased from 1rem to 1.2rem */
+    font-size: 1.2rem;
     color: var(--gray);
 }
-
 
 /* Focus Effect */
 .form__field:focus ~ .form__label {
@@ -206,11 +204,16 @@ body {
     transform: scale(1.05);
 }
 
+/* Hide Elements */
+.hidden {
+    display: none !important;
+}
 </style>
 <body>
 <?php include '../includes/sidebar2.php'; ?>
     <div class="form-box">
         <img src="../pic/srclogo.png" alt="School Logo" class="logo">
+        <img src="../pic/ccs-logo.png" alt="School Logo" class="logo">
         <h3>Add Student</h3>
         <form method="POST" action="addstudent.php">
             <div class="form__group">
@@ -238,6 +241,40 @@ body {
             </div>
         <?php endif; ?>
     </div>
+
+    <!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const menuToggle = document.getElementById("menu-toggle");  
+        const closeSidebar = document.getElementById("close-sidebar"); 
+        const sidebar = document.getElementById("sidebar");
+        const formBox = document.querySelector(".form-box"); // Form box
+
+        if (menuToggle) {
+            menuToggle.addEventListener("click", function () {
+                sidebar.classList.toggle("active");
+
+                // Hide the form box when sidebar is active
+                if (sidebar.classList.contains("active")) {
+                    formBox.style.display = "none";
+                } else {
+                    formBox.style.display = "block";
+                }
+            });
+        }
+
+        if (closeSidebar) {
+            closeSidebar.addEventListener("click", function () {
+                sidebar.classList.remove("active");
+                formBox.style.display = "block"; // Show the form box
+            });
+        }
+    });
+</script>
+
 </body>
 </html>
+
 

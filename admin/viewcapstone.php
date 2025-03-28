@@ -299,5 +299,33 @@ $result = $stmt->get_result();
         <?php endif; ?>
     </div>
 </div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const menuToggle = document.getElementById("menu-toggle");  
+        const closeSidebar = document.getElementById("close-sidebar"); 
+        const sidebar = document.getElementById("sidebar");
+        const formBox = document.querySelector(".form-box"); // Form box
+
+        if (menuToggle) {
+            menuToggle.addEventListener("click", function () {
+                sidebar.classList.toggle("active");
+
+                // Hide the form box when sidebar is active
+                if (sidebar.classList.contains("active")) {
+                    formBox.style.display = "none";
+                } else {
+                    formBox.style.display = "block";
+                }
+            });
+        }
+
+        if (closeSidebar) {
+            closeSidebar.addEventListener("click", function () {
+                sidebar.classList.remove("active");
+                formBox.style.display = "block"; // Show the form box
+            });
+        }
+    });
+</script>
 </body>
 </html>

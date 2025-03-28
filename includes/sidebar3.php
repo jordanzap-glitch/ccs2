@@ -40,8 +40,8 @@
                 <i class="fas fa-user-graduate"></i> Student
             </a>
             <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="addstudent.php"><i class="fas fa-user-plus"></i> Add Student</a></li>
-                <li><a class="dropdown-item" href="viewstudent.php"><i class="fas fa-users"></i> View Students</a></li>
+                <li><a class="dropdown-item" href="admin/addstudent.php"><i class="fas fa-user-plus"></i> Add Student</a></li>
+                <li><a class="dropdown-item" href="admin/viewstudent.php"><i class="fas fa-users"></i> View Students</a></li>
             </ul>
         </li>
         <br>
