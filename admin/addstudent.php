@@ -212,8 +212,7 @@ body {
 <body>
 <?php include '../includes/sidebar2.php'; ?>
     <div class="form-box">
-        <img src="../pic/srclogo.png" alt="School Logo" class="logo">
-        <img src="../pic/ccs-logo.png" alt="School Logo" class="logo">
+
         <h3>Add Student</h3>
         <form method="POST" action="addstudent.php">
             <div class="form__group">
