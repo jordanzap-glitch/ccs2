@@ -5,9 +5,14 @@
     box-sizing: border-box;
 }
 
+/* Body Styling */
+body {
+    margin: 70px; /* Adds margin around the entire body */
+}
+
 /* Sidebar Styling */
 .sidebar {
-    width: 250px;
+    width: 230px;
     height: 100vh;
     background-color: #2c3e50;
     position: fixed;
@@ -18,115 +23,88 @@
 }
 
 .sidebar.active {
-    left: -250px;
-}
-
-.sidebar .logo {
-    border-radius: 50%;
-    margin-bottom: 10px;
-}
-
-.sidebar h2 {
-    color: #ecf0f1;
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.sidebar ul {
-    list-style: none;
-}
-
-.sidebar ul li {
-    padding: 15px 20px;
-}
-
-.sidebar ul li a {
-    color: #ecf0f1;
-    font-size: 18px;
-    text-decoration: none;
-    display: block;
-}
-
-.sidebar ul li a:hover, 
-.sidebar ul li a.active {
-    background-color: #2c3e50;
-    border-radius: 5px;
-}
-
-/* Hamburger Menu */
-.menu-toggle {
-    position: absolute;
-    top: 15px;
-    left: 15px;
-    font-size: 24px;
-    color: #2c3e50;
-    cursor: pointer;
-    display: none;
-}
-
-.menu-toggle.active {
-    color: #000000;
+    left: -230px;
 }
 
 /* Content Styling */
 .content {
-    margin-left: 250px;
+    margin: 30px; 
     padding: 20px;
-    transition: all 0.3s ease;
+    max-width: 85%;
+    background: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.sidebar.active {
-    left: -250px;
+/* Capstone List */
+.capstone-list {
+    margin: 20px;
+    padding: 10px;
 }
 
-.content {
-    transition: margin-left 0.3s ease;
+/* Capstone Item */
+.capstone-item {
+    transition: transform 0.3s ease-in-out;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+    font-size: 14px;
+    width: 90%;
+    height: auto;
+    margin: 15px auto;
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-.sidebar.active ~ .content {
-    margin-left: 0;
+.capstone-item:hover {
+    transform: scale(1.02);
 }
 
-/* Dropdown Menu */
-.nav-item.dropdown {
-    background: #2c3e50;
+/* Search Bar */
+.search-bar {
+    margin-bottom: 20px;
 }
 
-.dropdown-menu {
-    background: #2c3e50 !important;
-    border: none;
-}
-
-.dropdown-menu .dropdown-item {
-    color: #ecf0f1 !important;
-}
-
-.dropdown-menu .dropdown-item:hover {
-    background: #1f2c38 !important;
-}
-
-/* Hamburger Menu */
-.menu-toggle {
-    position: absolute;
-    top: 15px;
-    left: 15px;
-    font-size: 24px;
-    color: #3f4446;
+/* Citation Icon */
+.citation-icon {
     cursor: pointer;
-    display: none;
+    margin-left: 10px;
+    color: #007bff;
 }
 
-.menu-toggle.active {
-    color: #ecf0f1;
+/* Custom Button Styling */
+.btn-custom {
+    background-color: white;
+    color: black;
+    border: 1px solid #007bff;
+    padding: 5px 10px;
+    font-size: 13px;
+    margin: 3px 0;
 }
 
-/* Main Content */
-.content {
-    margin-left: 250px;
-    padding: 20px;
-    transition: all 0.3s ease;
+.btn-custom:hover {
+    background-color: #007bff;
+    color: white;
 }
 
+/* Button Column */
+.button-column {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+}
+
+/* Modal Content */
+.modal-content {
+    padding: 15px;
+    max-width: 420px;
+    margin: 15px auto;
+}
+
+/* Close Button */
 .close-btn {
     position: absolute;
     top: 10px;
@@ -138,14 +116,22 @@
     cursor: pointer;
 }
 
+/* Hidden Elements */
 .hidden {
     display: none;
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
-    .menu-toggle {
-        display: block;
+    .content {
+        max-width: 95%;
+        margin: 20px auto;
+        padding: 15px;
+    }
+
+    .capstone-item {
+        width: 95%;
+        margin: 10px auto;
     }
 
     .sidebar {
@@ -160,4 +146,4 @@
     .content {
         margin-left: 0;
     }
-}   
+}

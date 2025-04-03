@@ -31,6 +31,21 @@ if (strlen($_SESSION['userId']) == 0) {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 </head>
+<style>
+
+/* Optional: You can ensure no margin collapse with the parent elements */
+body, html {
+    margin: 70px;
+    padding: 0;
+    height: 70%;
+}
+
+.container {
+    padding-left: 70px; /* Just in case there is some padding you want to reset */
+    padding-right: 70px;
+}
+
+</style>
 <body>
 <?php include '../includes/sidebar2.php'; ?>
 

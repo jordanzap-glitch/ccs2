@@ -109,37 +109,29 @@ function formatCitation($data) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
-        .capstone-item {
-            transition: transform 0.3s ease-in-out;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .capstone-item:hover {
-            transform: scale(1.01);
-        }
-        .modal-content {
-            padding: 20px;
-        }
-        .citation-icon {
-            cursor: pointer;
-            margin-left: 10px;
-            color: #007bff;
-        }
-        .btn-custom {
-            background-color: white;
-            color: black;
-            border: 1px solid #007bff; /* Optional: Add a border */
-        }
-        .btn-custom:hover {
-            background-color: #007bff;
-            color: white;
-        }
-        .button-column {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end; /* Align buttons to the right */
-        }
+        body {
+    margin: 70px; /* Adds margin to all sides (top, bottom, left, right) */
+}
+
+.capstone-item {
+    margin-bottom: 20px; /* Adds margin below each capstone item */
+    transition: transform 0.3s ease-in-out;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.button-column {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-top: 10px; /* Adds space between buttons */
+}
+
+.search-bar {
+    margin-bottom: 30px; /* Adds margin below the search bar */
+}
+
     </style>
 </head>
 <body>
@@ -165,7 +157,7 @@ function formatCitation($data) {
             <i class="fas fa-book" style="font-size: 24px;"></i> Bookmarked
         </a></li>
         <li><a class="active" href="dashboardstud.php">
-            <i class="fas fa-arrow-circle-left me-2"></i> Back
+            <i class="fas fa-arrow-circle-left me-2"></i> Back Home
         </a></li>
     </ul>
 </div>
