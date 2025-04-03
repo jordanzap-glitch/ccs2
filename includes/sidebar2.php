@@ -40,8 +40,8 @@
                 <i class="fas fa-user-graduate"></i> Student
             </a>
             <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="admin/addstudent.php"><i class="fas fa-user-plus"></i> Add Student</a></li>
-                <li><a class="dropdown-item" href="admin/viewstudent.php"><i class="fas fa-users"></i> View Students</a></li>
+                <li><a class="dropdown-item" href="addstudent.php"><i class="fas fa-user-plus"></i> Add Student</a></li>
+                <li><a class="dropdown-item" href="viewstudent.php"><i class="fas fa-users"></i> View Students</a></li>
             </ul>
         </li>
         <br>
@@ -53,7 +53,7 @@
             </a>
             <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="../addcapstone.php"><i class="fas fa-plus"></i> Add Capstone</a></li>
-                <li><a class="dropdown-item" href="admin/viewcapstone.php"><i class="fas fa-eye"></i> View Capstone</a></li>
+                <li><a class="dropdown-item" href="viewcapstone.php"><i class="fas fa-eye"></i> View Capstone</a></li>
             </ul>
         </li>
         <br>
@@ -68,7 +68,7 @@
 
         <!-- Logout -->
         <li>
-            <a href="index.php" class="text-white">
+            <a href="../login.php" class="text-white">
                 <i class="fas fa-sign-out-alt"></i> Logout
             </a>
         </li>

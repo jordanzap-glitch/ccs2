@@ -60,7 +60,7 @@
 
         <!-- Logs Section with updated icon -->
         <li>
-            <a href="admin/logs.php" class="text-white">
+            <a href="logs.php" class="text-white">
             <i class="fa-solid fa-clock"></i> Logs
             </a>
         </li>
@@ -68,7 +68,7 @@
 
         <!-- Logout -->
         <li>
-            <a href="index.php" class="text-white">
+            <a href="login.php" class="text-white">
                 <i class="fas fa-sign-out-alt"></i> Logout
             </a>
         </li>
