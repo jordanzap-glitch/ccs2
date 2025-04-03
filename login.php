@@ -7,6 +7,11 @@ include 'db.php';
 
 $error_message = ''; // Initialize an error message variable
 
+// Create logs directory if it doesn't exist
+if (!file_exists('logs')) {
+    mkdir('logs', 0777, true);
+}
+
 if (isset($_POST['login'])) {
     // Get the submitted username and password
     $username = $_POST['username'];
@@ -15,9 +20,6 @@ if (isset($_POST['login'])) {
     // $password = md5($password); // Uncomment this line if you are using md5
 
     // Clean old logs from user_logs table
-    $clean_logs_query = "DELETE FROM user_logs WHERE timestamp < NOW() - INTERVAL 1 MONTH";
-    $conn->query($clean_logs_query);
-
     // Check in Teacher table
     $query_teacher = "SELECT * FROM tblteacher WHERE email = ? AND password = ?";
     $stmt_teacher = $conn->prepare($query_teacher);
@@ -37,12 +39,8 @@ if (isset($_POST['login'])) {
         $_SESSION['emailAddress'] = $rows_teacher['email'];
         $_SESSION['user_type'] = 'Teacher'; // Set session user type
 
-        // Insert log into user_logs table
-        $fullname = $_SESSION['firstName'] . ' ' . $_SESSION['lastName'];
-        $log_query = "INSERT INTO user_logs (user_id, fullname, course, action, user_type, timestamp) VALUES ( ?, ?, ?, 'Logged in as Teacher', ?, NOW())";
-        $log_stmt = $conn->prepare($log_query);
-        $log_stmt->bind_param("isss", $_SESSION['emp_id'], $fullname, $_SESSION['dept'], $_SESSION['user_type']);
-        $log_stmt->execute();
+        // Log to text file
+        file_put_contents('logs/loguser.txt', date('Y-m-d H:i:s') . " - $username: Login successful as Teacher\n", FILE_APPEND);
 
         header('Location:admin/dashboard.php'); // Redirect to the teacher dashboard
         exit();
@@ -66,18 +64,16 @@ if (isset($_POST['login'])) {
             $_SESSION['email'] = $rows_student['email'];
             $_SESSION['user_type'] = 'Student'; // Set session user type
 
-            // Insert log into user_logs table
-            $fullname = $_SESSION['firstName'] . ' ' . $_SESSION['lastName'];
-            $log_query = "INSERT INTO user_logs (user_id, fullname, course, action, user_type, timestamp) VALUES ( ?, ?, ?, 'Logged in as Student', ?, NOW())";
-            $log_stmt = $conn->prepare($log_query);
-            $log_stmt->bind_param("isss", $_SESSION['student_id'], $fullname, $_SESSION['course'], $_SESSION['user_type']);
-            $log_stmt->execute();
+            // Log to text file
+            file_put_contents('logs/loguser.txt', date('Y-m-d H:i:s') . " - $username: Login successful as Student\n", FILE_APPEND);
 
             header('Location:dashboardstud.php'); // Redirect to the student dashboard
             exit();
         } else {
             // Invalid username or password
             $error_message = "Invalid Username/Password!"; // Set the error message
+            // Log to text file
+            file_put_contents('logs/loguser.txt', date('Y-m-d H:i:s') . " - $username: Login failed\n", FILE_APPEND);
         }
     }
 }

@@ -1,7 +1,7 @@
 <?php
 include 'session.php';
 include 'db.php';
-error_reporting(0);
+error_reporting(E_ALL);
 
 // Log user access to the View Capstone Studies page
 logUser  ($_SESSION['student_id'], "Accessed View Capstone Studies Page");
@@ -20,49 +20,82 @@ function logUser  ($userId, $action) {
     $stmt->close();
 }
 
-// Function to check if a bookmark already exists
-function bookmarkExists($studentId, $capstoneId) {
-    global $conn; // Use the global connection variable
-    $stmt = $conn->prepare("SELECT COUNT(*) FROM tblbookmark WHERE student_id = ? AND capstone_id = ?");
-    $stmt->bind_param("si", $studentId, $capstoneId);
-    $stmt->execute();
-    $stmt->bind_result($count);
-    $stmt->fetch();
-    $stmt->close();
-    return $count > 0;
-}
-
-// Function to toggle bookmark status
-function toggleBookmark($studentId, $fullName, $capstoneId) {
-    global $conn; // Use the global connection variable
-    if (bookmarkExists($studentId, $capstoneId)) {
-        // If it exists, delete the bookmark
-        $stmt = $conn->prepare("DELETE FROM tblbookmark WHERE student_id = ? AND capstone_id = ?");
-        $stmt->bind_param("si", $studentId, $capstoneId);
-        $stmt->execute();
-        $stmt->close();
-        return false; // Return false to indicate it was unmarked
-    } else {
-        // If it doesn't exist, insert a new bookmark
-        $stmt = $conn->prepare("INSERT INTO tblbookmark (student_id, full_name, capstone_id, status) VALUES (?, ?, ?, 'Marked')");
-        $stmt->bind_param("ssi", $studentId, $fullName, $capstoneId);
-        $stmt->execute();
-        $stmt->close();
-        return true; // Return true to indicate it was marked
-    }
-}
-
 // Handle bookmark request
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data = json_decode(file_get_contents("php://input"), true);
-    if (isset($data['studentId']) && isset($data['fullName']) && isset($data['capstoneId'])) {
-        $success = toggleBookmark($data['studentId'], $data['fullName'], $data['capstoneId']);
-        echo json_encode(['success' => $success]);
+    if (isset($data['capstoneId'])) {
+        $studentId = $_SESSION['student_id'];
+        $capstoneId = $data['capstoneId'];
+
+        // Check if the capstone is already bookmarked
+        $stmt = $conn->prepare("SELECT * FROM tblbookmark WHERE student_id = ? AND capstone_id = ?");
+        $stmt->bind_param("is", $studentId, $capstoneId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            // Unbookmark the capstone
+            $stmt = $conn->prepare("DELETE FROM tblbookmark WHERE student_id = ? AND capstone_id = ?");
+            $stmt->bind_param("is", $studentId, $capstoneId);
+            $stmt->execute();
+            $stmt->close();
+            echo json_encode(['success' => true, 'message' => 'Unbookmarked successfully']);
+        } else {
+            // Bookmark the capstone
+            $fullName = $_SESSION['firstName'] . ' ' . $_SESSION['lastName'];
+            $status = 'marked';
+
+            $stmt = $conn->prepare("INSERT INTO tblbookmark (student_id, full_name, capstone_id, status) VALUES (?, ?, ?, ?)");
+            $stmt->bind_param("isss", $studentId, $fullName, $capstoneId, $status);
+            $stmt->execute();
+            $stmt->close();
+            echo json_encode(['success' => true, 'message' => 'Bookmarked successfully']);
+        }
         exit;
     } else {
         echo json_encode(['success' => false, 'message' => 'Invalid input']);
         exit;
     }
+}
+
+// Fetch citation information
+if (isset($_GET['citationId'])) {
+    $capstoneId = $_GET['citationId'];
+    $stmt = $conn->prepare("SELECT a1_sname, a1_fname, a2_mname, a2_sname, a2_fname, a2_mname, a3_sname, a3_fname, a3_mname, submit_date, title FROM tbl_capstone WHERE id = ?");
+    $stmt->bind_param("i", $capstoneId);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $citationData = $result->fetch_assoc();
+    $stmt->close();
+
+    // Format citation in APA style
+    $citation = formatCitation($citationData);
+    echo json_encode(['citation' => $citation, 'title' => htmlspecialchars($citationData['title'])]);
+    exit;
+}
+
+// Function to format citation in APA style
+function formatCitation($data) {
+    $authors = [];
+    if (!empty($data['a1_fname']) && !empty($data['a1_sname'])) {
+        $authors[] = $data['a1_sname'] . ', ' . strtoupper(substr($data['a1_fname'], 0, 1)) . '.';
+    }
+    if (!empty($data['a2_fname']) && !empty($data['a2_sname'])) {
+        $authors[] = $data['a2_sname'] . ', ' . strtoupper(substr($data['a2_fname'], 0, 1)) . '.';
+    }
+    if (!empty($data['a3_fname']) && !empty($data['a3_sname'])) {
+        $authors[] = $data['a3_sname'] . ', ' . strtoupper(substr($data['a3_fname'], 0, 1)) . '.';
+    }
+
+    // Use "et al." if there are three or more authors
+    if (count($authors) > 2) {
+        $authors = [implode(', ', array_slice($authors, 0, 1)) . ' et al.'];
+    }
+
+    $authorString = implode(', ', $authors);
+    $date = date('Y', strtotime($data['submit_date']));
+
+    return "$authorString. ($date). " . htmlspecialchars($data['title']) . ". Retrieved from URL"; // Replace "URL" with actual value as needed
 }
 ?>
 
@@ -77,8 +110,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
         .capstone-item {
-            cursor: pointer;
             transition: transform 0.3s ease-in-out;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
         .capstone-item:hover {
             transform: scale(1.01);
@@ -86,13 +121,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         .modal-content {
             padding: 20px;
         }
-        .bookmark {
+        .citation-icon {
             cursor: pointer;
+            margin-left: 10px;
             color: #007bff;
-            font-size: 24px;
         }
-        .bookmarked {
-            color: #ffcc00; /* Change color for marked icon */
+        .btn-custom {
+            background-color: white;
+            color: black;
+            border: 1px solid #007bff; /* Optional: Add a border */
+        }
+        .btn-custom:hover {
+            background-color: #007bff;
+            color: white;
+        }
+        .button-column {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end; /* Align buttons to the right */
         }
     </style>
 </head>
@@ -115,7 +161,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <li><a class="active" href="View.php">
             <i class="fas fa-eye" style="font-size: 24px;"></i> View Studies
         </a></li>
-        <li><a class="active" href="View.php">
+        <li><a class="active" href="student/bookmarked.php">
             <i class="fas fa-book" style="font-size: 24px;"></i> Bookmarked
         </a></li>
         <li><a class="active" href="dashboardstud.php">
@@ -165,20 +211,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($result && $result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
             $capstoneId = htmlspecialchars($row['id']);
-            $isBookmarked = bookmarkExists($_SESSION['student_id'], $capstoneId) ? 'bookmarked' : '';
-            echo '<div class="capstone-item" data-bs-toggle="modal" data-bs-target="#capstoneModal" 
-                    data-title="' . htmlspecialchars($row['title']) . '" 
-                    data-description="' . htmlspecialchars($row['description']) . '" 
-                    data-date="' . htmlspecialchars($row['submitted_at']) . '" 
-                    data-pdf="' . htmlspecialchars($row['imrad_path']) . '" 
-                    data-id="' . $capstoneId . '">';
-            echo '<h3>' . htmlspecialchars($row['title']) . '</h3>';
-            echo '<p>' . htmlspecialchars($row['description']) . '</p>';
-            echo '<small>Submitted on: ' . htmlspecialchars($row['submitted_at']) . '</small>';
-            echo '<span class="bookmark ' . $isBookmarked . '" data-capstone-id="' . $capstoneId . '" title="Bookmark this project">
-                    <i class="fas fa-bookmark ' . ($isBookmarked ? 'bookmarked' : '') . '"></i>
-                  </span>';
-            echo '</div> <hr>';
+            $bookmarked = false;
+
+            // Check if the capstone is bookmarked
+            $bookmarkCheck = $conn->prepare("SELECT * FROM tblbookmark WHERE student_id = ? AND capstone_id = ?");
+            $bookmarkCheck->bind_param("is", $_SESSION['student_id'], $capstoneId);
+            $bookmarkCheck->execute();
+            $bookmarkResult = $bookmarkCheck->get_result();
+            if ($bookmarkResult->num_rows > 0) {
+                $bookmarked = true;
+            }
+            $bookmarkCheck->close();
+
+            echo '<div class="capstone-item" data-pdf="' . htmlspecialchars($row['imrad_path']) . '">
+                    <div>
+                        <h3>' . htmlspecialchars($row['title']) . '</h3>
+                        <p>' . htmlspecialchars($row['description']) . '</p>
+                        <small>Submitted on: ' . htmlspecialchars($row['submitted_at']) . '</small>
+                        <span class="citation-icon" data-capstone-id="' . $capstoneId . '" title="Get Citation">
+                            <i class="fas fa-quote-right"></i>
+                        </span>
+                    </div>
+                    <div class="button-column">
+                        <button class="btn btn-custom bookmark-btn" data-capstone-id="' . $capstoneId . '">
+                            <i class="fas fa-bookmark"></i> ' . ($bookmarked ? 'Unbookmark' : 'Bookmark') . '
+                        </button>
+                        <a href="' . htmlspecialchars($row['imrad_path']) . '" download class="btn btn-custom mt-2">
+                            <i class="fas fa-download"></i> Download PDF
+                        </a>
+                    </div>
+                  </div> <hr>';
         }
     } else {
         echo '<p>No capstone projects found matching your search.</p>';
@@ -186,6 +248,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $conn->close();
     ?>
+    </div>
+</div>
+
+<!-- Bootstrap Modal for Citation -->
+<div class="modal fade" id="citationModal" tabindex="-1" aria-labelledby="citationModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="citationModalLabel">Citation</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p id="citationText"></p>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -201,10 +278,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <p id="capstoneDescription"></p>
                 <small id="capstoneDate"></small>
                 <br>
-                <a id="capstonePdfLink" href="#" download class="btn btn-primary mt-3" style="display:none;">Download PDF</a>
-                <span class="bookmark" id="bookmarkIcon" title="Bookmark this project">
-                    <i class="fa-regular fa-bookmark"></i>
-                </span>
+                <a id="capstonePdfLink" href="#" download class="btn btn-custom mt-3" style="display:none;">Download PDF</a>
             </div>
         </div>
     </div>
@@ -213,54 +287,62 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        document.querySelectorAll(".capstone-item").forEach(item => {
+        const capstoneItems = document.querySelectorAll(".capstone-item");
+        capstoneItems.forEach(item => {
             item.addEventListener("click", function () {
-                let title = this.getAttribute("data-title");
-                let description = this.getAttribute("data-description");
-                let date = this.getAttribute("data-date");
-                let pdfPath = this.getAttribute("data-pdf");
-                let capstoneId = this.getAttribute("data-id");
+                let title = this.querySelector("h3").innerText;
+                let description = this.querySelector("p").innerText;
+                let date = this.querySelector("small").innerText;
 
                 document.getElementById("capstoneModalLabel").innerText = title;
                 document.getElementById("capstoneDescription").innerText = description;
-                document.getElementById("capstoneDate").innerText = "Submitted on: " + date;
-                let pdfLink = document.getElementById("capstonePdfLink");
-                pdfLink.href = pdfPath;
-                pdfLink.style.display = pdfPath ? 'block' : 'none';
+                document.getElementById("capstoneDate").innerText = date;
 
-                const bookmarkIcon = document.getElementById("bookmarkIcon");
-                bookmarkIcon.setAttribute("data-capstone-id", capstoneId);
-                bookmarkIcon.querySelector('i').classList.toggle('bookmarked', bookmarkExists('<?php echo $_SESSION['student_id']; ?>', capstoneId));
+                const pdfLink = document.getElementById("capstonePdfLink");
+                pdfLink.href = this.getAttribute("data-pdf");
+                pdfLink.style.display = pdfLink.href ? 'block ' : 'none';
             });
         });
 
-        const bookmarkIcon = document.getElementById("bookmarkIcon");
-        bookmarkIcon.addEventListener("click", function () {
-            const studentId = "<?php echo $_SESSION['student_id']; ?>";
-            const fullName = "<?php echo $_SESSION['firstName'] . ' ' . $_SESSION['lastName']; ?>";
-            const capstoneId = this.getAttribute("data-capstone-id");
-            fetch('', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ studentId, fullName, capstoneId })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    const icon = this.querySelector('i');
-                    if (icon.classList.contains('bookmarked')) {
-                        icon.classList.remove('bookmarked'); // Change icon to unmarked
-                        alert("This project has been unbookmarked!");
+        const bookmarkButtons = document.querySelectorAll(".bookmark-btn");
+        bookmarkButtons.forEach(button => {
+            button.addEventListener("click", function (event) {
+                event.stopPropagation(); // Prevent modal from opening
+                const capstoneId = this.getAttribute("data-capstone-id");
+                fetch("View.php", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ capstoneId: capstoneId })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.message);
+                    // Update the button text based on the bookmark status
+                    if (data.message.includes('Bookmarked')) {
+                        this.innerHTML = '<i class="fas fa-bookmark"></i> Unbookmark';
                     } else {
-                        icon.classList.add('bookmarked'); // Change icon to marked
-                       
+                        this.innerHTML = '<i class="fas fa-bookmark"></i> Bookmark';
                     }
-                    location.reload(); // Refresh the page to show updated bookmarks
-                } else {
-                    location.reload();
-                }
+                })
+                .catch(error => console.error('Error:', error));
+            });
+        });
+
+        const citationIcons = document.querySelectorAll(".citation-icon");
+        citationIcons.forEach(icon => {
+            icon.addEventListener("click", function (event) {
+                event.stopPropagation(); // Prevent modal from opening
+                const capstoneId = this.getAttribute("data-capstone-id");
+                fetch(`View.php?citationId=${capstoneId}`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("citationText").innerText = data.citation;
+                    const citationModal = new bootstrap.Modal(document.getElementById('citationModal'));
+                    citationModal.show();
+                })
+                .catch(error => console.error('Error:', error));
             });
         });
 
@@ -271,12 +353,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             sidebar.classList.toggle("active");
         });
     });
-
-    function bookmarkExists(studentId, capstoneId) {
-        // This function should return true or false based on the bookmark status
-        // You can implement an AJAX call to check the bookmark status if needed
-        return false; // Placeholder return value
-    }
 </script>
 
 </body>
