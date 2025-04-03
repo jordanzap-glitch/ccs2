@@ -1,7 +1,6 @@
 <?php
 include 'session.php';
 include 'db.php'; 
-error_reporting(0);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
    
@@ -11,17 +10,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $a1_fname = $conn->real_escape_string($_POST['a1_fname']);
     $a1_mname = $conn->real_escape_string($_POST['a1_mname']);
     $a1_role = $conn->real_escape_string($_POST['a1_role']);
-    
-    $a2_sname = $conn->real_escape_string($_POST['a2_sname']);
-    $a2_fname = $conn->real_escape_string($_POST['a2_fname']);
-    $a2_mname = $conn->real_escape_string($_POST['a2_mname']);
-    $a2_role = $conn->real_escape_string($_POST['a2_role']);
-    
-    $a3_sname = $conn->real_escape_string($_POST['a3_sname']);
-    $a3_fname = $conn->real_escape_string($_POST['a3_fname']);
-    $a3_mname = $conn->real_escape_string($_POST['a3_mname']);
-    $a3_role = $conn->real_escape_string($_POST['a3_role']);
-    
     $submit_date = $conn->real_escape_string($_POST['submit_date']);
     $adviser = $conn->real_escape_string($_POST['adviser']);
     $link_path = $conn->real_escape_string($_POST['link_path']);
@@ -45,14 +33,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Dito mag save ng data
     if ($uploadOk) {
-        $sql = "INSERT INTO tbl_capstone (title, abstract, a1_sname, a1_fname, a1_mname, a1_role, 
-                a2_sname, a2_fname, a2_mname, a2_role, 
-                a3_sname, a3_fname, a3_mname, a3_role, 
-                submit_date, adviser, poster_path, imrad_path, link_path) 
-                VALUES ('$title', '$abstract', '$a1_sname', '$a1_fname', '$a1_mname','$a1_role', 
-                '$a2_sname', '$a2_fname', '$a2_mname', '$a2_role', 
-                '$a3_sname', '$a3_fname', '$a3_mname', '$a3_role', 
-                '$submit_date', '$adviser', '$poster_path', '$imrad_path', '$link_path')";
+        $sql = "INSERT INTO tbl_capstone (title, abstract, a1_sname, a1_fname, a1_mname, a1_role, submit_date, adviser, poster_path, imrad_path, link_path) 
+                VALUES ('$title', '$abstract', '$a1_sname', '$a1_fname', '$a1_mname','$a1_role', '$submit_date', '$adviser', '$poster_path', '$imrad_path', '$link_path')";
 
         if ($conn->query($sql) === TRUE) {
             echo "<div class='alert alert-success'>New record created successfully!</div>";
@@ -61,8 +43,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
 
+
     $conn->close();
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -75,6 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 <?php include 'includes/sidebar3.php'; ?>
@@ -85,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <form action="addcapstone.php" method="POST" enctype="multipart/form-data">
     <div class="row">
         <div class="col-md-6">
-            <div class="mb -3">
+            <div class="mb-3">
                 <label for="title" class="form-label">Title</label>
                 <input type="text" class="form-control" name="title" required>
             </div>
@@ -96,82 +81,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </div>
 
             <div class="mb-3">
-                <label for="a1_sname" class="form-label">Author 1 (Lastname)</label>
+                <label for="a1_sname" class="form-label">Lastname</label>
                 <input type="text" class="form-control" name="a1_sname" required>
             </div>
 
             <div class="mb-3">
-                <label for="a1_fname" class="form-label">Author 1 (Firstname)</label>
+                <label for="a1_fname" class="form-label">Firstname</label>
                 <input type="text" class="form-control" name="a1_fname" required>
             </div>
 
             <div class="mb-3">
-                <label for="a1_mname" class="form-label">Author 1 (Middlename)</label>
+                <label for="a1_mname" class="form-label">Middle</label>
                 <input type="text" class="form-control" name="a1_mname">
-            </div>
-
-            <div class="mb-3">
-                <label for="a1_role" class="form-label">Author 1 Role</label>
-                <select class="form-select" name="a1_role" required>
-                    <option value="" disabled selected>Select Role</option>
-                    <option value="Project Leader">Project Leader</option>
-                    <option value="System Developer">System Developer</option>
-                    <option value="System Analyst">System Analyst</option>
-                </select>
-            </div>
-
-            <div class="mb-3">
-                <label for="a2_sname" class="form-label">Author 2 (Lastname)</label>
-                <input type="text" class="form-control" name="a2_sname">
-            </div>
-
-            <div class="mb-3">
-                <label for="a2_fname" class="form-label">Author 2 (Firstname)</label>
-                <input type="text" class="form-control" name="a2_fname">
-            </div>
-
-            <div class="mb-3">
-                <label for="a2_mname" class="form-label">Author 2 (Middlename)</label>
-                <input type="text" class="form-control" name="a2_mname">
-            </div>
-
-            <div class="mb-3">
-                <label for="a2_role" class="form-label">Author 2 Role</label>
-                <select class="form-select" name="a2_role">
-                    <option value="" disabled selected>Select Role</option>
-                    <option value="Project Leader">Project Leader</option>
-                    <option value="System Developer">System Developer</option>
-                    <option value="System Analyst">System Analyst</option>
-                </select>
-            </div>
-
-            <div class="mb-3">
-                <label for="a3_sname" class="form-label">Author 3 (Lastname)</label>
-                <input type="text" class="form-control" name="a3_sname">
-            </div>
-
-            <div class="mb-3">
-                <label for="a3_fname" class="form-label">Author 3 (Firstname)</label>
-                <input type="text" class="form-control" name="a3_fname">
-            </div>
-
-            <div class="mb-3">
-                <label for="a3_mname" class="form-label">Author 3 (Middlename)</label>
-                <input type="text" class="form-control" name="a3_mname">
-            </div>
-
-            <div class="mb-3">
-                <label for="a3_role" class="form-label">Author 3 Role</label>
-                <select class="form-select" name="a3_role">
-                    <option value="" disabled selected>Select Role</option>
-                    <option value="Project Leader">Project Leader</option>
-                    <option value="System Developer">System Developer</option>
-                    <option value="System Analyst">System Analyst</option>
-                </select>
             </div>
         </div>
 
         <div class="col-md-6">
+            <div class="mb-3">
+                <label for="a1_role" class="form-label">Role</label>
+                <input type="text" class="form-control" name="a1_role" required>
+            </div> 
+
             <div class="mb-3">
                 <label for="submit_date" class="form-label">Date</label>
                 <input type="date" class="form-control" name="submit_date" required>
@@ -180,7 +110,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div class="mb-3">
                 <label for="adviser" class="form-label">Adviser</label>
                 <input type="text" class="form-control" name="adviser" required>
-            </div class="mb-3">
+            </div>
+
+            <div class="mb-3">
                 <label for="poster_path" class="form-label">Poster File (Image)</label>
                 <input type="file" class="form-control" name="poster_path" accept="image/*" required>
             </div>
@@ -227,3 +159,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </script>
 </body>
 </html>
+

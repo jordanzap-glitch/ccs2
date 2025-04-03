@@ -5,7 +5,6 @@ include '../db.php'; // Include your database connection file
 $message = "";
 $toastClass = "";
 
-
 // Log user action when the page is opened
 $userId = $_SESSION['emp_id']; // Assuming userId is stored in session
 $firstName = $_SESSION['firstName']; 
@@ -15,8 +14,11 @@ $user_type = $_SESSION['user_type']; // Assuming user_type is stored in session
 $action = "Opened Add Student Page";
 $timestamp = date("Y-m-d H:i:s");
 
-// Log to text file
-file_put_contents('../logs/loguser.txt', "$timestamp - $fullname ($userId): $action\n", FILE_APPEND);
+// Insert user log for page open
+$log_stmt = $conn->prepare("INSERT INTO user_logs (user_id, fullname, course, user_type, action, timestamp) VALUES (?, ?, ?, ?, ?, ?)");
+$log_stmt->bind_param("ssssss", $userId, $fullname, $course, $user_type, $action, $timestamp);
+$log_stmt->execute();
+$log_stmt->close();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $student_id = $_POST['student_id'];
@@ -37,7 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $toastClass = "#dc3545"; // Danger color
     } else {
         // Generate a unique access code
-        $accessCode = bin2hex(random_bytes(3)); // Generates a random 6-character hexadecimal string
+        $accessCode = bin2hex(random_bytes(3)); // Generates a random 20-character hexadecimal string
 
         // Prepare and bind
         $stmt = $conn->prepare("INSERT INTO tblstudent (student_id, firstname, middlename, lastname, accessCode) VALUES (?, ?, ?, ?, ?)");
@@ -46,8 +48,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($stmt->execute()) {
             // Log user action for adding a student
             $action = "Added Student: " . $firstname . " " . $lastname;
-            $timestamp = date("Y-m-d H:i:s");
-            file_put_contents('../logs/loguser.txt', "$timestamp - $fullname ($userId): $action\n", FILE_APPEND);
+            $log_stmt = $conn->prepare("INSERT INTO user_logs (user_id, fullname, course, user_type, action, timestamp) VALUES (?, ?, ?, ?, ?, ?)");
+            $log_stmt->bind_param("ssssss", $userId, $fullname, $course, $user_type, $action, $timestamp);
+            $log_stmt->execute();
+            $log_stmt->close();
 
             $message = "Student added successfully. Access Code: " . $accessCode;
             $toastClass = "#28a745"; // Success color
@@ -244,7 +248,7 @@ body {
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const menuToggle = document.getElementById("menu-toggle");  
-        const closeSidebar = document.getElementById("close-sidebar "); 
+        const closeSidebar = document.getElementById("close-sidebar"); 
         const sidebar = document.getElementById("sidebar");
         const formBox = document.querySelector(".form-box"); // Form box
 
@@ -272,3 +276,5 @@ body {
 
 </body>
 </html>
+
+

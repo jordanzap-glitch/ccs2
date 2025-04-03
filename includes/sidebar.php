@@ -187,9 +187,6 @@
         <li><a class="active" href="../View.php">
             <i class="fas fa-eye" style="font-size: 24px;"></i> View Studies
         </a></li>
-        <li><a class="active" href="../student/bookmarked.php">
-            <i class= "fa-solid fa-bookmark" style="font-size: 24px;"></i> Bookmarks
-        </a></li>
         <li><a class="active" href="../dashboardstud.php">
             <i class="fas fa-arrow-circle-left me-2" style="font-size: 24px;"></i> Back Home
         </a></li>

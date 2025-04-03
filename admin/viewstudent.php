@@ -2,20 +2,6 @@
 include '../session.php';
 include '../db.php'; // Include your database connection file
 
-// Create ../logs directory if it doesn't exist
-
-
-// Log user action when the page is opened
-$userId = $_SESSION['emp_id']; // Assuming userId is stored in session
-$firstName = $_SESSION['firstName']; 
-$lastName = $_SESSION['lastName'];
-$fullname = $firstName . ' ' . $lastName; // Correctly concatenate first name and last name
-$action = "Opened View Students Page";
-$timestamp = date("Y-m-d H:i:s");
-
-// Log to text file
-file_put_contents('../logs/loguser.txt', "$timestamp - $fullname ($userId): $action\n", FILE_APPEND);
-
 // Set the number of results per page
 $results_per_page = 5;
 
@@ -80,9 +66,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update'])) {
 
     if ($stmt->execute()) {
         $message = "Student updated successfully.";
-        // Log the update action
-        $action = "Updated Student ID: $student_id";
-        file_put_contents('../logs/loguser.txt', "$timestamp - $fullname ($userId): $action\n", FILE_APPEND);
     } else {
         $message = "Error: " . $stmt->error;
     }
@@ -97,9 +80,6 @@ if (isset($_GET['delete'])) {
     
     if ($stmt->execute()) {
         $message = "Student deleted successfully.";
-        // Log the delete action
-        $action = "Deleted Student ID : $delete_id";
-        file_put_contents('../logs/loguser.txt', "$timestamp - $fullname ($userId): $action\n", FILE_APPEND);
     } else {
         $message = "Error: " . $stmt->error;
     }
@@ -301,7 +281,7 @@ $result = $stmt->get_result();
             });
         }
 
-        if ( closeSidebar) {
+        if (closeSidebar) {
             closeSidebar.addEventListener("click", function () {
                 sidebar.classList.remove("active");
                 formBox.style.display = "block"; // Show the form box

@@ -1,21 +1,6 @@
 <?php
 include '../db.php'; // Include your database connection file
 include '../session.php';
-
-// Create ../logs directory if it doesn't exist
-
-
-// Log user action when the page is opened
-$userId = $_SESSION['emp_id']; // Assuming userId is stored in session
-$firstName = $_SESSION['firstName']; 
-$lastName = $_SESSION['lastName'];
-$fullname = $firstName . ' ' . $lastName; // Correctly concatenate first name and last name
-$action = "Opened View Capstone Projects Page";
-$timestamp = date("Y-m-d H:i:s");
-
-// Log to text file
-file_put_contents('../logs/loguser.txt', "$timestamp - $fullname ($userId): $action\n", FILE_APPEND);
-
 // Set the number of results per page
 $results_per_page = 5;
 
@@ -89,7 +74,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update'])) {
         $result = $stmt->get_result();
         $row = $result->fetch_assoc();
         $imrad_path = $row['imrad_path'];
-        $stmt-> close();
+        $stmt->close();
     }
 
     // Prepare and bind
@@ -98,26 +83,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update'])) {
 
     if ($stmt->execute()) {
         $message = "Capstone project updated successfully.";
-        // Log the update action
-        $action = "Updated Capstone Project ID: $id";
-        file_put_contents('../logs/loguser.txt', "$timestamp - $fullname ($userId): $action\n", FILE_APPEND);
-    } else {
-        $message = "Error: " . $stmt->error;
-    }
-
-    $stmt->close();
-}
-
-if (isset($_GET['delete'])) {
-    $delete_id = $_GET['delete'];
-    $stmt = $conn->prepare("DELETE FROM tbl_capstone WHERE id = ?");
-    $stmt->bind_param("i", $delete_id);
-    
-    if ($stmt->execute()) {
-        $message = "Capstone project deleted successfully.";
-        // Log the delete action
-        $action = "Deleted Capstone Project ID: $delete_id";
-        file_put_contents('../logs/loguser.txt', "$timestamp - $fullname ($userId): $action\n", FILE_APPEND);
     } else {
         $message = "Error: " . $stmt->error;
     }
@@ -137,9 +102,23 @@ if ($edit_id) {
     $stmt->close();
 }
 
+if (isset($_GET['delete'])) {
+    $delete_id = $_GET['delete'];
+    $stmt = $conn->prepare("DELETE FROM tbl_capstone WHERE id = ?");
+    $stmt->bind_param("i", $delete_id);
+    
+    if ($stmt->execute()) {
+        $message = "Capstone project deleted successfully.";
+    } else {
+        $message = "Error: " . $stmt->error;
+    }
+
+    $stmt->close();
+}
+
 $search_query = isset($_GET['search']) ? $_GET['search'] : '';
 
-// Fetch capstone projects from the database with pagination and search
+// Fetch students from the database with pagination and search
 $sql = "SELECT id, title, abstract, a1_sname, a1_fname, a1_mname, a1_role, adviser, submit_date, poster_path, imrad_path, link_path 
         FROM tbl_capstone 
         WHERE title LIKE ? OR adviser LIKE ? 
@@ -268,7 +247,7 @@ $result = $stmt->get_result();
                                         </div>
                                         <div class="form-group">
                                             <label for="submit_date">Submit Date</label>
-                                            <input type="date" class=" form-control" name="submit_date" value="<?= htmlspecialchars($row['submit_date']); ?>" required>
+                                            <input type="date" class="form-control" name="submit_date" value="<?= htmlspecialchars($row['submit_date']); ?>" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="poster_path">Poster Path</label>
