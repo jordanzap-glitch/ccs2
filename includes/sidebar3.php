@@ -60,7 +60,7 @@
 
         <!-- Logs Section with updated icon -->
         <li>
-            <a href="logs.php" class="text-white">
+            <a href="admin/logs.php" class="text-white">
             <i class="fa-solid fa-clock"></i> Logs
             </a>
         </li>

@@ -92,7 +92,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             border-radius: 12px;
             padding: 30px;
             width: 500px;
-            height: 500px;
+            height: 430px;
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
         }
 
@@ -197,8 +197,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <?php include '../includes/sidebar2.php'; ?>
     <div class="form-box">
         <center>
-            <img src="../pic/srclogo.png" alt="School Logo" class="logo">
-            <img src="../pic/ccs-logo.png" alt="School Logo" class="logo">
         </center>
         <h3 class="text-white text-center">Add Teacher/Admin</h3>
         <form method="POST" action="addteacher.php">
