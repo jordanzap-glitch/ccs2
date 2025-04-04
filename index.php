@@ -32,28 +32,84 @@ function getYouTubeVideoId($url) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="static/css/index.css">
     <style>
+        /* Navbar Styles */
         .navbar {
-            background-color:rgb(45, 73, 122);  
+            background-color: rgb(28, 74, 153);
+            transition: background-color 0.3s ease;
         }
-        .container {
-            max-width: 900px;
-            margin: auto;
-        }   
+
+        .navbar:hover {
+            background-color: rgb(10, 45, 105);
+        }
+
+        .navbar-brand img {
+            width: 40px;
+            height: auto;
+        }
+
+        /* Carousel Section */
+        .carousel-inner {
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .carousel-item {
+            height: 100%;
+        }
+
+        .carousel-item img {
+            width: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .carousel-item img:hover {
+            transform: scale(1.1);
+        }
+
+        /* Grid Section */
+        .grid-item {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            background-color: rgb(28, 74, 153);;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .grid-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .grid-item .grid-icon {
+            font-size: 3rem;
+            color: #007bff;
+        }
+
+        .grid-item h4 {
+            margin-top: 10px;
+        }
+
+        /* Image Zoom Effects */
         .picture-box {
             position: relative;
             cursor: pointer;
             overflow: hidden;
+            border-radius: 10px;
         }
+
         .picture-box img {
             width: 100%;
             transition: transform 0.3s ease-in-out;
+            border-radius: 5px;
         }
+
         .picture-box img:hover {
             transform: scale(1.1);
         }
-        .modal img {
-            width: 100%;
-        }
+
+        /* Fullscreen Modal */
         .fullscreen-modal {
             display: none;
             position: fixed;
@@ -66,10 +122,13 @@ function getYouTubeVideoId($url) {
             justify-content: center;
             align-items: center;
         }
+
         .fullscreen-modal img {
             max-width: 90%;
             max-height: 90%;
+            border-radius: 10px;
         }
+
         .fullscreen-modal .close {
             position: absolute;
             top: 20px;
@@ -77,6 +136,30 @@ function getYouTubeVideoId($url) {
             color: white;
             font-size: 30px;
             cursor: pointer;
+        }
+
+        /* Footer */
+        footer {
+            background-color: rgb(28, 74, 153);;
+            padding: 20px 0;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        footer p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: white;
+        }
+
+        /* Modal Image Preview */
+        .modal-content {
+            border-radius: 15px;
+        }
+
+        .modal-body img {
+            width: 100%;
+            border-radius: 10px;
         }
     </style>
 </head>
@@ -112,18 +195,27 @@ function getYouTubeVideoId($url) {
     <div class="carousel-inner">
         <div class="carousel-item active">
             <div class="banner text-center">
+                <img src="pic/srclogo.png" alt="Logo" class="img-fluid mb-3" style="max-width: 100px;">
+                <img src="pic/ccs-logo.png" alt="Logo" class="img-fluid mb-3" style="max-width: 100px;">
+                <img src="pic/ssite-removebg-preview.png" alt="Logo" class="img-fluid mb-3" style="max-width: 100px;">
                 <h1 class="display-4">Welcome to CCS</h1>
                 <p class="lead">Your gateway to streamlined solutions</p>
             </div>
         </div>
         <div class="carousel-item">
             <div class="banner text-center">
+                <img src="pic/srclogo.png" alt="Logo" class="img-fluid mb-3" style="max-width: 100px;">
+                <img src="pic/ccs-logo.png" alt="Logo" class="img-fluid mb-3" style="max-width: 100px;">
+                <img src="pic/ssite-removebg-preview.png" alt="Logo" class="img-fluid mb-3" style="max-width: 100px;">
                 <h1 class="display-4">Innovate with Us</h1>
                 <p class="lead">Explore endless possibilities in technology</p>
             </div>
         </div>
         <div class="carousel-item">
             <div class="banner text-center">
+                <img src="pic/srclogo.png" alt="Logo" class="img-fluid mb-3" style="max-width: 100px;">
+                <img src="pic/ccs-logo.png" alt="Logo" class="img-fluid mb-3" style="max-width: 100px;">
+                <img src="pic/ssite-removebg-preview.png" alt="Logo" class="img-fluid mb-3" style="max-width: 100px;">
                 <h1 class="display-4">Join the Community</h1>
                 <p class="lead">Empowering the next generation of tech leaders</p>
             </div>
@@ -324,5 +416,6 @@ function getYouTubeVideoId($url) {
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>

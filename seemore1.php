@@ -25,54 +25,87 @@ function getYouTubeVideoId($url) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>All Images - College of Computer Studies</title>
+    <link rel="stylesheet" href="static/css/index.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        .navbar {
-            background-color: #343a40;
+         /* Navbar Styles */
+         .navbar {
+            background-color: rgb(28, 74, 153);
+            transition: background-color 0.3s ease;
         }
-        .navbar .nav-link {
-            color: #fff;
+
+        .navbar:hover {
+            background-color: rgb(10, 45, 105);
         }
-        .navbar .nav-link.active {
-            font-weight: bold;
-            color: #ffc107;
+
+        .navbar-brand img {
+            width: 40px;
+            height: auto;
         }
-        .banner {
-            background: linear-gradient(45deg, #6c757d, #343a40);
-            color: #fff;
-            padding: 3rem;
-            border-radius: 0.5rem;
+
+        /* Carousel Section */
+        .carousel-inner {
+            border-radius: 10px;
+            overflow: hidden;
         }
-        .grid-item {
-            cursor: pointer;
-            padding: 2rem;
-            color: #fff;
-            border-radius: 0.5rem;
-            transition: transform 0.3s, background-color 0.3s;
+
+        .carousel-item {
+            height: 100%;
         }
-        .grid-item:hover {
+
+        .carousel-item img {
+            width: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .carousel-item img:hover {
             transform: scale(1.1);
-            background-color: #ffc107;
         }
-        .ssite {
-            background-color: #007bff;
-        }
-        .dns {
-            background-color: #28a745;
-        }
-        .class-offers {
-            background-color: #17a2b8;
-        }
-        footer {
-            background-color: #343a40;
-            color: #fff;
-            padding: 1rem 0;
+
+        /* Grid Section */
+        .grid-item {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 20px;
             text-align: center;
+            background-color: rgb(28, 74, 153);;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        .grid-icon {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
+
+        .grid-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
+
+        .grid-item .grid-icon {
+            font-size: 3rem;
+            color: #007bff;
+        }
+
+        .grid-item h4 {
+            margin-top: 10px;
+        }
+
+        /* Image Zoom Effects */
+        .picture-box {
+            position: relative;
+            cursor: pointer;
+            overflow: hidden;
+            border-radius: 10px;
+        }
+
+        .picture-box img {
+            width: 100%;
+            transition: transform 0.3s ease-in-out;
+            border-radius: 5px;
+        }
+
+        .picture-box img:hover {
+            transform: scale(1.1);
+        }
+
+        /* Fullscreen Modal */
         .fullscreen-modal {
             display: none;
             position: fixed;
@@ -85,10 +118,13 @@ function getYouTubeVideoId($url) {
             justify-content: center;
             align-items: center;
         }
+
         .fullscreen-modal img {
             max-width: 90%;
             max-height: 90%;
+            border-radius: 10px;
         }
+
         .fullscreen-modal .close {
             position: absolute;
             top: 20px;
@@ -96,6 +132,30 @@ function getYouTubeVideoId($url) {
             color: white;
             font-size: 30px;
             cursor: pointer;
+        }
+
+        /* Footer */
+        footer {
+            background-color: rgb(28, 74, 153);;
+            padding: 20px 0;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        footer p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: white;
+        }
+
+        /* Modal Image Preview */
+        .modal-content {
+            border-radius: 15px;
+        }
+
+        .modal-body img {
+            width: 100%;
+            border-radius: 10px;
         }
     </style>
 </head>
@@ -115,23 +175,11 @@ function getYouTubeVideoId($url) {
                 <li class="nav-item">
                     <a class="nav-link active" href="index.php">Home</a>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Login
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="userDropdown">
-                        <li><a class="dropdown-item" href="login.php">Student</a></li>
-                        <li><a class="dropdown-item" href="login_admin.php">Admin</a></li>
-                    </ul>
+                <li class="nav-item">
+                    <a class="nav-link" href="login.php">Login</a>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="registerDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Register
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="registerDropdown">
-                        <li><a class="dropdown-item" href="register.php">Student</a></li>
-                        <li><a class="dropdown-item" href="register_admin.php">Admin</a></li>
-                    </ul>
+                <li class="nav-item">
+                    <a class="nav-link" href="student/validate.html">Register as Student</a>
                 </li>
             </ul>
         </div>
@@ -187,11 +235,12 @@ function getYouTubeVideoId($url) {
 </div>
 
 <!-- Footer Section -->
-<footer class="bg-dark text-white text-center py-3">
+<footer>
     <div class="container">
         <p>&copy; 2024 College of Computer Studies. All Rights Reserved.</p>
     </div>
 </footer>
+
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
