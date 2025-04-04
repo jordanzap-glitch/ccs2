@@ -45,85 +45,87 @@ if (strlen($_SESSION['userId']) == 0) {
         padding-right: 40px;
     }
 
+    .content {
+        background-color: white;
+    }
     /* Adjusted container to center the content */
-.capstone-list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
-    padding: 20px;
-}
+    .capstone-list {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+        padding: 20px;
+    }
 
-.capstone-item {
-    background: linear-gradient(145deg, #ffffff, #f2f2f2); /* Soft gradient background */
-    border-left: 6px solid rgb(255, 251, 0); /* Blue left border */
-    width: 100%;
-    max-width: 800px; /* Max width for uniformity */
-    border-radius: 15px; /* Rounded corners */
-    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
-    padding: 25px;
-    margin-bottom: 25px;
-    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, background 0.3s ease-in-out;
-}
-
-.capstone-item:hover {
-    transform: translateY(-8px); /* Slightly higher lift */
-    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
-    background: linear-gradient(145deg, #ffffff, #e0e0e0); /* Slight color change on hover */
-}
-
-.capstone-item h3 {
-    font-size: 1.75rem; /* Increased title size */
-    font-weight: 600;
-    color: #333;
-    margin-bottom: 15px;
-}
-
-.capstone-item p {
-    font-size: 1.05rem;
-    color: #555;
-    line-height: 1.8;
-    margin-bottom: 20px;
-}
-
-.capstone-item small {
-    font-size: 0.95rem;
-    color: #777;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 10px;
-    padding-top: 10px;
-    border-top: 1px solid #ddd;
-}
-
-.capstone-meta i {
-    color:rgb(251, 255, 0); /* Blue color for icons */
-    margin-right: 8px;
-}
-
-/* Adding smooth hover effect for each item */
-.capstone-item:hover {
-    background: #f8f9fa; /* Subtle background shift on hover */
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
-}
-
-.card-body {
-    transition: background-color 0.3s ease-in-out;
-}
-
-.card-body:hover {
-    background-color: rgba(0, 0, 0, 0.05); /* Slight background color on hover */
-}
-
-/* Ensure responsive design for mobile */
-@media (max-width: 768px) {
     .capstone-item {
+        background: linear-gradient(145deg, #ffffff, #f2f2f2); /* Soft gradient background */
+        border-left: 6px solid rgb(255, 251, 0); /* Blue left border */
         width: 100%;
+        max-width: 800px; /* Max width for uniformity */
+        border-radius: 15px; /* Rounded corners */
+        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
+        padding: 25px;
+        margin-bottom: 25px;
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, background 0.3s ease-in-out;
+    }
+
+    .capstone-item:hover {
+        transform: translateY(-8px); /* Slightly higher lift */
+        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
+        background: linear-gradient(145deg, #ffffff, #e0e0e0); /* Slight color change on hover */
+    }
+
+    .capstone-item h3 {
+        font-size: 1.75rem; /* Increased title size */
+        font-weight: 600;
+        color: #333;
         margin-bottom: 15px;
     }
-}
 
+    .capstone-item p {
+        font-size: 1.05rem;
+        color: #555;
+        line-height: 1.8;
+        margin-bottom: 20px;
+    }
+
+    .capstone-item small {
+        font-size: 0.95rem;
+        color: #777;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 10px;
+        padding-top: 10px;
+        border-top: 1px solid #ddd;
+    }
+
+    .capstone-meta i {
+        color:rgb(251, 255, 0); /* Blue color for icons */
+        margin-right: 8px;
+    }
+
+    /* Adding smooth hover effect for each item */
+    .capstone-item:hover {
+        background: #f8f9fa; /* Subtle background shift on hover */
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+    }
+
+    .card-body {
+        transition: background-color 0.3s ease-in-out;
+    }
+
+    .card-body:hover {
+        background-color: rgba(0, 0, 0, 0.05); /* Slight background color on hover */
+    }
+
+    /* Ensure responsive design for mobile */
+    @media (max-width: 768px) {
+        .capstone-item {
+            width: 100%;
+            margin-bottom: 15px;
+        }
+    }
 </style>
 <body>
 <?php include '../includes/sidebar2.php'; ?>
