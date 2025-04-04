@@ -79,140 +79,129 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="../admin/static/addstud.css">
 </head>
 <style>
-/* General Styles */
-body {
-    font-family: 'Poppins', sans-serif;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0;
-    padding: 0;
-    background-attachment: fixed;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-color: #222222;
-}
+        :root {
+            --primary: rgb(216, 213, 30);
+            --secondary: rgb(236, 239, 56);
+            --white: #fff;
+            --gray: rgb(37, 37, 37);
+        }
 
-:root {
-    --primary:rgb(216, 213, 30);
-    --secondary:rgb(236, 239, 56);
-    --white: #fff;
-    --gray:rgb(37, 37, 37);
-}
+        body, html {
+            height: 100%;
+            margin: 0;
+        }
 
-/* Form Container */
-.form-box {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border-radius: 10px;
-    padding: 30px;
-    width: 400px;
-    text-align: center;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-}
+        .container-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            background: #f0f0f0;
+        }
 
-/* Logo */
-.logo {
-    width: 80px;
-    margin-bottom: 10px;
-}
+        .form-box {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 30px;
+            width: 100%;
+            max-width: 550px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        }
 
-/* Form Fields */
-.form__group {
-    position: relative;
-    padding: 15px 0 0;
-    margin-top: 10px;
-    width: 100%;
-}
+        .logo {
+            width: 80px;
+            margin-bottom: 10px;
+        }
 
-.form__field {
-    width: 100%;
-    border: 0;
-    border-bottom: 2px solid var(--gray);
-    outline: 0;
-    font-size: 1rem;
-    color: var(--white);
-    padding: 10px 5px;
-    background: transparent;
-    transition: border-color 0.2s, color 0.2s;
-}
+        .form__group {
+            position: relative;
+            margin-bottom: 15px;
+            width: 100%;
+        }
 
-/* Change text to black when typing */
-.form__field:not(:placeholder-shown) {
-    color: black;
-}
+        .form__field, .form__group select {
+            width: 100%;
+            border: none;
+            border-bottom: 2px solid var(--gray);
+            outline: 0;
+            font-size: 1.1rem;
+            color: black;
+            padding: 10px 5px;
+            background: transparent;
+            transition: border-color 0.3s, color 0.3s;
+            appearance: none;
+        }
 
-.form__field::placeholder {
-    color: transparent;
-}
+        .form__label {
+            position: absolute;
+            top: 10px;
+            left: 5px;
+            font-size: 1rem;
+            color: var(--gray);
+            transition: 0.3s ease-in-out;
+        }
 
-.form__field:placeholder-shown ~ .form__label {
-    font-size: 1.2rem;
-    cursor: text;
-    top: 20px;
-}
+        .form__field:focus, .form__group select:focus {
+            border-bottom: 3px solid var(--primary);
+        }
 
-.form__label {
-    position: absolute;
-    top: 0;
-    display: block;
-    transition: 0.2s;
-    font-size: 1.2rem;
-    color: var(--gray);
-}
+        .form__field:focus ~ .form__label,
+        .form__field:not(:placeholder-shown) ~ .form__label,
+        .form__group select:focus ~ .form__label,
+        .form__group select:not([value=""]) ~ .form__label {
+            top: -10px;
+            font-size: 1.3rem;
+            color: var(--primary);
+        }
 
-/* Focus Effect */
-.form__field:focus ~ .form__label {
-    top: 0;
-    font-size: 1rem;
-    color: var(--primary);
-    font-weight: 700;
-}
+        .form__group select option {
+            background: #222;
+            color: white;
+        }
 
-.form__field:focus {
-    padding-bottom: 6px;
-    font-weight: 700;
-    border-width: 3px;
-    border-image: linear-gradient(to right, var(--primary), var(--secondary));
-    border-image-slice: 1;
-}
+        .btn-custom {
+            width: 100%;
+            padding: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            color: white;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            border: none;
+            border-radius: 5px;
+            margin-top: 15px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
 
-/* Reset Input */
-.form__field:required,
-.form__field:invalid {
-    box-shadow: none;
-}
+        .btn-custom:hover {
+            background: linear-gradient(to right, var(--secondary), var(--primary));
+            transform: scale(1.05);
+        }
 
-/* Submit Button */
-.btn-custom {
-    width: 100%;
-    padding: 10px;
-    font-size: 1rem;
-    font-weight: 600;
-    color: white;
-    background: linear-gradient(to right, var(--primary), var(--secondary));
-    border: none;
-    border-radius: 5px;
-    margin-top: 15px;
-    cursor: pointer;
-    transition: 0.3s;
-}
+        .btn-back {
+            width: 100%;
+            padding: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            background: #666;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            margin-top: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
 
-.btn-custom:hover {
-    background: linear-gradient(to right, var(--secondary), var(--primary));
-    transform: scale(1.05);
-}
-
-/* Hide Elements */
-.hidden {
-    display: none !important;
-}
-</style>
+        .btn-back:hover {
+            background: #444;
+        }
+    </style>
 <body>
 <?php include '../includes/sidebar2.php'; ?>
+<div class="container-wrapper">   
     <div class="form-box">
-
         <h3>Add Student</h3>
         <form method="POST" action="addstudent.php">
             <div class="form__group">
@@ -240,7 +229,7 @@ body {
             </div>
         <?php endif; ?>
     </div>
-
+</div>
     <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 

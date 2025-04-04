@@ -20,6 +20,7 @@ if (strlen($_SESSION['userId']) == 0) {
     $teacherCountResult = $conn->query($teacherCountQuery);
     $teacherCount = $teacherCountResult->fetch_assoc()['total'];
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -32,17 +33,95 @@ if (strlen($_SESSION['userId']) == 0) {
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 </head>
 <style>
+    /* Optional: You can ensure no margin collapse with the parent elements */
+    body, html {
+        margin: 40px;
+        padding: 0;
+        height: 40%;
+    }
 
-/* Optional: You can ensure no margin collapse with the parent elements */
-body, html {
-    margin: 70px;
-    padding: 0;
-    height: 70%;
+    .container {
+        padding-left: 40px; /* Just in case there is some padding you want to reset */
+        padding-right: 40px;
+    }
+
+    /* Adjusted container to center the content */
+.capstone-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
 }
 
-.container {
-    padding-left: 70px; /* Just in case there is some padding you want to reset */
-    padding-right: 70px;
+.capstone-item {
+    background: linear-gradient(145deg, #ffffff, #f2f2f2); /* Soft gradient background */
+    border-left: 6px solid rgb(255, 251, 0); /* Blue left border */
+    width: 100%;
+    max-width: 800px; /* Max width for uniformity */
+    border-radius: 15px; /* Rounded corners */
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
+    padding: 25px;
+    margin-bottom: 25px;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, background 0.3s ease-in-out;
+}
+
+.capstone-item:hover {
+    transform: translateY(-8px); /* Slightly higher lift */
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
+    background: linear-gradient(145deg, #ffffff, #e0e0e0); /* Slight color change on hover */
+}
+
+.capstone-item h3 {
+    font-size: 1.75rem; /* Increased title size */
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.capstone-item p {
+    font-size: 1.05rem;
+    color: #555;
+    line-height: 1.8;
+    margin-bottom: 20px;
+}
+
+.capstone-item small {
+    font-size: 0.95rem;
+    color: #777;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #ddd;
+}
+
+.capstone-meta i {
+    color:rgb(251, 255, 0); /* Blue color for icons */
+    margin-right: 8px;
+}
+
+/* Adding smooth hover effect for each item */
+.capstone-item:hover {
+    background: #f8f9fa; /* Subtle background shift on hover */
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+.card-body {
+    transition: background-color 0.3s ease-in-out;
+}
+
+.card-body:hover {
+    background-color: rgba(0, 0, 0, 0.05); /* Slight background color on hover */
+}
+
+/* Ensure responsive design for mobile */
+@media (max-width: 768px) {
+    .capstone-item {
+        width: 100%;
+        margin-bottom: 15px;
+    }
 }
 
 </style>
@@ -110,41 +189,41 @@ body, html {
     <!-- Submitted Capstone Projects -->
     <h2>Submitted Capstone Projects</h2>
     <div class="capstone-list">
-        <?php
-        $searchTerm = isset($_GET['search']) ? trim($_GET['search']) : '';
+    <?php
+    $searchTerm = isset($_GET['search']) ? trim($_GET['search']) : '';
 
-        $sql = "SELECT title, abstract AS description, submit_date AS submitted_at FROM tbl_capstone";
-        if (!empty($searchTerm)) {
-            $sql .= " WHERE title LIKE ?";
+    $sql = "SELECT title, abstract AS description, submit_date AS submitted_at FROM tbl_capstone";
+    if (!empty($searchTerm)) {
+        $sql .= " WHERE title LIKE ?";
+    }
+    $sql .= " ORDER BY submit_date DESC";
+
+    $stmt = $conn->prepare($sql);
+    if (!empty($searchTerm)) {
+        $searchTerm = "%" . $searchTerm . "%";
+        $stmt->bind_param("s", $searchTerm);
+    }
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            echo '<div class="capstone-item">';
+            echo '<h3>' . htmlspecialchars($row['title']) . '</h3>';
+            echo '<p>' . nl2br(htmlspecialchars($row['description'])) . '</p>';
+            echo '<small><i class="bi bi-person-fill"></i> Student submitted: ' . (isset($_SESSION['email']) ? htmlspecialchars($_SESSION['email']) : 'Unknown') . '</small>';
+            echo '<small><i class="bi bi-calendar"></i> Submitted on: ' . htmlspecialchars($row['submitted_at']) . '</small>';
+            echo '</div>';
         }
-        $sql .= " ORDER BY submit_date DESC";
+    } else {
+        echo '<p class="text-muted">No capstone projects found.</p>';
+    }
 
-        $stmt = $conn->prepare($sql);
-        if (!empty($searchTerm)) {
-            $searchTerm = "%" . $searchTerm . "%";
-            $stmt->bind_param("s", $searchTerm);
-        }
-        $stmt->execute();
-        $result = $stmt->get_result();
+    $stmt->close();
+    $conn->close();
+    ?>
+</div>
 
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                echo '<div class="capstone-item">';
-                echo '<h3>' . htmlspecialchars($row['title']) . '</h3>';
-                echo '<p>' . htmlspecialchars($row['description']) . '</p>';
-                echo '<small>Student submitted: ' . (isset($_SESSION['email']) ? htmlspecialchars($_SESSION['email']) : 'Unknown User') . '</small>';
-                echo '<br>';
-                echo '<small>Submitted on: ' . htmlspecialchars($row['submitted_at']) . '</small>';
-                echo '</div><hr>';
-            }
-        } else {
-            echo '<p>No capstone projects found matching your search.</p>';
-        }
-
-        $stmt->close();
-        $conn->close();
-        ?>
-    </div>
 </div>
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/bnpm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

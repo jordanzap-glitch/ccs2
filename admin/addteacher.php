@@ -1,6 +1,6 @@
 <?php
 include '../session.php';
-include '../db.php'; // Include your database connection file
+include '../db.php';
 
 $message = "";
 $toastClass = "";
@@ -10,12 +10,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $firstname = $_POST['firstname'];
     $middlename = $_POST['middlename'];
     $lastname = $_POST['lastname'];
-    $dept = $_POST['dept']; // Get department from form
+    $dept = $_POST['dept'];
     $contactnumber = $_POST['contactnumber'];
-    $email = $_POST['email']; // Get email from form
-    $password = $_POST['password']; // Get password from form
+    $email = $_POST['email'];
+    $password = $_POST['password'];
 
-    // Check if the Employee ID already exists
     $stmt = $conn->prepare("SELECT COUNT(*) FROM tblteacher WHERE emp_id = ?");
     $stmt->bind_param("s", $emp_id);
     $stmt->execute();
@@ -25,29 +24,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($count > 0) {
         $message = "Error: Employee ID already exists.";
-        $toastClass = "#dc3545"; // Danger color
+        $toastClass = "#dc3545";
     } else {
-        // Prepare and bind for inserting into tblteacher
         $stmt = $conn->prepare("INSERT INTO tblteacher (emp_id, firstname, middlename, lastname, dept, contactnumber, email, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
         $stmt->bind_param("ssssssss", $emp_id, $firstname, $middlename, $lastname, $dept, $contactnumber, $email, $password);
 
         if ($stmt->execute()) {
-            // Insert emp_id, email, and password into tbluser
-            $stmtUser  = $conn->prepare("INSERT INTO tbluser (user_id, email, password, user_type) VALUES (?, ?, ?, 'Admin')");
-            $stmtUser ->bind_param("sss", $emp_id, $email, $password); // Assuming password is stored as plain text, consider hashing it
+            $stmtUser = $conn->prepare("INSERT INTO tbluser (user_id, email, password, user_type) VALUES (?, ?, ?, 'Admin')");
+            $stmtUser->bind_param("sss", $emp_id, $email, $password);
 
-            if ($stmtUser ->execute()) {
+            if ($stmtUser->execute()) {
                 $message = "Admin/Teacher added successfully.";
-                $toastClass = "#28a745"; // Success color
+                $toastClass = "#28a745";
             } else {
-                $message = "Error: " . $stmtUser ->error;
-                $toastClass = "#dc3545"; // Danger color
+                $message = "Error: " . $stmtUser->error;
+                $toastClass = "#dc3545";
             }
 
-            $stmtUser ->close();
+            $stmtUser->close();
         } else {
             $message = "Error: " . $stmt->error;
-            $toastClass = "#dc3545"; // Danger color
+            $toastClass = "#dc3545";
         }
 
         $stmt->close();
@@ -66,18 +63,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
-        /* General Styles */
-        body {
-            font-family: 'Poppins', sans-serif;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 0;
-            padding: 0;
-            background-color: #222;
-        }
-
         :root {
             --primary: rgb(216, 213, 30);
             --secondary: rgb(236, 239, 56);
@@ -85,28 +70,39 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             --gray: rgb(37, 37, 37);
         }
 
-        /* Form Container */
+        body, html {
+            height: 100%;
+            margin: 0;
+        }
+
+        .container-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            background: #f0f0f0;
+        }
+
         .form-box {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
             border-radius: 12px;
             padding: 30px;
-            width: 500px;
-            height: 430px;
+            width: 100%;
+            max-width: 550px;
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
         }
 
-        /* Logo */
         .logo {
             width: 80px;
             margin-bottom: 10px;
         }
 
-        /* Form Fields */
         .form__group {
             position: relative;
             margin-bottom: 15px;
-            width: 90%;
+            width: 100%;
         }
 
         .form__field, .form__group select {
@@ -115,15 +111,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             border-bottom: 2px solid var(--gray);
             outline: 0;
             font-size: 1.1rem;
-            color: black; /* Change text color to black */
+            color: black;
             padding: 10px 5px;
             background: transparent;
             transition: border-color 0.3s, color 0.3s;
             appearance: none;
-            cursor: pointer;
         }
 
-        /* Label Styling */
         .form__label {
             position: absolute;
             top: 10px;
@@ -133,27 +127,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             transition: 0.3s ease-in-out;
         }
 
-        /* On Focus or Filled */
         .form__field:focus, .form__group select:focus {
             border-bottom: 3px solid var(--primary);
         }
 
-        .form__field:focus ~ .form__label, 
-        .form__field:not(:placeholder-shown) ~ .form__label, 
-        .form__group select:focus ~ .form__label, 
+        .form__field:focus ~ .form__label,
+        .form__field:not(:placeholder-shown) ~ .form__label,
+        .form__group select:focus ~ .form__label,
         .form__group select:not([value=""]) ~ .form__label {
             top: -10px;
             font-size: 1.3rem;
             color: var(--primary);
         }
 
-        /* Dropdown Options */
         .form__group select option {
-            background: #222; /* Dark background */
+            background: #222;
             color: white;
         }
 
-        /* Submit Button */
         .btn-custom {
             width: 100%;
             padding: 10px;
@@ -173,7 +164,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             transform: scale(1.05);
         }
 
-        /* Back Button */
         .btn-back {
             width: 100%;
             padding: 8px;
@@ -195,86 +185,82 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 <body>
     <?php include '../includes/sidebar2.php'; ?>
-    <div class="form-box">
-        <center>
-        </center>
-        <h3 class="text-white text-center">Add Teacher/Admin</h3>
-        <form method="POST" action="addteacher.php">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form__group">
-                        <input type="text" id="emp_id" name="emp_id" class="form__field" placeholder=" " required>
-                        <label for="emp_id" class="form__label">Employee ID</label>
+
+    <div class="container-wrapper">
+        <div class="form-box">
+            <h3 class="text-black text-center">Add Teacher/Admin</h3>
+            <br>
+            <form method="POST" action="addteacher.php">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form__group">
+                            <input type="text" id="emp_id" name="emp_id" class="form__field" placeholder=" " required>
+                            <label for="emp_id" class="form__label">Employee ID</label>
+                        </div>
+                        <div class="form__group">
+                            <input type="text" id="firstname" name="firstname" class="form__field" placeholder=" " required>
+                            <label for="firstname" class="form__label">First Name</label>
+                        </div>
+                        <div class="form__group">
+                            <input type="text" id="middlename" name="middlename" class="form__field" placeholder=" ">
+                            <label for="middlename" class="form__label">Middle Name</label>
+                        </div>
+                        <div class="form__group">
+                            <input type="text" id="lastname" name="lastname" class="form__field" placeholder=" " required>
+                            <label for="lastname" class="form__label">Last Name</label>
+                        </div>
                     </div>
-                    <div class="form__group">
-                        <input type="text" id="firstname" name="firstname" class="form__field" placeholder=" " required>
-                        <label for="firstname" class="form__label">First Name</label>
-                    </div>
-                    <div class="form__group">
-                        <input type="text" id="middlename" name="middlename" class="form__field" placeholder=" ">
-                        <label for="middlename" class="form__label">Middle Name</label>
-                    </div>
-                    <div class="form__group">
-                        <input type="text" id="lastname" name="lastname" class="form__field" placeholder=" " required>
-                        <label for="lastname" class="form__label">Last Name</label>
+                    <div class="col-md-6">
+                        <div class="form__group">
+                            <select id="dept" name="dept" class="form__field" required>
+                                <option value="" disabled selected></option>
+                                <option value="BSIS">BS Information System</option>
+                                <option value="BEED">BE Education</option>
+                                <option value="BSAIS">BS Accounting IS</option>
+                                <option value="BSEntrep">BS Entrepreneurship</option>
+                            </select>
+                            <label for="dept" class="form__label">Select Department</label>
+                        </div>
+                        <div class="form__group">
+                            <input type="number" id="contactnumber" name="contactnumber" class="form__field" placeholder=" " required>
+                            <label for="contactnumber" class="form__label">Contact Number</label>
+                        </div>
+                        <div class="form__group">
+                            <input type="email" id="email" name="email" class="form__field" placeholder=" " required>
+                            <label for="email" class="form__label">Email</label>
+                        </div>
+                        <div class="form__group">
+                            <input type="password" id="password" name="password" class="form__field" placeholder=" " required>
+                            <label for="password" class="form__label">Password</label>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="form__group">
-                        <select id="dept" name="dept" class="form__field" required>
-                            <option value="" disabled selected></option>
-                            <option value="BSIS">BS Information System</option>
-                            <option value="BEED">BE Education</option>
-                            <option value="BSAIS">BS Accounting IS</option>
-                            <option value="BSEntrep">BS Entrepreneurship</option>
-                        </select>
-                        <label for="dept" class="form__label">Select Department</label>
-                    </div>
-                    <div class="form__group">
-                        <input type="number" id="contactnumber" name="contactnumber" class="form__field" placeholder=" " required>
-                        <label for="contactnumber" class="form__label">Contact Number</label>
-                    </div>
-                    <div class="form__group">
-                        <input type="email" id="email" name="email" class="form__field" placeholder=" " required>
-                        <label for="email" class="form__label">Email</label>
-                    </div>
-                    <div class="form__group">
-                        <input type="password" id="password" name="password" class="form__field" placeholder=" " required>
-                        <label for="password" class="form__label">Password</label>
-                    </div>
-                </div>
-            </div>
-            <button type="submit" class="btn btn-custom"><i class="fas fa-user-plus"></i> Add Teacher/Admin</button>
-        </form>
+                <button type="submit" class="btn btn-custom"><i class="fas fa-user-plus"></i> Add Teacher/Admin</button>
+            </form>
+        </div>
     </div>
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const menuToggle = document.getElementById("menu-toggle");  
-        const closeSidebar = document.getElementById("close-sidebar"); 
-        const sidebar = document.getElementById("sidebar");
-        const formBox = document.querySelector(".form-box"); // Form box
 
-        if (menuToggle) {
-            menuToggle.addEventListener("click", function () {
-                sidebar.classList.toggle("active");
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const menuToggle = document.getElementById("menu-toggle");
+            const closeSidebar = document.getElementById("close-sidebar");
+            const sidebar = document.getElementById("sidebar");
+            const formBox = document.querySelector(".form-box");
 
-                // Hide the form box when sidebar is active
-                if (sidebar.classList.contains("active")) {
-                    formBox.style.display = "none";
-                } else {
+            if (menuToggle) {
+                menuToggle.addEventListener("click", function () {
+                    sidebar.classList.toggle("active");
+                    formBox.style.display = sidebar.classList.contains("active") ? "none" : "block";
+                });
+            }
+
+            if (closeSidebar) {
+                closeSidebar.addEventListener("click", function () {
+                    sidebar.classList.remove("active");
                     formBox.style.display = "block";
-                }
-            });
-        }
-
-        if (closeSidebar) {
-            closeSidebar.addEventListener("click", function () {
-                sidebar.classList.remove("active");
-                formBox.style.display = "block"; // Show the form box
-            });
-        }
-    });
-</script>
+                });
+            }
+        });
+    </script>
 </body>
 </html>
-

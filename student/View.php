@@ -1,6 +1,6 @@
 <?php
-include 'session.php';
-include 'db.php';
+include '../session.php';
+include '../db.php';
 error_reporting(E_ALL);
 
 // Log user access to the View Capstone Studies page
@@ -135,33 +135,7 @@ function formatCitation($data) {
     </style>
 </head>
 <body>
-
-<div class="menu-toggle" id="menu-toggle">
-    <i class="fas fa-bars"></i>
-</div>
-
-<div class="sidebar" id="sidebar">
-    <center><img src="pic/ccs-logo.png" class="logo" alt="Logo" width="90px" height="90px"></center>
-    <h2>CCS</h2>
-    <ul>
-        <li><a href="student/dashboard2.php" class="active">
-            <i class="fas fa-home"></i>  Dashboard
-        </a></li>
-        <li><a class="active" href="student/profile.php">
-            <i class="fas fa-user" style="font-size: 24px;"></i> Profile
-        </a></li>
-        <li><a class="active" href="View.php">
-            <i class="fas fa-eye" style="font-size: 24px;"></i> View Studies
-        </a></li>
-        <li><a class="active" href="student/bookmarked.php">
-            <i class="fas fa-book" style="font-size: 24px;"></i> Bookmarked
-        </a></li>
-        <li><a class="active" href="dashboardstud.php">
-            <i class="fas fa-arrow-circle-left me-2"></i> Back Home
-        </a></li>
-    </ul>
-</div>
-
+<?php include '../includes/sidebar.php'; ?>
 <div class="content">
     <h1>Capstone Studies</h1>
     <p>List of submitted capstone projects.</p>

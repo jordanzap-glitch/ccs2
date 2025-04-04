@@ -124,10 +124,15 @@ $result = $stmt->get_result();
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 </head>
+<style>
+    body {
+        margin: 60px; /* Adds margin to all sides (top, bottom, left, right) */
+    }
+</style>
 <body>
 <?php include '../includes/sidebar2.php'; ?>
 
-<div class="container mt-4" style="max-width: 50%; margin: auto;">
+<div class="container mt-4" style="max-width: 60%; margin: auto;">
 <h2>View Students</h2>
 <form method="GET" action="">
     <div class="form-group">
