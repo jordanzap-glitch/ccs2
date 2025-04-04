@@ -72,18 +72,27 @@ function getYouTubeVideoId($url) {
     <div class="carousel-inner">
         <div class="carousel-item active">
             <div class="banner text-center">
+                <img src="pic/srclogo.png" alt="Logo" class="img-fluid mb-3" style="max-width: 100px;">
+                <img src="pic/ccs-logo.png" alt="Logo" class="img-fluid mb-3" style="max-width: 100px;">
+                <img src="pic/ssite-removebg-preview.png" alt="Logo" class="img-fluid mb-3" style="max-width: 100px;">
                 <h1 class="display-4">Welcome to CCS</h1>
                 <p class="lead">Your gateway to streamlined solutions</p>
             </div>
         </div>
         <div class="carousel-item">
             <div class="banner text-center">
+                <img src="pic/srclogo.png" alt="Logo" class="img-fluid mb-3" style="max-width: 100px;">
+                <img src="pic/ccs-logo.png" alt="Logo" class="img-fluid mb-3" style="max-width: 100px;">
+                <img src="pic/ssite-removebg-preview.png" alt="Logo" class="img-fluid mb-3" style="max-width: 100px;">
                 <h1 class="display-4">Innovate with Us</h1>
                 <p class="lead">Explore endless possibilities in technology</p>
             </div>
         </div>
         <div class="carousel-item">
             <div class="banner text-center">
+                <img src="pic/srclogo.png" alt="Logo" class="img-fluid mb-3" style="max-width: 100px;">
+                <img src="pic/ccs-logo.png" alt="Logo" class="img-fluid mb-3" style="max-width: 100px;">
+                <img src="pic/ssite-removebg-preview.png" alt="Logo" class="img-fluid mb-3" style="max-width: 100px;">
                 <h1 class="display-4">Join the Community</h1>
                 <p class="lead">Empowering the next generation of tech leaders</p>
             </div>
