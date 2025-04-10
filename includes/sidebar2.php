@@ -203,7 +203,7 @@
           <i class="fas fa-book"></i> Capstone
         </a>
         <ul class="dropdown-menu">
-          <li><a class="dropdown-item" href="addcapstone.php"><i class="fas fa-plus"></i> Add Capstone</a></li>
+          <li><a class="dropdown-item" href="../addcapstone.php"><i class="fas fa-plus"></i> Add Capstone</a></li>
           <li><a class="dropdown-item" href="viewcapstone.php"><i class="fas fa-eye"></i> View Capstone</a></li>
         </ul>
       </li>

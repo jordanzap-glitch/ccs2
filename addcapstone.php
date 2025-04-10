@@ -1,6 +1,6 @@
 <?php
-include '../session.php';
-include '../db.php'; 
+include 'session.php';
+include 'db.php'; 
 error_reporting(0);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -77,7 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-<?php include '../includes/sidebar2.php'; ?>
+<?php include 'includes/sidebar3.php'; ?>
 
 <div class="container mt-4" style="max-width: 50%; margin: auto;">
     <h2>Submit Capstone Project</h2>
