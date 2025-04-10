@@ -148,22 +148,15 @@ $result = $stmt->get_result();
 <style>
 
 /* Optional: You can ensure no margin collapse with the parent elements */
-body, html {
-    margin: 70px;
-    padding: 0;
-    height: 70%;
+body {
+    margin: 60px;
 }
-
-.container {
-    padding-left: 70px; /* Just in case there is some padding you want to reset */
-    padding-right: 70px;
-}
-
+    
 </style>
 <body>
 <?php include '../includes/sidebar2.php'; ?>
 
-<div class="container mt-4" style="max-width: 50%; margin: auto;">
+<div class="container mt-4" style="max-width: 60%; margin: auto;">
 <h2>View Capstone Projects</h2>
 <p><a class="btn btn-danger" href="dashboard.php">Back to Dashboard</a></p>
 <form method="GET" action="">
