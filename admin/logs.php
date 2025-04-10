@@ -89,13 +89,6 @@ $result = mysqli_query($conn, $query) or die("Query failed: " . mysqli_error($co
         /* Optional: You can ensure no margin collapse with the parent elements */
 body, html {
     margin: 70px;
-    padding: 0;
-    height: 70%;
-}
-
-.container {
-    padding-left: 70px; /* Just in case there is some padding you want to reset */
-    padding-right: 70px;
 }
     </style>
 </head>
