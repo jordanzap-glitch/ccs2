@@ -14,7 +14,7 @@
         <div class="d-flex align-items-center">
             <span style="color: white; margin-right: 15px;">Welcome, <?php echo htmlspecialchars($_SESSION['firstName'], ENT_QUOTES, 'UTF-8'); ?> <?php echo htmlspecialchars($_SESSION['lastName'], ENT_QUOTES, 'UTF-8'); ?>!</span>
             <a href="dashboard2.php" class="btn btn-outline-light">Research Studies</a>
-            <a href="index.php" class="btn btn-outline-light" onclick="logLogout(); return false;">Logout</a>
+            <a href="../login.php" class="btn btn-outline-light" onclick="logLogout(); return false;">Logout</a>
         </div>
     </div>
 </nav>
