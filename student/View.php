@@ -110,28 +110,32 @@ function formatCitation($data) {
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
         body {
-    margin: 70px; /* Adds margin to all sides (top, bottom, left, right) */
-}
+            margin: 70px; /* Adds margin to all sides (top, bottom, left, right) */
+        }
 
-.capstone-item {
-    margin-bottom: 20px; /* Adds margin below each capstone item */
-    transition: transform 0.3s ease-in-out;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
+        .capstone-item {
+            margin-bottom: 20px; /* Adds margin below each capstone item */
+            transition: transform 0.3s ease-in-out;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-.button-column {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    margin-top: 10px; /* Adds space between buttons */
-}
+        .button-column {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            margin-top: 10px; /* Adds space between buttons */
+        }
 
-.search-bar {
-    margin-bottom: 30px; /* Adds margin below the search bar */
-}
+        .search-bar {
+            margin-bottom: 30px; /* Adds margin below the search bar */
+        }
 
+        .notification {
+            color: green; /* Change color as needed */
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -139,6 +143,7 @@ function formatCitation($data) {
 <div class="content">
     <h1>Capstone Studies</h1>
     <p>List of submitted capstone projects.</p>
+    <div class="notification" id="bookmarkMessage"></div>
     <hr>
 
     <div class="search-bar mb-4">
@@ -194,7 +199,7 @@ function formatCitation($data) {
                         <h3>' . htmlspecialchars($row['title']) . '</h3>
                         <p>' . htmlspecialchars($row['description']) . '</p>
                         <small>Submitted on: ' . htmlspecialchars($row['submitted_at']) . '</small>
-                        <span class="citation-icon" data-capstone-id="' . $capstoneId . '" title="Get Citation">
+                        <span class ="citation-icon" data-capstone-id="' . $capstoneId . '" title="Get Citation">
                             <i class="fas fa-quote-right"></i>
                         </span>
                     </div>
@@ -227,6 +232,7 @@ function formatCitation($data) {
             </div>
             <div class="modal-body">
                 <p id="citationText"></p>
+                <button id="copyCitationButton" class="btn btn-secondary">Copy</button>
             </div>
         </div>
     </div>
@@ -266,7 +272,7 @@ function formatCitation($data) {
 
                 const pdfLink = document.getElementById("capstonePdfLink");
                 pdfLink.href = this.getAttribute("data-pdf");
-                pdfLink.style.display = pdfLink.href ? 'block ' : 'none';
+                pdfLink.style.display = pdfLink.href ? 'block' : 'none';
             });
         });
 
@@ -284,7 +290,7 @@ function formatCitation($data) {
                 })
                 .then(response => response.json())
                 .then(data => {
-                    alert(data.message);
+                    document.getElementById("bookmarkMessage").innerText = data.message; // Update message in the box
                     // Update the button text based on the bookmark status
                     if (data.message.includes('Bookmarked')) {
                         this.innerHTML = '<i class="fas fa-bookmark"></i> Unbookmark';
@@ -309,6 +315,16 @@ function formatCitation($data) {
                     citationModal.show();
                 })
                 .catch(error => console.error('Error:', error));
+            });
+        });
+
+        const copyCitationButton = document.getElementById("copyCitationButton");
+        copyCitationButton.addEventListener("click", function () {
+            const citationText = document.getElementById("citationText").innerText;
+            navigator.clipboard.writeText(citationText).then(() => {
+                alert("Citation copied to clipboard!");
+            }).catch(err => {
+                console.error('Error copying text: ', err);
             });
         });
 
