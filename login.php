@@ -73,7 +73,7 @@ if (isset($_POST['login'])) {
             $log_stmt->bind_param("isss", $_SESSION['student_id'], $fullname, $_SESSION['course'], $_SESSION['user_type']);
             $log_stmt->execute();
 
-            header('Location:dashboardstud.php'); // Redirect to the student dashboard
+            header('Location:student/dashboardstud.php'); // Redirect to the student dashboard
             exit();
         } else {
             // Invalid username or password
