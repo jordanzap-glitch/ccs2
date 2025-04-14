@@ -65,7 +65,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update'])) {
         $target_dir = "../imrad/";
         $target_file = $target_dir . basename($imrad_path);
         move_uploaded_file($_FILES['imrad_path']['tmp_name'], $target_file);
-        $imrad_path = "imrad/" . basename($imrad_path); // Update the path for the database
+        $imrad_path = "../imrad/" . basename($imrad_path); // Update the path for the database
     } else {
         // If no new file is uploaded, keep the existing path
         $stmt = $conn->prepare("SELECT imrad_path FROM tbl_capstone WHERE id = ?");
