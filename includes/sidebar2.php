@@ -77,6 +77,13 @@
     color: #000000;
 }
 
+.logo-img {
+    width: 100px;  /* or 120px, adjust as needed */
+    height: auto;
+    margin: 20px auto;
+    display: block;
+}
+
 /* Content Styling */
 .content {
     margin-left: 250px;
@@ -181,11 +188,21 @@
 
   <!-- Sidebar -->
   <div class="sidebar" id="sidebar">
-    <center><img src="../pic/ccs-logo.png" class="logo" alt="Logo" width="90px" height="90px"></center>
+    <center><img src="../pic/ccs-logo.png" alt="Logo" class="logo-img"></center>
     <h2>CCS</h2>
     <ul>
       <li><a href="dashboard.php" class="active text-white"><i class="fas fa-home"></i> Dashboard</a></li>
       <li><a href="addteacher.php" class="text-white"><i class="fas fa-user-shield"></i> Add Admin</a></li>
+
+    <!-- site Dropdown -->
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle text-white" href="#" id="siteDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fas fa-bullhorn"></i> Site Management
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="siteDropdown">
+            <li><a class="dropdown-item" href="announcement.php"><i class="fas fa-user-plus"></i> Announcement</a></li>
+        </ul>
+    </li>
 
       <!-- Student Dropdown -->
     <li class="nav-item dropdown">
