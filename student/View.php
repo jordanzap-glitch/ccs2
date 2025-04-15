@@ -84,7 +84,7 @@ function formatCitation($data) {
         $authors[] = $data['a2_sname'] . ', ' . strtoupper(substr($data['a2_fname'], 0, 1)) . '.';
     }
     if (!empty($data['a3_fname']) && !empty($data['a3_sname'])) {
-        $authors[] = $data['a3_sname'] . ', ' . strtoupper(substr($data['a3_fname'], 0, 1)) . '.';
+        $authors[] = $data['a3_sname'] . ', ' . strtoupper(substr($data['a3_fname '], 0, 1)) . '.';
     }
 
     // Use "et al." if there are three or more authors
@@ -121,6 +121,10 @@ function formatCitation($data) {
             align-items: center;
         }
 
+        .capstone-title {
+            cursor: pointer; /* Change cursor to pointer on hover */
+        }
+
         .button-column {
             display: flex;
             flex-direction: column;
@@ -135,6 +139,11 @@ function formatCitation($data) {
         .notification {
             color: green; /* Change color as needed */
             font-weight: bold;
+        }
+
+        .pdf-viewer {
+            width: 100%;
+            height: 500px; /* Set height for the PDF viewer */
         }
     </style>
 </head>
@@ -196,10 +205,10 @@ function formatCitation($data) {
 
             echo '<div class="capstone-item" data-pdf="' . htmlspecialchars($row['imrad_path']) . '">
                     <div>
-                        <h3>' . htmlspecialchars($row['title']) . '</h3>
+                        <h3 class="capstone-title" data-capstone-id="' . $capstoneId . '">' . htmlspecialchars($row['title']) . '</h3>
                         <p>' . htmlspecialchars($row['description']) . '</p>
                         <small>Submitted on: ' . htmlspecialchars($row['submitted_at']) . '</small>
-                        <span class ="citation-icon" data-capstone-id="' . $capstoneId . '" title="Get Citation">
+                        <span class="citation-icon" data-capstone-id="' . $capstoneId . '" title="Get Citation">
                             <i class="fas fa-quote-right"></i>
                         </span>
                     </div>
@@ -238,19 +247,16 @@ function formatCitation($data) {
     </div>
 </div>
 
-<!-- Bootstrap Modal -->
-<div class="modal fade" id="capstoneModal" tabindex="-1" aria-labelledby="capstoneModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+<!-- Bootstrap Modal for PDF Viewing -->
+<div class="modal fade" id="pdfModal" tabindex="-1" aria-labelledby="pdfModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="capstoneModalLabel"></h5>
+                <h5 class="modal-title" id="pdfModalLabel">OJT Monitoring PDF</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p id="capstoneDescription"></p>
-                <small id="capstoneDate"></small>
-                <br>
-                <a id="capstonePdfLink" href="#" download class="btn btn-custom mt-3" style="display:none;">Download PDF</a>
+                <iframe id="pdfViewer" class="pdf-viewer" src="" frameborder="0"></iframe>
             </div>
         </div>
     </div>
@@ -261,18 +267,15 @@ function formatCitation($data) {
     document.addEventListener("DOMContentLoaded", function () {
         const capstoneItems = document.querySelectorAll(".capstone-item");
         capstoneItems.forEach(item => {
-            item.addEventListener("click", function () {
-                let title = this.querySelector("h3").innerText;
-                let description = this.querySelector("p").innerText;
-                let date = this.querySelector("small").innerText;
-
-                document.getElementById("capstoneModalLabel").innerText = title;
-                document.getElementById("capstoneDescription").innerText = description;
-                document.getElementById("capstoneDate").innerText = date;
-
-                const pdfLink = document.getElementById("capstonePdfLink");
-                pdfLink.href = this.getAttribute("data-pdf");
-                pdfLink.style.display = pdfLink.href ? 'block' : 'none';
+            const titleElement = item.querySelector(".capstone-title");
+            titleElement.addEventListener("click", function () {
+                const pdfPath = item.getAttribute("data-pdf");
+                if (titleElement.innerText.includes("OJT Monitoring")) {
+                    const pdfModal = new bootstrap.Modal(document.getElementById('pdfModal'));
+                    const pdfViewer = document.getElementById("pdfViewer");
+                    pdfViewer.src = pdfPath + "#page=1"; // Show only the first page
+                    pdfModal.show();
+                }
             });
         });
 
