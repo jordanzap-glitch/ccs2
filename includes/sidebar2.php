@@ -151,6 +151,7 @@
     display: none;
 }
 
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .menu-toggle {
@@ -187,26 +188,26 @@
       <li><a href="addteacher.php" class="text-white"><i class="fas fa-user-shield"></i> Add Admin</a></li>
 
       <!-- Student Dropdown -->
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown">
-          <i class="fas fa-user-graduate"></i> Student
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle text-white" href="#" id="studentDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fas fa-user-graduate"></i> Student
         </a>
-        <ul class="dropdown-menu">
-          <li><a class="dropdown-item" href="addstudent.php"><i class="fas fa-user-plus"></i> Add Student</a></li>
-          <li><a class="dropdown-item" href="viewstudent.php"><i class="fas fa-users"></i> View Students</a></li>
+        <ul class="dropdown-menu" aria-labelledby="studentDropdown">
+            <li><a class="dropdown-item" href="addstudent.php"><i class="fas fa-user-plus"></i> Add Student</a></li>
+            <li><a class="dropdown-item" href="viewstudent.php"><i class="fas fa-users"></i> View Students</a></li>
         </ul>
-      </li>
+    </li>
 
-      <!-- Capstone Dropdown -->
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown">
-          <i class="fas fa-book"></i> Capstone
+        <!-- Capstone Dropdown -->
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle text-white" href="#" id="capstoneDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fas fa-book"></i> Capstone
         </a>
-        <ul class="dropdown-menu">
-          <li><a class="dropdown-item" href="addcapstone.php"><i class="fas fa-plus"></i> Add Capstone</a></li>
-          <li><a class="dropdown-item" href="viewcapstone.php"><i class="fas fa-eye"></i> View Capstone</a></li>
+        <ul class="dropdown-menu" aria-labelledby="capstoneDropdown">
+            <li><a class="dropdown-item" href="addcapstone.php"><i class="fas fa-plus"></i> Add Capstone</a></li>
+            <li><a class="dropdown-item" href="viewcapstone.php"><i class="fas fa-eye"></i> View Capstone</a></li>
         </ul>
-      </li>
+    </li>
 
       <!-- Logs -->
       <li><a href="logs.php" class="text-white"><i class="fa-solid fa-clock"></i> Logs</a></li>
@@ -218,13 +219,21 @@
 
   <!-- Bootstrap JS with Popper -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-  <!-- Sidebar Toggle Script -->
-  <script>
-    document.getElementById('menu-toggle').addEventListener('click', function () {
-      document.getElementById('sidebar').classList.toggle('active');
-      this.classList.toggle('active');
-    });
-  </script>
+    <!-- Custom Scripts -->
+    <script>
+        document.getElementById('menu-toggle').addEventListener('click', function () {
+            document.getElementById('sidebar').classList.toggle('active');
+            this.classList.toggle('active');
+        });
+
+        // Enable dropdowns
+        document.querySelectorAll('.dropdown-toggle').forEach(function (dropdownToggleEl) {
+            new bootstrap.Dropdown(dropdownToggleEl);
+        });
+    </script>
+
 </body>
 </html>

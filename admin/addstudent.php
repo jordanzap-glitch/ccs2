@@ -205,19 +205,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <h3>Add Student</h3>
         <form method="POST" action="addstudent.php">
             <div class="form__group">
-                <input type="text" id="student_id" name="student_id" class="form__field" placeholder="Student ID" required>
+                <input type="text" id="student_id" name="student_id" class="form__field" placeholder="" required>
                 <label for="student_id" class="form__label">Student ID</label>
             </div>
             <div class="form__group">
-                <input type="text" id="firstname" name="firstname" class="form__field" placeholder="First Name" required>
+                <input type="text" id="firstname" name="firstname" class="form__field" placeholder="" required>
                 <label for="firstname" class="form__label">First Name</label>
             </div>
             <div class="form__group">
-                <input type="text" id="middlename" name="middlename" class="form__field" placeholder="Middle Name">
+                <input type="text" id="middlename" name="middlename" class="form__field" placeholder="">
                 <label for="middlename" class="form__label">Middle Name</label>
             </div>
             <div class="form__group">
-                <input type="text" id="lastname" name="lastname" class="form__field" placeholder="Last Name" required>
+                <input type="text" id="lastname" name="lastname" class="form__field" placeholder="" required>
                 <label for="lastname" class="form__label">Last Name</label>
             </div>
             <button type="submit" class="btn btn-custom"><i class="fas fa-user-plus"></i> Add Student</button>

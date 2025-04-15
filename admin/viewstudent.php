@@ -132,7 +132,7 @@ $result = $stmt->get_result();
 <body>
 <?php include '../includes/sidebar2.php'; ?>
 
-<div class="container mt-4" style="max-width: 60%; margin: auto;">
+<div class="container mt-4" style="max-width: 55%; margin: auto;">
 <h2>View Students</h2>
 <form method="GET" action="">
     <div class="form-group">
@@ -266,33 +266,28 @@ $result = $stmt->get_result();
     <?php endif; ?>
 </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        const menuToggle = document.getElementById("menu-toggle");  
-        const closeSidebar = document.getElementById("close-sidebar"); 
-        const sidebar = document.getElementById("sidebar");
-        const formBox = document.querySelector(".form-box"); // Form box
+    const menuToggle = document.getElementById("menu-toggle");
+    const sidebar = document.getElementById("sidebar");
+    const closeSidebar = document.getElementById("close-sidebar");
 
-        if (menuToggle) {
-            menuToggle.addEventListener("click", function () {
-                sidebar.classList.toggle("active");
+    menuToggle.addEventListener("click", function () {
+        sidebar.classList.toggle("active");
+    });
 
-                // Hide the form box when sidebar is active
-                if (sidebar.classList.contains("active")) {
-                    formBox.style.display = "none";
-                } else {
-                    formBox.style.display = "block";
-                }
-            });
-        }
+    closeSidebar.addEventListener("click", function () {
+        sidebar.classList.remove("active");
+    });
 
-        if (closeSidebar) {
-            closeSidebar.addEventListener("click", function () {
-                sidebar.classList.remove("active");
-                formBox.style.display = "block"; // Show the form box
-            });
+    // Close sidebar when clicking outside
+    document.addEventListener("click", function (event) {
+        if (!sidebar.contains(event.target) && !menuToggle.contains(event.target)) {
+            sidebar.classList.remove("active");
         }
     });
+});
 </script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>

@@ -240,27 +240,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
     </div>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const menuToggle = document.getElementById("menu-toggle");
-            const closeSidebar = document.getElementById("close-sidebar");
-            const sidebar = document.getElementById("sidebar");
-            const formBox = document.querySelector(".form-box");
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+    const menuToggle = document.getElementById("menu-toggle");
+    const sidebar = document.getElementById("sidebar");
+    const closeSidebar = document.getElementById("close-sidebar");
 
-            if (menuToggle) {
-                menuToggle.addEventListener("click", function () {
-                    sidebar.classList.toggle("active");
-                    formBox.style.display = sidebar.classList.contains("active") ? "none" : "block";
-                });
-            }
+    menuToggle.addEventListener("click", function () {
+        sidebar.classList.toggle("active");
+    });
 
-            if (closeSidebar) {
-                closeSidebar.addEventListener("click", function () {
-                    sidebar.classList.remove("active");
-                    formBox.style.display = "block";
-                });
-            }
-        });
-    </script>
+    closeSidebar.addEventListener("click", function () {
+        sidebar.classList.remove("active");
+    });
+
+    // Close sidebar when clicking outside
+    document.addEventListener("click", function (event) {
+        if (!sidebar.contains(event.target) && !menuToggle.contains(event.target)) {
+            sidebar.classList.remove("active");
+        }
+    });
+});
+</script>
 </body>
 </html>
