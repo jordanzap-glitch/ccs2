@@ -119,9 +119,12 @@ if (isset($_GET['delete'])) {
 $search_query = isset($_GET['search']) ? $_GET['search'] : '';
 
 // Fetch students from the database with pagination and search
-$sql = "SELECT id, title, abstract, a1_sname, a1_fname, a1_mname, a1_role, adviser, submit_date, poster_path, imrad_path, link_path 
-        FROM tbl_capstone 
-        WHERE title LIKE ? OR adviser LIKE ? 
+$sql = "SELECT c.id, c.title, c.abstract, c.a1_sname, c.a1_fname, c.a1_mname, c.a1_role, c.adviser, c.submit_date, c.poster_path, c.imrad_path, c.link_path, 
+        IFNULL(count.citation_count, 0) AS citation_count 
+        FROM tbl_capstone c 
+        LEFT JOIN (SELECT capstone_id, COUNT(*) AS citation_count FROM tblcount GROUP BY capstone_id) count 
+        ON c.id = count.capstone_id 
+        WHERE c.title LIKE ? OR c.adviser LIKE ? 
         LIMIT $starting_limit, $results_per_page";
 
 $stmt = $conn->prepare($sql);
@@ -146,12 +149,9 @@ $result = $stmt->get_result();
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 <style>
-
-/* Optional: You can ensure no margin collapse with the parent elements */
 body {
     margin: 60px;
 }
-    
 </style>
 <body>
 <?php include '../includes/sidebar2.php'; ?>
@@ -184,6 +184,7 @@ body {
                 <th>Poster Path</th>
                 <th>IMRaD Path</th>
                 <th>Link Path</th>
+                <th>Views</th>
                 <th>Edit</th>
                 <th>Delete</th>
             </tr>
@@ -195,22 +196,23 @@ body {
                 <td><?= htmlspecialchars($row['title']); ?></td>
                 <td><?= htmlspecialchars($row['abstract']); ?></td>
                 <td><?= htmlspecialchars($row['a1_sname']); ?></td>
-                <td><?= htmlspecialchars($row['a1_fname']); ?></td>
+ <td><?= htmlspecialchars($row['a1_fname']); ?></td>
                 <td><?= htmlspecialchars($row['a1_mname']); ?></td>
                 <td><?= htmlspecialchars($row['a1_role']); ?></td>
                 <td><?= htmlspecialchars($row['adviser']); ?></td>
                 <td><?= htmlspecialchars($row['submit_date']); ?></td>
                 <td>
-                        <?php if (!empty($row['poster_path']) && file_exists("../" . $row['poster_path'])): ?>
-                            <a href="<?= htmlspecialchars($row['poster_path']); ?>" target="_blank">
-                                <img src="<?= htmlspecialchars($row['poster_path']); ?>" alt="Poster" style="width : 100px; height: auto;">
-                            </a>
-                        <?php else: ?>
-                            <span>No Image Available</span>
-                        <?php endif; ?>
+                    <?php if (!empty($row['poster_path']) && file_exists("../" . $row['poster_path'])): ?>
+                        <a href="<?= htmlspecialchars($row['poster_path']); ?>" target="_blank">
+                            <img src="<?= htmlspecialchars($row['poster_path']); ?>" alt="Poster" style="width: 100px; height: auto;">
+                        </a>
+                    <?php else: ?>
+                        <span>No Image Available</span>
+                    <?php endif; ?>
                 </td>
                 <td><a href="<?= htmlspecialchars($row['imrad_path']); ?>" target="_blank" download>View</a></td>
                 <td><a href="<?= htmlspecialchars($row['link_path']); ?>" target="_blank">View</a></td>
+                <td><?= htmlspecialchars($row['citation_count']); ?></td>
                 <td>
                     <button class="btn btn-warning" data-toggle="modal" data-target="#editModal<?= $row['id']; ?>">Edit</button>
                     <!-- Edit Modal -->
@@ -268,7 +270,8 @@ body {
                                         </div>
                                         <div class="form-group">
                                             <label for="link_path">Link Path</label>
-                                            <input type="text" class="form-control" name="link_path" value="<?= htmlspecialchars($row['link_path']); ?>">
+                                            <input ```php
+                                            <text" class="form-control" name="link_path" value="<?= htmlspecialchars($row['link_path']); ?>">
                                         </div>
                                         <button type="submit" name="update" class="btn btn-primary">Update Project</button>
                                     </form>
@@ -284,7 +287,7 @@ body {
         <?php endwhile; ?>
     <?php else: ?>
         <tr>
-            <td colspan="13" class="text-center">No capstone projects found.</td>
+            <td colspan="14" class="text-center">No capstone projects found.</td>
         </tr>
     <?php endif; ?>
 </tbody>
@@ -311,25 +314,25 @@ body {
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-    const menuToggle = document.getElementById("menu-toggle");
-    const sidebar = document.getElementById("sidebar");
-    const closeSidebar = document.getElementById("close-sidebar");
+        const menuToggle = document.getElementById("menu-toggle");
+        const sidebar = document.getElementById("sidebar");
+        const closeSidebar = document.getElementById("close-sidebar");
 
-    menuToggle.addEventListener("click", function () {
-        sidebar.classList.toggle("active");
-    });
+        menuToggle.addEventListener("click", function () {
+            sidebar.classList.toggle("active");
+        });
 
-    closeSidebar.addEventListener("click", function () {
-        sidebar.classList.remove("active");
-    });
-
-    // Close sidebar when clicking outside
-    document.addEventListener("click", function (event) {
-        if (!sidebar.contains(event.target) && !menuToggle.contains(event.target)) {
+        closeSidebar.addEventListener("click", function () {
             sidebar.classList.remove("active");
-        }
+        });
+
+        // Close sidebar when clicking outside
+        document.addEventListener("click", function (event) {
+            if (!sidebar.contains(event.target) && !menuToggle.contains(event.target)) {
+                sidebar.classList.remove("active");
+            }
+        });
     });
-});
 </script>
 </body>
 </html>

@@ -4,25 +4,10 @@ include '../db.php';
 error_reporting(E_ALL);
 
 // Log user access to the View Capstone Studies page
-logUser  ($_SESSION['student_id'], "Accessed View Capstone Studies Page");
-
-// Function to log user actions
-function logUser  ($userId, $action) {
-    global $conn; // Use the global connection variable
-    $fullname = $_SESSION['firstName'] . ' ' . $_SESSION['lastName'];
-    $course = $_SESSION['course'];
-    $user_type = $_SESSION['user_type'];
-    $timestamp = date('Y-m-d H:i:s');
-
-    $stmt = $conn->prepare("INSERT INTO user_logs (user_id, fullname, course, user_type, action, timestamp) VALUES (?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("isssss", $userId, $fullname, $course, $user_type, $action, $timestamp);
-    $stmt->execute();
-    $stmt->close();
-}
-
 // Handle bookmark request
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data = json_decode(file_get_contents("php://input"), true);
+    
     if (isset($data['capstoneId'])) {
         $studentId = $_SESSION['student_id'];
         $capstoneId = $data['capstoneId'];
@@ -52,15 +37,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo json_encode(['success' => true, 'message' => 'Bookmarked successfully']);
         }
         exit;
-    } else {
-        echo json_encode(['success' => false, 'message' => 'Invalid input']);
-        exit;
     }
 }
 
 // Fetch citation information
 if (isset($_GET['citationId'])) {
     $capstoneId = $_GET['citationId'];
+    $studentId = $_SESSION['student_id'];
+
+    // Check if the citation has already been counted for this student
+    $checkCountStmt = $conn->prepare("SELECT * FROM tblcount WHERE student_id = ? AND capstone_id = ?");
+    $checkCountStmt->bind_param("is", $studentId, $capstoneId);
+    $checkCountStmt->execute();
+    $checkCountResult = $checkCountStmt->get_result();
+
+    if ($checkCountResult->num_rows === 0) {
+        // Insert citation count into tblcount
+        $stmt = $conn->prepare("INSERT INTO tblcount (student_id, capstone_id, count) VALUES (?, ?, 1)");
+        $stmt->bind_param("is", $studentId, $capstoneId);
+        $stmt->execute();
+        $stmt->close();
+    }
+    $checkCountStmt->close();
+
+    // Fetch citation data
     $stmt = $conn->prepare("SELECT a1_sname, a1_fname, a2_mname, a2_sname, a2_fname, a2_mname, a3_sname, a3_fname, a3_mname, submit_date, title FROM tbl_capstone WHERE id = ?");
     $stmt->bind_param("i", $capstoneId);
     $stmt->execute();
@@ -84,17 +84,19 @@ function formatCitation($data) {
         $authors[] = $data['a2_sname'] . ', ' . strtoupper(substr($data['a2_fname'], 0, 1)) . '.';
     }
     if (!empty($data['a3_fname']) && !empty($data['a3_sname'])) {
-        $authors[] = $data['a3_sname'] . ', ' . strtoupper(substr($data['a3_fname '], 0, 1)) . '.';
+        $authors[] = $data['a3_sname'] . ', ' . strtoupper(substr($data['a3_fname'], 0, 1)) . '.';
     }
 
-    // Use "et al." if there are three or more authors
-    if (count($authors) > 2) {
-        $authors = [implode(', ', array_slice($authors, 0, 1)) . ' et al.'];
+    // Use "&" if there are exactly two authors
+    if (count($authors) === 2) {
+        $authorString = implode(' & ', $authors);
+    } elseif (count($authors) > 2) {
+        $authorString = implode(', ', array_slice($authors, 0, 1)) . ' et al.';
+    } else {
+        $authorString = implode(', ', $authors);
     }
 
-    $authorString = implode(', ', $authors);
     $date = date('Y', strtotime($data['submit_date']));
-
     return "$authorString. ($date). " . htmlspecialchars($data['title']) . ". Retrieved from URL"; // Replace "URL" with actual value as needed
 }
 ?>
@@ -216,7 +218,7 @@ function formatCitation($data) {
                         <button class="btn btn-custom bookmark-btn" data-capstone-id="' . $capstoneId . '">
                             <i class="fas fa-bookmark"></i> ' . ($bookmarked ? 'Unbookmark' : 'Bookmark') . '
                         </button>
-                        <a href="' . htmlspecialchars($row['imrad_path']) . '" download class="btn btn-custom mt-2">
+                        <a href ="' . htmlspecialchars($row['imrad_path']) . '" download class="btn btn-custom mt-2">
                             <i class="fas fa-download"></i> Download PDF
                         </a>
                     </div>
@@ -241,7 +243,7 @@ function formatCitation($data) {
             </div>
             <div class="modal-body">
                 <p id="citationText"></p>
-                <button id="copyCitationButton" class="btn btn-secondary">Copy</button>
+                <button id="copyCitationButton" class="btn btn-secondary" data-capstone-id="">Copy</button>
             </div>
         </div>
     </div>
@@ -314,6 +316,8 @@ function formatCitation($data) {
                 .then(response => response.json())
                 .then(data => {
                     document.getElementById("citationText").innerText = data.citation;
+                    const copyButton = document.getElementById("copyCitationButton");
+                    copyButton.setAttribute("data-capstone-id", capstoneId); // Set capstone ID for copy action
                     const citationModal = new bootstrap.Modal(document.getElementById('citationModal'));
                     citationModal.show();
                 })
