@@ -1,7 +1,7 @@
 <?php
-include '../session.php';
 error_reporting(0);
-include('../db.php');
+include '../session.php';
+include '../db.php';
 
 // Count total capstone projects
 $capstoneCountQuery = "SELECT COUNT(*) AS total FROM tbl_capstone";
