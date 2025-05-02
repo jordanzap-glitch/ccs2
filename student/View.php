@@ -1,7 +1,7 @@
 <?php
 include '../session.php';
 include '../db.php';
-error_reporting(E_ALL);
+
 
 // Log user access to the View Capstone Studies page
 // Handle bookmark request
@@ -254,7 +254,7 @@ function formatCitation($data) {
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="pdfModalLabel">OJT Monitoring PDF</h5>
+                <h5 class="modal-title" id="pdfModalLabel"></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
