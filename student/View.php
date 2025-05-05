@@ -242,8 +242,12 @@ function formatCitation($data) {
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
+            <div id="citationCopiedAlert" class="alert alert-success py-2 px-3" style="display:none;">
+                    Citation copied to clipboard!
+                </div>
                 <p id="citationText"></p>
-                <button id="copyCitationButton" class="btn btn-secondary" data-capstone-id="">Copy</button>
+            
+                </div>
             </div>
         </div>
     </div>
@@ -316,8 +320,20 @@ function formatCitation($data) {
                 .then(response => response.json())
                 .then(data => {
                     document.getElementById("citationText").innerText = data.citation;
-                    const copyButton = document.getElementById("copyCitationButton");
-                    copyButton.setAttribute("data-capstone-id", capstoneId); // Set capstone ID for copy action
+
+                    // Auto-copy citation to clipboard
+                    navigator.clipboard.writeText(data.citation).then(() => {
+                        // Show a temporary alert in the modal
+                        const alertDiv = document.getElementById("citationCopiedAlert");
+                        alertDiv.style.display = "block";
+                        setTimeout(() => {
+                            alertDiv.style.display = "none";
+                        },5000);
+                    }).catch(err => {
+                        console.error('Error copying text: ', err);
+                    });
+
+                    // Show the modal
                     const citationModal = new bootstrap.Modal(document.getElementById('citationModal'));
                     citationModal.show();
                 })
@@ -325,15 +341,7 @@ function formatCitation($data) {
             });
         });
 
-        const copyCitationButton = document.getElementById("copyCitationButton");
-        copyCitationButton.addEventListener("click", function () {
-            const citationText = document.getElementById("citationText").innerText;
-            navigator.clipboard.writeText(citationText).then(() => {
-                alert("Citation copied to clipboard!");
-            }).catch(err => {
-                console.error('Error copying text: ', err);
-            });
-        });
+       
 
         const menuToggle = document.getElementById("menu-toggle");
         const sidebar = document.getElementById("sidebar");
